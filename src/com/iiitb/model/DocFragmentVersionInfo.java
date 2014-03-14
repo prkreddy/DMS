@@ -1,11 +1,12 @@
 package com.iiitb.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class DocFragmentVersionInfo
 {
-	public static enum Action {Creation, Modification, Deletion};
+	public static enum Action {Creation, Modification, Deletion}
 	
 	private String version;
 	private User actor;
@@ -13,6 +14,16 @@ public class DocFragmentVersionInfo
 	private Action action;
 	private String comments;
 	private List<String> keywords;
+	
+	public DocFragmentVersionInfo(String version, User actor, Action action, String comments)
+	{
+		this.setVersion(version);
+		this.setActor(actor);
+		this.setTimeStamp(new Date());
+		this.setAction(action);
+		this.setComments(comments);
+		this.keywords=new ArrayList<String>();
+	}
 	
 	//getters & setters
 	public String getVersion() {

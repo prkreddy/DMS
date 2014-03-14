@@ -1,23 +1,38 @@
 package com.iiitb.model;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class DocFragmentInfo
 {
-	public static enum Access {ReadOnly, Edit, Append, No};
-	public static enum LifecycleStage {Created, InUse, Archived};
-	public static enum FileFormat {PDF};
+	public static enum Access {ReadOnly, Edit, Append, No}
+	public static enum LifecycleStage {Created, InUse, Archived}
+	public static enum DocumentType {Type1, Type2}
+	public static enum FileFormat {PDF}
 	
 	private String name;
 	private String description;
-	private String documentType;
+	private DocumentType documentType;
 	private FileFormat fileFormat;
 	private boolean isStandAlone;
 	private boolean isReusable;
-	private Map<User, Access> accessors;
+	private Map<String, Access> accessors;
 	private Map<Date, LifecycleStage> lifecycleStages;
 	private Map<String, DocFragment> allVersions;
+	
+	public DocFragmentInfo(String name, String description, DocumentType documentType, FileFormat fileFormat,
+			boolean isStandAlone, boolean isReusable) throws Exception
+	{
+		this.setName(name);
+		this.setDescription(description);
+		this.setDocumentType(documentType);
+		this.setFileFormat(fileFormat);
+		this.setFlags(isStandAlone, isReusable);
+		this.setAccessors(new HashMap<String, DocFragmentInfo.Access>());
+		this.setLifecycleStages(new HashMap<Date, DocFragmentInfo.LifecycleStage>());
+		this.setAllVersions(new HashMap<String, DocFragment>());
+	}
 	
 	//getters & setters
 	public String getName() {
@@ -32,10 +47,10 @@ public class DocFragmentInfo
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getDocumentType() {
+	public DocumentType getDocumentType() {
 		return documentType;
 	}
-	public void setDocumentType(String documentType) {
+	public void setDocumentType(DocumentType documentType) {
 		this.documentType = documentType;
 	}
 	public FileFormat getFileFormat() {
@@ -56,10 +71,10 @@ public class DocFragmentInfo
 		this.isStandAlone = isStandAlone;
 		this.isReusable = isReusable;
 	}
-	public Map<User, Access> getAccessors() {
+	public Map<String, Access> getAccessors() {
 		return accessors;
 	}
-	public void setAccessors(Map<User, Access> accessors) {
+	public void setAccessors(Map<String, Access> accessors) {
 		this.accessors = accessors;
 	}
 	public Map<Date, LifecycleStage> getLifecycleStages() {

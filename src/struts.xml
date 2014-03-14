@@ -20,17 +20,23 @@
 		</interceptors>
 
 		<action name="userRegisterAction" class="com.iiitb.action.UserRegisterAction">
-			<result name="success" type="tiles">success</result>
+			<result name="success">signin.jsp</result>
 			<result name="input">signup.jsp</result>
 			<result name="login">home.jsp</result>
 		</action>
 
 		<action name="userLoginAction" class="com.iiitb.action.UserLoginAction">
-			<result name="success" type="tiles">success</result>
+			<result name="success" type="redirect">documentsAction</result>
 			<result name="input">signin.jsp</result>
 			<result name="login">home.jsp</result>
 		</action>
-
+		
+		<action name="documentsAction" class="com.iiitb.action.DocumentsAction">
+			<result name="success" type="tiles">documentsPage</result>
+			<result name="input">signin.jsp</result>
+			<result name="login">signin.jsp</result>
+		</action>
+		
 		<action name="userLogoutAction" class="com.iiitb.action.UserLogoutAction">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result name="success">home.jsp</result>

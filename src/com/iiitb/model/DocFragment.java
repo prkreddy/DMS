@@ -7,6 +7,7 @@ import java.util.List;
 
 public class DocFragment
 {
+	private String docId;
 	private List<DocFragment> fragsBeforeNativeContent;
 	private File nativeContentFile;
 	private List<DocFragment> fragsAfterNativeContent;
@@ -21,13 +22,14 @@ public class DocFragment
 		this.setFragsAfterNativeContent(new ArrayList<DocFragment>());
 		this.setInfo(di);
 		this.setVersionInfo(vi);
+		this.docId=this.getVersionInfo().getActor().getUsername()+"|"+this.getInfo().getName()+"|"+this.getVersionInfo().getVersion()+"|"+this.getVersionInfo().getTimeStamp();
 	}
 	
-	void display()
+	void compile()
 	{
 		if(this.getFragsBeforeNativeContent()!=null && this.getFragsBeforeNativeContent().size()>0)
 			for(DocFragment df:this.getFragsBeforeNativeContent())
-				df.display();
+				df.compile();
 		if(this.getNativeContentFile()!=null && this.getNativeContentFile().exists())
 		{
 			try
@@ -45,7 +47,7 @@ public class DocFragment
 		}
 		if(this.getFragsAfterNativeContent()!=null && this.getFragsAfterNativeContent().size()>0)
 			for(DocFragment df:this.getFragsAfterNativeContent())
-				df.display();
+				df.compile();
 	}
 	
 	//getters & setters
@@ -78,5 +80,8 @@ public class DocFragment
 	}
 	public void setInfo(DocFragmentInfo info) {
 		this.info = info;
+	}
+	public String getDocId() {
+		return docId;
 	}
 }

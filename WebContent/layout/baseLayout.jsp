@@ -14,7 +14,7 @@
    <table width="100%" height="50px" style="background-color:#afafff;">
 		<tr>
 			<td><tiles:insertAttribute name="search" /></td>
-			<td><tiles:insertAttribute name="home" /></td>
+			<td><tiles:insertAttribute name="documentsLink" /></td>
 		</tr>
    </table>
    <br />

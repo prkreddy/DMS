@@ -8,13 +8,13 @@
 	      <put-attribute name="title"  value="Document Management System"/>
 	      <put-attribute name="banner" value="/layout/banner.jsp"/>
 	      <put-attribute name="search"   value="/layout/search.jsp"/>
-	      <put-attribute name="home"   value="/layout/home.jsp"/>
+	      <put-attribute name="documentsLink"   value="/layout/documentsLinkPurple.jsp"/>
 	      <put-attribute name="body"   value=""/>
 	   </definition>
 	   
-	   <definition name="success" extends="baseLayout">
-	   	  <put-attribute name="home"   value="/layout/homeBold.jsp"/>
-	      <put-attribute name="body" value="/success.jsp"/>
+	   <definition name="documentsPage" extends="baseLayout">
+	   	  <put-attribute name="documentsLink"   value="/layout/documentsLinkWhite.jsp"/>
+	      <put-attribute name="body" value="/documents.jsp"/>
 	   </definition>
 	   
 	   
