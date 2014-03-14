@@ -5,8 +5,11 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
 
+import com.db4o.Db4oEmbedded;
+import com.db4o.ObjectContainer;
 import com.iiitb.dao.UserDao;
 import com.iiitb.model.User;
+import com.iiitb.util.ConnectionPool;
 import com.iiitb.util.DMSConstants;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -14,9 +17,6 @@ public class UserLoginAction extends ActionSupport implements SessionAware
 {
 
 	UserDao userDao;
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6768084391725350321L;
 	private String username;
 	private String password;
@@ -69,7 +69,6 @@ public class UserLoginAction extends ActionSupport implements SessionAware
 				}
 				else
 				{
-
 					session.put(DMSConstants.USER_LOGGED_IN, userLoggedin);
 				}
 

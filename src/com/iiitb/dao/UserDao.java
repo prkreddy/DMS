@@ -9,13 +9,10 @@ import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.query.Query;
 import com.iiitb.model.User;
+import com.iiitb.util.DMSConstants;
 
 public class UserDao
 {
-	private final String db4oPath = System.getProperty("user.home") + File.separator + "db4o" + File.separator;
-
-	private final String db4oFileName = "db4o.data";
-
 	public UserDao()
 	{
 		createDb4oDirectory();
@@ -25,7 +22,7 @@ public class UserDao
 	public boolean createDb4oDirectory()
 	{
 
-		File file = new File(db4oPath);
+		File file = new File(DMSConstants.db4oPath);
 
 		if (!file.exists())
 		{
@@ -45,7 +42,7 @@ public class UserDao
 
 	public boolean createDb4oDatabaseFile()
 	{
-		File file = new File(db4oPath + db4oFileName);
+		File file = new File(DMSConstants.db4oPath + DMSConstants.db4oFileName);
 
 		if (!file.exists())
 		{
@@ -72,7 +69,7 @@ public class UserDao
 	public boolean isUserNameExists(String username)
 	{
 
-		ObjectContainer container = Db4oEmbedded.openFile(db4oPath + db4oFileName);
+		ObjectContainer container = Db4oEmbedded.openFile(DMSConstants.db4oPath + DMSConstants.db4oFileName);
 		try
 		{
 			Query query = container.query();
@@ -107,7 +104,7 @@ public class UserDao
 	public void listAllUsers()
 	{
 
-		ObjectContainer container = Db4oEmbedded.openFile(db4oPath + db4oFileName);
+		ObjectContainer container = Db4oEmbedded.openFile(DMSConstants.db4oPath + DMSConstants.db4oFileName);
 		try
 		{
 			Query query = container.query();
@@ -134,7 +131,7 @@ public class UserDao
 
 		User user = null;
 
-		ObjectContainer container = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), db4oPath + db4oFileName);
+		ObjectContainer container = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DMSConstants.db4oPath + DMSConstants.db4oFileName);
 		try
 		{
 			user = new User(name, username, password, email, new Date());
@@ -155,7 +152,7 @@ public class UserDao
 	public User getUser(String username)
 	{
 
-		ObjectContainer container = Db4oEmbedded.openFile(db4oPath + db4oFileName);
+		ObjectContainer container = Db4oEmbedded.openFile(DMSConstants.db4oPath + DMSConstants.db4oFileName);
 		try
 		{
 			Query query = container.query();
