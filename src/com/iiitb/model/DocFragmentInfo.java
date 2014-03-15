@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class DocFragmentInfo
 {
-	public static enum Access {ReadOnly, Edit, Append, No}
+	public static enum Access {___, r__, ra_, rae}
 	public static enum LifecycleStage {Created, InUse, Archived}
 	public static enum DocumentType {Type1, Type2}
 	public static enum FileFormat {PDF}

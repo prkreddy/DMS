@@ -29,12 +29,12 @@ public class DocFragmentDao
 		return this.hm.size();
 	}
 	
-	public Map<String, DocFragment> getDocFragments(String username, DocFragmentInfo.Access access)
+	public Map<String, DocFragment> getDocFragments(String username)
 	{
 		HashMap<String, DocFragment> frags=new HashMap<String, DocFragment>();
 		Set<Map.Entry<String, DocFragment>> set=hm.entrySet();
 		for(Map.Entry<String, DocFragment> e:set)
-			if(e.getValue().getInfo().getAccessors().get(username)==access)
+			if(e.getValue().getInfo().getAccessors().get(username)!=null)
 				frags.put(e.getKey(), e.getValue());
 		return frags;
 	}

@@ -8,6 +8,34 @@
 <title>Success</title>
 </head>
 <body>
-	<s:select list="docFragments.keySet()" multiple="true"></s:select>
+	<br />
+	<a href="">Create new document fragment</a><br />
+	<br />
+	<table border="1">
+		<thead>
+			<tr>
+				<td><b>View</b></td>
+				<td><b>Name</b></td>
+				<td><b>Version</b></td>
+				<td><b>Access</b></td>
+				<td><b>Date Created</b></td>
+				<td><b>Date Modified</b></td>
+				<td><b>Actor</b></td>
+				<td><b>Size</b></td>
+			</tr>
+		</thead>
+		<s:iterator value="docFragmentDisplayDetailsList" var="docFragmentDisplayDetails">
+			<tr>
+				<td><a href="">View</a></td>
+				<td><s:property value="name" /></td>
+				<td><s:property value="version" /></td>
+				<td><s:property value="access" /></td>
+				<td><s:property value="dateCreated" /></td>
+				<td><s:property value="dateModified" /></td>
+				<td><s:property value="actor" /></td>
+				<td><s:property value="size" /></td>
+			</tr>
+		</s:iterator>
+	</table>
 </body>
 </html>

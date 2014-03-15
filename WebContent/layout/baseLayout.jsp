@@ -19,7 +19,7 @@
    </table>
    <br />
  
-   <div style="margin-left:250px;">
+   <div>
    		<tiles:insertAttribute name="body" />
    </div>   
 </body>
