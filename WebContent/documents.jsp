@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib uri="/struts-tags" prefix="s" %>
+<%@taglib uri="/struts-tags" prefix="s"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,7 +9,8 @@
 </head>
 <body>
 	<br />
-	<a href="">Create new document fragment</a><br />
+	<a href="documentUploadPortal">Create new document fragment</a>
+	<br />
 	<br />
 	<table border="1">
 		<thead>
@@ -24,9 +25,19 @@
 				<td><b>Size</b></td>
 			</tr>
 		</thead>
-		<s:iterator value="docFragmentDisplayDetailsList" var="docFragmentDisplayDetails">
+		<s:iterator value="docFragmentDisplayDetailsList"
+			var="docFragmentDisplayDetails">
+
+			<s:url id="fileDownload" action="fileDownloadAction" var="myurl">
+				<s:param name="filePathName">
+					<s:property value="pathName" />
+				</s:param>
+			</s:url>
+
+
+
 			<tr>
-				<td><a href="">View</a></td>
+				<td><a href='<s:property value="#myurl"/>'>View</a></td>
 				<td><s:property value="name" /></td>
 				<td><s:property value="version" /></td>
 				<td><s:property value="access" /></td>

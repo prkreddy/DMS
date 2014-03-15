@@ -2,6 +2,7 @@ package com.iiitb.model;
 
 public class DocFragmentDisplayDetails
 {
+	public String pathName;
 	public String docId;
 	public String name;
 	public String version;

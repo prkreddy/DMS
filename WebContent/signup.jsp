@@ -19,6 +19,8 @@
 			<s:textfield key="emailid" label="email-Id" />
 			<s:submit />
 		</s:form>
+		
+		<a href="login"><b>Login</b></a>
 	</div>
 </body>
 </html>

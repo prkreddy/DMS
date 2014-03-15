@@ -84,13 +84,7 @@ public class UserDao
 
 			}
 
-			// List<User> pilots = container.query(new Predicate<User>()
-			// {
-			// public boolean match(User user)
-			// {
-			// return user.getUsername().equals(username);
-			// }
-			// });
+			
 
 		}
 		finally

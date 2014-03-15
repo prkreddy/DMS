@@ -8,16 +8,26 @@
 
 	<package name="default" namespace="/" extends="struts-default">
 		<result-types>
-			<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" />
 		</result-types>
 
 		<interceptors>
-			<interceptor name="authenticateInterceptor" class="com.iiitb.interceptor.AuthenticateInterceptor"></interceptor>
+			<interceptor name="authenticateInterceptor"
+				class="com.iiitb.interceptor.AuthenticateInterceptor"></interceptor>
 			<interceptor-stack name="secureAccess">
 				<interceptor-ref name="authenticateInterceptor" />
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 		</interceptors>
+
+		<action name="login">
+			<result>signin.jsp</result>
+		</action>
+
+		<action name="register">
+			<result>signup.jsp</result>
+		</action>
 
 		<action name="userRegisterAction" class="com.iiitb.action.UserRegisterAction">
 			<result name="success">signin.jsp</result>
@@ -30,17 +40,36 @@
 			<result name="input">signin.jsp</result>
 			<result name="login">home.jsp</result>
 		</action>
-		
+
 		<action name="documentsAction" class="com.iiitb.action.DocumentsAction">
 			<result name="success" type="tiles">documentsPage</result>
 			<result name="input">signin.jsp</result>
 			<result name="login">signin.jsp</result>
 		</action>
-		
+
 		<action name="userLogoutAction" class="com.iiitb.action.UserLogoutAction">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result name="success">home.jsp</result>
 			<result name="login">home.jsp</result>
+		</action>
+
+		<action name="documentUploadPortal">
+			<result type="tiles">documentUploadPortal</result>
+		</action>
+
+
+
+		<action name="documentUploadAction" class="com.iiitb.action.DocumentUploadAction">
+			<result name="success" type="redirect">documentsAction</result>
+		</action>
+
+
+		<action name="fileDownloadAction" class="com.iiitb.action.DocumentDownloadAction">
+			<result name="success" type="stream">
+				<param name="contentType">application/pdf</param>
+				<param name="inputName">fileInputStream</param>
+				<param name="contentDisposition">attachment;filename="test.pdf"</param>
+			</result>
 		</action>
 	</package>
 </struts>

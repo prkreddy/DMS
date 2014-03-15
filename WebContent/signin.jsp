@@ -19,7 +19,7 @@
 		</s:form>
 
 
-		<a href="signup.jsp"><b>Register</b></a>
+		<a href="register"><b>Register</b></a>
 	</div>
 </body>
 </html>

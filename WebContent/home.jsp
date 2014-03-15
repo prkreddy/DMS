@@ -8,11 +8,10 @@
 <title>Student Information System</title>
 </head>
 <body>
-	<h1 align="middle">DOCUMENT MANAGEMENT SYSTEM</h1>
+	<h1 align="center">DOCUMENT MANAGEMENT SYSTEM</h1>
 	<div align="center">
 
-		<a href="signin.jsp"><b>Login</b></a> <br> <a
-			href="signup.jsp"><b>Register</b></a>
+		<a href="login"><b>Login</b></a> <br> <a href="register"><b>Register</b></a>
 	</div>
 </body>
 </html>
