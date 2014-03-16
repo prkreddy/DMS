@@ -20,7 +20,7 @@ public class DocumentCreateAction extends ActionSupport implements SessionAware
 {
 	private User user;
 	private Map<String, Object> session;
-	private Set<String> docFrags;
+	private List<String> docFrags;
 	
 	public String execute()
 	{
@@ -30,7 +30,9 @@ public class DocumentCreateAction extends ActionSupport implements SessionAware
 		
 		ObjectContainer db=ConnectionPool.getConnection();
 		DocFragmentDao dao=new DocFragmentDao(db);
-		this.setDocFrags(dao.getReusableDocFragments(this.getUser().getUsername()).keySet());
+		this.docFrags=new ArrayList<String>();
+		for(DocFragment d:dao.getReusableDocFragments(this.getUser().getUsername()))
+			this.docFrags.add(d.getDocId());
 		ConnectionPool.freeConnection(db);
 		return SUCCESS;
 	}
@@ -48,11 +50,11 @@ public class DocumentCreateAction extends ActionSupport implements SessionAware
 		this.user = user;
 	}
 
-	public Set<String> getDocFrags() {
+	public List<String> getDocFrags() {
 		return docFrags;
 	}
 
-	public void setDocFrags(Set<String> docFrags) {
+	public void setDocFrags(List<String> docFrags) {
 		this.docFrags = docFrags;
 	}
 }

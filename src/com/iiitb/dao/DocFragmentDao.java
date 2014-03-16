@@ -9,8 +9,48 @@ import java.util.Set;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ext.Status;
+import com.db4o.query.Predicate;
 import com.db4o.types.Blob;
 import com.iiitb.model.DocFragment;
+
+class Predicate1 extends Predicate<DocFragment>
+{
+	String username;
+	Predicate1(String username)
+	{
+		this.username=username;
+	}
+	public boolean match(DocFragment arg0)
+	{
+		return arg0.getInfo().getAccessors().get(username)!=null;
+	}	
+}
+
+class Predicate2 extends Predicate<DocFragment>
+{
+	String username;
+	Predicate2(String username)
+	{
+		this.username=username;
+	}
+	public boolean match(DocFragment arg0)
+	{
+		return arg0.getInfo().isReusable();
+	}	
+}
+
+class Predicate3 extends Predicate<DocFragment>
+{
+	String username;
+	Predicate3(String username)
+	{
+		this.username=username;
+	}
+	public boolean match(DocFragment arg0)
+	{
+		return arg0.getInfo().isStandAlone();
+	}	
+}
 
 public class DocFragmentDao
 {
@@ -26,47 +66,39 @@ public class DocFragmentDao
 		this.db = db;
 	}
 
-	private Map<String, DocFragment> hm;
-
 	public DocFragmentDao()
 	{
-
 	}
 
 	public DocFragmentDao(ObjectContainer db)
 	{
 		this.db = db;
-		hm = new HashMap<String, DocFragment>();
-		List<DocFragment> l = this.db.queryByExample(DocFragment.class);
-		if (l != null && l.size() != 0)
-			for (DocFragment df : l)
-				hm.put(df.getDocId(), df);
 	}
 
-	public int getDocFragmentCount()
+	public List<DocFragment> getDocFragments(String username)
 	{
-		return this.hm.size();
-	}
-
-	public Map<String, DocFragment> getDocFragments(String username)
-	{
-		HashMap<String, DocFragment> frags = new HashMap<String, DocFragment>();
-		Set<Map.Entry<String, DocFragment>> set = hm.entrySet();
-		for (Map.Entry<String, DocFragment> e : set)
-			if (e.getValue().getInfo().getAccessors().get(username) != null)
-				frags.put(e.getKey(), e.getValue());
-		return frags;
+		Predicate1 p=new Predicate1(username);
+		List<DocFragment> l=db.query(p);
+		return l;
 	}
 	
-	public Map<String, DocFragment> getReusableDocFragments(String username)
+	public List<DocFragment> getReusableDocFragments(String username)
 	{
+		Predicate2 p=new Predicate2(username);
+		List<DocFragment> l=db.query(p);
+		
 		HashMap<String, DocFragment> frags = new HashMap<String, DocFragment>();
-		Set<Map.Entry<String, DocFragment>> set = hm.entrySet();
-		for (Map.Entry<String, DocFragment> e : set)
-			if (e.getValue().getInfo().getAccessors().get(username) != null)
-				if(e.getValue().getInfo().isReusable())
-					frags.put(e.getKey(), e.getValue());
-		return frags;
+		for(DocFragment df:l)
+			frags.put(df.getDocId(), df);
+		
+		return l;
+	}
+	
+	public List<DocFragment> getStandaloneDocFragments(String username)
+	{
+		Predicate3 p=new Predicate3(username);
+		List<DocFragment> l=db.query(p);
+		return l;
 	}
 	
 	public boolean storeDocFragment(DocFragment df, File file)
@@ -97,7 +129,6 @@ public class DocFragmentDao
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return (status == Status.COMPLETED);

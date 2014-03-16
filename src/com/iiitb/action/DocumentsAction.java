@@ -62,7 +62,7 @@ public class DocumentsAction extends ActionSupport implements SessionAware, Serv
 		DocFragmentDao docFragmentDao = new DocFragmentDao(db); // a(docFragmentDao);
 		this.docFragmentDisplayDetailsList = new ArrayList<DocFragmentDisplayDetails>();
 		String destpath = servletRequest.getSession().getServletContext().getRealPath("/");
-		for (DocFragment df : docFragmentDao.getDocFragments(this.getUser().getUsername()).values())
+		for (DocFragment df : docFragmentDao.getStandaloneDocFragments(this.getUser().getUsername()))
 		{
 			if(df.getInfo().isStandAlone())
 			{
