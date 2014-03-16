@@ -46,6 +46,12 @@
 			<result name="input">signin.jsp</result>
 			<result name="login">signin.jsp</result>
 		</action>
+		
+		<action name="documentCreateAction" class="com.iiitb.action.DocumentCreateAction">
+			<result name="success" type="tiles">documentUploadPortal</result>
+			<result name="input">signin.jsp</result>
+			<result name="login">signin.jsp</result>
+		</action>
 
 		<action name="userLogoutAction" class="com.iiitb.action.UserLogoutAction">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
@@ -70,6 +76,7 @@
 				<param name="inputName">fileInputStream</param>
 				<param name="contentDisposition">attachment;filename="test.pdf"</param>
 			</result>
+			<result name="failure">fileNotFound.jsp</result>
 		</action>
 	</package>
 </struts>

@@ -6,5 +6,5 @@ public interface DMSConstants
 {
 	String USER_LOGGED_IN = "user";
 	String db4oPath = System.getProperty("user.home") + File.separator + "db4o" + File.separator;
-	String db4oFileName = "db4o3.data";
+	String db4oFileName = "db4o10.data";
 }

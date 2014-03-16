@@ -18,15 +18,14 @@ public class DocFragment
 	private DocFragmentVersionInfo versionInfo;
 	private DocFragmentInfo info;
 
-	public DocFragment(String fName, DocFragmentInfo di, DocFragmentVersionInfo vi)
+	public DocFragment(DocFragmentInfo di, DocFragmentVersionInfo vi)
 	{
 		this.setFragsBeforeNativeContent(new ArrayList<DocFragment>());
 
 		this.setFragsAfterNativeContent(new ArrayList<DocFragment>());
 		this.setInfo(di);
 		this.setVersionInfo(vi);
-		this.docId = this.getVersionInfo().getActor().getUsername() + "|" + this.getInfo().getName() + "|"
-				+ this.getVersionInfo().getVersion() + "|" + this.getVersionInfo().getTimeStamp();
+		this.docId = this.getInfo().getName() + ", v" + this.getVersionInfo().getVersion();
 	}
 
 	void compile()

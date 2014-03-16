@@ -57,10 +57,23 @@ public class DocFragmentDao
 				frags.put(e.getKey(), e.getValue());
 		return frags;
 	}
-
+	
+	public Map<String, DocFragment> getReusableDocFragments(String username)
+	{
+		HashMap<String, DocFragment> frags = new HashMap<String, DocFragment>();
+		Set<Map.Entry<String, DocFragment>> set = hm.entrySet();
+		for (Map.Entry<String, DocFragment> e : set)
+			if (e.getValue().getInfo().getAccessors().get(username) != null)
+				if(e.getValue().getInfo().isReusable())
+					frags.put(e.getKey(), e.getValue());
+		return frags;
+	}
+	
 	public boolean storeDocFragment(DocFragment df, File file)
 	{
 		this.db.store(df);
+		if(file==null)
+			return true;
 		double status = -10.0;
 		try
 		{

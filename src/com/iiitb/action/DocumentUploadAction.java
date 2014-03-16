@@ -25,11 +25,9 @@ import com.iiitb.util.DMSConstants;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class DocumentUploadAction extends ActionSupport implements SessionAware, ServletRequestAware
-{
+{	
 	private HttpServletRequest servletRequest;
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	private String documentName;
@@ -130,11 +128,10 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 	@Override
 	public String execute() throws Exception
 	{
-
 		boolean isStandalone = false;
 		boolean is_Reusable = false;
 
-		if (isStandAlone.equals("standalone"))
+		if (isStandAlone.equals("true"))
 		{
 			isStandalone = true;
 		}
@@ -143,7 +140,7 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 			isStandalone = false;
 		}
 
-		if (isReusable.equals("reusable"))
+		if (isReusable.equals("true"))
 		{
 			is_Reusable = true;
 		}
@@ -153,38 +150,33 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 		}
 		DocFragmentInfo di = new DocFragmentInfo(documentName, description, DocumentType.Type1, FileFormat.PDF,
 				isStandalone, is_Reusable);
-
+		User user = (User) this.session.get(DMSConstants.USER_LOGGED_IN);
+		di.getAccessors().put(user.getUsername(), Access.rae);
+		DocFragmentVersionInfo vi = new DocFragmentVersionInfo("1.0", user, Action.Creation, "I created doc1.");
+		DocFragment df = new DocFragment(di, vi);
+		df.getInfo().getAllVersions().put(df.getVersionInfo().getVersion(), df);
+		DocFragmentDao dao = new DocFragmentDao();
+		File destFile=null;
 		if (uploadFileFileName != null)
 		{
 			String destpath = servletRequest.getSession().getServletContext().getRealPath("/");
 			System.out.println("Server path:" + destpath);
-			File destFile = new File(destpath, uploadFileFileName);
+			destFile = new File(destpath, uploadFileFileName);
 			try
 			{
 				FileUtils.copyFile(uploadFile, destFile);
-
 			}
 			catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return ERROR;
 			}
 			// user.setPhoto(inputStream);
-
-			User user = (User) this.session.get(DMSConstants.USER_LOGGED_IN);
-			di.getAccessors().put(user.getUsername(), Access.ra_);
-			DocFragmentVersionInfo vi = new DocFragmentVersionInfo("1.0", user, Action.Creation, "I created doc1.");
-			DocFragment df = new DocFragment(uploadFileFileName, di, vi);
-			df.getInfo().getAllVersions().put(df.getVersionInfo().getVersion(), df);
-			DocFragmentDao dao = new DocFragmentDao();
-
-			ObjectContainer container = Db4oEmbedded.openFile(DMSConstants.db4oPath + DMSConstants.db4oFileName);
-			dao.setDb(container);
-			dao.storeDocFragment(df, destFile);
-			container.close();
-			// TODO Auto-generated method stub
 		}
+		ObjectContainer container = Db4oEmbedded.openFile(DMSConstants.db4oPath + DMSConstants.db4oFileName);
+		dao.setDb(container);
+		dao.storeDocFragment(df, destFile);
+		container.close();
 		return SUCCESS;
 	}
 
@@ -192,7 +184,6 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 	public void setServletRequest(HttpServletRequest arg0)
 	{
 		this.servletRequest = arg0;
-
 	}
 
 }

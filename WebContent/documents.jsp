@@ -9,7 +9,7 @@
 </head>
 <body>
 	<br />
-	<a href="documentUploadPortal">Create new document fragment</a>
+	<a href="documentCreateAction">Create new document</a>
 	<br />
 	<br />
 	<table border="1">

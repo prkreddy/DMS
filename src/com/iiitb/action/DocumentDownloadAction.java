@@ -32,9 +32,13 @@ public class DocumentDownloadAction extends ActionSupport
 		return fileInputStream;
 	}
 
-	public String execute() throws Exception
+	public String execute()
 	{
+		try {
 		fileInputStream = new FileInputStream(new File(filePathName));
+		} catch(Exception e) {
+			return "failure";
+		}
 		return SUCCESS;
 	}
 

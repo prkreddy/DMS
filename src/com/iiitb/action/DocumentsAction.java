@@ -34,6 +34,7 @@ public class DocumentsAction extends ActionSupport implements SessionAware, Serv
 
 	// if called, just create a docFragment for testing purpose
 	// will be deleted
+	/*
 	void a(DocFragmentDao dao)
 	{
 		try
@@ -50,7 +51,7 @@ public class DocumentsAction extends ActionSupport implements SessionAware, Serv
 		{
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	public String execute()
 	{
@@ -63,36 +64,35 @@ public class DocumentsAction extends ActionSupport implements SessionAware, Serv
 		String destpath = servletRequest.getSession().getServletContext().getRealPath("/");
 		for (DocFragment df : docFragmentDao.getDocFragments(this.getUser().getUsername()).values())
 		{
-			DocFragmentDisplayDetails dfd = new DocFragmentDisplayDetails();
-			try
+			if(df.getInfo().isStandAlone())
 			{
-				df.getBlob().writeTo(new File(destpath, df.getBlob().getFileName()));
+				DocFragmentDisplayDetails dfd = new DocFragmentDisplayDetails();
+				try
+				{
+					if(df.getBlob()!=null && destpath!=null && !destpath.trim().equals(""))
+					{
+						df.getBlob().writeTo(new File(destpath, df.getBlob().getFileName()));
+						dfd.pathName = destpath + df.getBlob().getFileName();
+					}
+				}
+				catch (Exception e)
+				{
+					//e.printStackTrace();
+				}
+				
+				dfd.docId = df.getDocId();
+				dfd.name = df.getInfo().getName();
+				dfd.version = df.getVersionInfo().getVersion();
+				dfd.access = df.getInfo().getAccessors().get(this.getUser().getUsername()).toString();
+				for (DocFragment d : df.getInfo().getAllVersions().values())
+				{
+					dfd.dateCreated = d.getVersionInfo().getTimeStamp().toString();
+					break;
+				}
+				dfd.dateModified = df.getVersionInfo().getTimeStamp().toString();
+				dfd.actor = df.getVersionInfo().getActor().getUsername();
+				this.docFragmentDisplayDetailsList.add(dfd);
 			}
-			catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			//
-			// String destpath =
-			// servletRequest.getSession().getServletContext().getRealPath("/");
-			// System.out.println("Server path:" + destpath);
-			// File destFile = new File(destpath, uploadFileFileName);
-			//
-			dfd.pathName = destpath + df.getBlob().getFileName();
-			dfd.docId = df.getDocId();
-			dfd.name = df.getInfo().getName();
-			dfd.version = df.getVersionInfo().getVersion();
-			dfd.access = df.getInfo().getAccessors().get(this.getUser().getUsername()).toString();
-			for (DocFragment d : df.getInfo().getAllVersions().values())
-			{
-				dfd.dateCreated = d.getVersionInfo().getTimeStamp().toString();
-				break;
-			}
-			dfd.dateModified = df.getVersionInfo().getTimeStamp().toString();
-			dfd.actor = df.getVersionInfo().getActor().getUsername();
-			this.docFragmentDisplayDetailsList.add(dfd);
 		}
 
 		ConnectionPool.freeConnection(db);
