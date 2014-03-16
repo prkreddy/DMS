@@ -4,52 +4,77 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ext.Status;
 import com.db4o.query.Predicate;
 import com.db4o.types.Blob;
 import com.iiitb.model.DocFragment;
+import com.iiitb.model.DocFragmentInfo;
+import com.iiitb.model.DocFragmentVersionInfo;
+import com.iiitb.util.ConnectionPool;
 
 class Predicate1 extends Predicate<DocFragment>
 {
 	String username;
+
 	Predicate1(String username)
 	{
-		this.username=username;
+		this.username = username;
 	}
+
 	public boolean match(DocFragment arg0)
 	{
-		return arg0.getInfo().getAccessors().get(username)!=null;
-	}	
+		return arg0.getInfo().getAccessors().get(username) != null;
+	}
 }
 
 class Predicate2 extends Predicate<DocFragment>
 {
 	String username;
+
 	Predicate2(String username)
 	{
-		this.username=username;
+		this.username = username;
 	}
+
 	public boolean match(DocFragment arg0)
 	{
 		return arg0.getInfo().isReusable();
-	}	
+	}
 }
 
 class Predicate3 extends Predicate<DocFragment>
 {
 	String username;
+
 	Predicate3(String username)
 	{
-		this.username=username;
+		this.username = username;
 	}
+
 	public boolean match(DocFragment arg0)
 	{
 		return arg0.getInfo().isStandAlone();
-	}	
+	}
+}
+
+class DocumentNameAndVersionPredicate extends Predicate<DocFragment>
+{
+	String documentName;
+
+	String version;
+
+	DocumentNameAndVersionPredicate(String documentName, String version)
+	{
+		this.documentName = documentName;
+		this.version = version;
+	}
+
+	public boolean match(DocFragment arg0)
+	{
+		return arg0.getInfo().getName().equals(documentName) && arg0.getInfo().getAllVersions().get(version) != null;
+	}
 }
 
 public class DocFragmentDao
@@ -77,34 +102,65 @@ public class DocFragmentDao
 
 	public List<DocFragment> getDocFragments(String username)
 	{
-		Predicate1 p=new Predicate1(username);
-		List<DocFragment> l=db.query(p);
+		Predicate1 p = new Predicate1(username);
+		List<DocFragment> l = db.query(p);
 		return l;
 	}
-	
+
 	public List<DocFragment> getReusableDocFragments(String username)
 	{
-		Predicate2 p=new Predicate2(username);
-		List<DocFragment> l=db.query(p);
-		
+		Predicate2 p = new Predicate2(username);
+		List<DocFragment> l = db.query(p);
+
 		HashMap<String, DocFragment> frags = new HashMap<String, DocFragment>();
-		for(DocFragment df:l)
+		for (DocFragment df : l)
 			frags.put(df.getDocId(), df);
-		
+
 		return l;
 	}
-	
+
 	public List<DocFragment> getStandaloneDocFragments(String username)
 	{
-		Predicate3 p=new Predicate3(username);
-		List<DocFragment> l=db.query(p);
+		Predicate3 p = new Predicate3(username);
+		List<DocFragment> l = db.query(p);
 		return l;
 	}
-	
+
+	public DocFragment getFragment(String documentName, String version)
+	{
+
+		this.db = ConnectionPool.getConnection();
+
+		DocumentNameAndVersionPredicate p = new DocumentNameAndVersionPredicate(documentName, version);
+
+		DocFragmentInfo di = null;
+		try
+		{
+			di = new DocFragmentInfo(documentName, null, null, null, true, true);
+		}
+		catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		DocFragmentVersionInfo vi = new DocFragmentVersionInfo(version, null, null, null);
+		List<DocFragment> l = db.queryByExample(new DocFragment(di, vi));
+
+		DocFragment fragment = null;
+		if (l != null && l.size() > 0)
+		{
+			fragment = l.get(0);
+		}
+		ConnectionPool.freeConnection(db);
+		return fragment;
+
+	}
+
 	public boolean storeDocFragment(DocFragment df, File file)
 	{
 		this.db.store(df);
-		if(file==null)
+		if (file == null)
 			return true;
 		double status = -10.0;
 		try

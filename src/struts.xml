@@ -42,12 +42,14 @@
 		</action>
 
 		<action name="documentsAction" class="com.iiitb.action.DocumentsAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result name="success" type="tiles">documentsPage</result>
 			<result name="input">signin.jsp</result>
 			<result name="login">signin.jsp</result>
 		</action>
-		
+
 		<action name="documentCreateAction" class="com.iiitb.action.DocumentCreateAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result name="success" type="tiles">documentUploadPortal</result>
 			<result name="input">signin.jsp</result>
 			<result name="login">signin.jsp</result>
@@ -60,23 +62,30 @@
 		</action>
 
 		<action name="documentUploadPortal">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result type="tiles">documentUploadPortal</result>
+			<result name="login">signin.jsp</result>
+
 		</action>
 
 
 
 		<action name="documentUploadAction" class="com.iiitb.action.DocumentUploadAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result name="success" type="redirect">documentsAction</result>
+			<result name="login">signin.jsp</result>
 		</action>
 
 
 		<action name="fileDownloadAction" class="com.iiitb.action.DocumentDownloadAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result name="success" type="stream">
 				<param name="contentType">application/pdf</param>
 				<param name="inputName">fileInputStream</param>
 				<param name="contentDisposition">attachment;filename="test.pdf"</param>
 			</result>
 			<result name="failure">fileNotFound.jsp</result>
+			<result name="login">signin.jsp</result>
 		</action>
 	</package>
 </struts>
