@@ -17,19 +17,28 @@
 		<s:textarea key="description" name="description"
 			label="Document description" cols="69" />
 
-		<s:optiontransferselect
+		<%-- 	<s:optiontransferselect
 			label="Choose constituent documents that go before the native content file"
 			name="fragList1" list="docFrags"
-			doubleName="fragsBeforeNativeContent" doubleList="{}" />
+			doubleName="fragsBeforeNativeContent" doubleList="{}" /> --%>
+
+
+		<s:updownselect list="docFrags" name="fragsBeforeNativeContent"
+			label="Choose constituent documents that go before the native content file"
+			size="5" />
 
 
 		<s:file name="uploadFile" label="Choose native content file" size="40" />
 
 
-		<s:optiontransferselect
+		<%-- <s:optiontransferselect
 			label="Choose constituent documents that go after the native content file"
 			name="fragList2" list="docFrags" doubleName="fragsAfterNativeContent"
-			doubleList="{}" />
+			doubleList="{}" /> --%>
+
+		<s:updownselect list="docFrags" name="fragsAfterNativeContent"
+			label="Choose constituent documents that go after the native content file"
+			size="5" />
 
 		<s:label label="This document is"></s:label>
 		<s:checkbox id="isStandAlone" name="isStandAlone" label="standalone"
