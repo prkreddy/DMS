@@ -26,7 +26,7 @@ public class ConnectionPool
 		config.common().objectClass(ArrayList.class).cascadeOnActivate(true);
 		config.common().objectClass(Set.class).cascadeOnActivate(true);
 		config.common().objectClass(HashMap.class).cascadeOnActivate(true);
-		try
+	/*	try
 		{
 			Db4o.configure().setBlobPath(DMSConstants.db4oPath + "blobs");
 		}
@@ -34,7 +34,7 @@ public class ConnectionPool
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		return Db4oEmbedded.openFile(config, DMSConstants.db4oPath + DMSConstants.db4oFileName);
 	}
 
