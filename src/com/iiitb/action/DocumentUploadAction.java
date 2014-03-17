@@ -22,6 +22,7 @@ import com.iiitb.model.DocFragmentInfo.FileFormat;
 import com.iiitb.model.DocFragmentVersionInfo;
 import com.iiitb.model.DocFragmentVersionInfo.Action;
 import com.iiitb.model.User;
+import com.iiitb.util.ConnectionPool;
 import com.iiitb.util.DMSConstants;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -157,6 +158,9 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 		boolean isStandalone = false;
 		boolean is_Reusable = false;
 		DocFragmentDao dao = new DocFragmentDao();
+		ObjectContainer container = ConnectionPool.getConnection();
+		dao.setDb(container);
+		
 		if (isStandAlone.equals("true"))
 		{
 			isStandalone = true;
@@ -185,8 +189,7 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 		DocFragment frag = null;
 		for (String fragname : fragsBeforeNativeContent)
 		{
-			String tokens[] = fragname.split(",");
-			frag = dao.getFragment(tokens[0], tokens[1]);
+			frag = dao.getFragment(fragname);
 			if (frag != null)
 			{
 				df.getFragsBeforeNativeContent().add(frag);
@@ -196,8 +199,7 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 
 		for (String fragname : fragsAfterNativeContent)
 		{
-			String tokens[] = fragname.split(",");
-			frag = dao.getFragment(tokens[0], tokens[1]);
+			frag = dao.getFragment(fragname);
 			if (frag != null)
 			{
 				df.getFragsAfterNativeContent().add(frag);
@@ -222,8 +224,7 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 				return ERROR;
 			}
 		}
-		ObjectContainer container = Db4oEmbedded.openFile(DMSConstants.db4oPath + DMSConstants.db4oFileName);
-		dao.setDb(container);
+
 		dao.storeDocFragment(df, destFile);
 		container.close();
 		return SUCCESS;

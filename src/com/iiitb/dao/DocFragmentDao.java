@@ -65,7 +65,7 @@ class DocumentNameAndVersionPredicate extends Predicate<DocFragment>
 
 	String version;
 
-	DocumentNameAndVersionPredicate(String documentName, String version)
+	DocumentNameAndVersionPredicate(String documentName)
 	{
 		this.documentName = documentName;
 		this.version = version;
@@ -73,7 +73,7 @@ class DocumentNameAndVersionPredicate extends Predicate<DocFragment>
 
 	public boolean match(DocFragment arg0)
 	{
-		return arg0.getInfo().getName().equals(documentName) && arg0.getInfo().getAllVersions().get(version) != null;
+		return arg0.getDocId().equals(documentName);
 	}
 }
 
@@ -126,33 +126,18 @@ public class DocFragmentDao
 		return l;
 	}
 
-	public DocFragment getFragment(String documentName, String version)
+	public DocFragment getFragment(String documentName)
 	{
 
-		this.db = ConnectionPool.getConnection();
+		DocumentNameAndVersionPredicate p = new DocumentNameAndVersionPredicate(documentName);
 
-		DocumentNameAndVersionPredicate p = new DocumentNameAndVersionPredicate(documentName, version);
-
-		DocFragmentInfo di = null;
-		try
-		{
-			di = new DocFragmentInfo(documentName, null, null, null, true, true);
-		}
-		catch (Exception e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		DocFragmentVersionInfo vi = new DocFragmentVersionInfo(version, null, null, null);
-		List<DocFragment> l = db.queryByExample(new DocFragment(di, vi));
+		List<DocFragment> l = db.query(p);
 
 		DocFragment fragment = null;
 		if (l != null && l.size() > 0)
 		{
 			fragment = l.get(0);
 		}
-		ConnectionPool.freeConnection(db);
 		return fragment;
 
 	}

@@ -28,16 +28,18 @@ public class DocFragment
 		this.docId = this.getInfo().getName() + ", v" + this.getVersionInfo().getVersion();
 	}
 
-	void compile()
+	public void compile(List<String> fileNames, String path)
 	{
+
 		if (this.getFragsBeforeNativeContent() != null && this.getFragsBeforeNativeContent().size() > 0)
 			for (DocFragment df : this.getFragsBeforeNativeContent())
-				df.compile();
+				df.compile(fileNames, path);
 		if (this.blob != null)
 		{
 			try
 			{
-				blob.writeTo(new File(DMSConstants.db4oPath + "sample.txt"));
+				blob.writeTo(new File(path + blob.getFileName()));
+				fileNames.add(path + blob.getFileName());
 				double status = blob.getStatus();
 				while (status > Status.COMPLETED)
 				{
@@ -51,20 +53,18 @@ public class DocFragment
 						System.out.println(ex.getMessage());
 					}
 				}
-				FileInputStream fis = new FileInputStream(new File(DMSConstants.db4oPath + "sample.txt"));
-				int ch;
-				while ((ch = fis.read()) != -1)
-					System.out.print((char) ch);
-				fis.close();
+
 			}
 			catch (Exception e)
 			{
 				System.out.println("Error when reading from file.");
+				e.printStackTrace();
 			}
 		}
 		if (this.getFragsAfterNativeContent() != null && this.getFragsAfterNativeContent().size() > 0)
 			for (DocFragment df : this.getFragsAfterNativeContent())
-				df.compile();
+				df.compile(fileNames, path);
+
 	}
 
 	// getters & setters

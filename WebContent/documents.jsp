@@ -29,8 +29,8 @@
 			var="docFragmentDisplayDetails">
 
 			<s:url id="fileDownload" action="fileDownloadAction" var="myurl">
-				<s:param name="filePathName">
-					<s:property value="pathName" />
+				<s:param name="documentId">
+					<s:property value="docId" />
 				</s:param>
 			</s:url>
 
