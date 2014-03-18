@@ -8,7 +8,7 @@
 <title>Register</title>
 </head>
 <body>
-	<h1 align="middle">DOCUMENT MANAGEMENT SYSTEM</h1>
+	<h1 align="center">DOCUMENT MANAGEMENT SYSTEM</h1>
 	<div align="center">
 		<s:form action="userRegisterAction" autocomplete="off">
 
@@ -17,10 +17,17 @@
 			<s:password key="confirmPassword" label="confirmPassword" />
 			<s:textfield key="fullName" label="fullName"></s:textfield>
 			<s:textfield key="emailid" label="email-Id" />
-			<s:submit />
+			<s:submit type="image" src="./images/newregister.gif" />
 		</s:form>
-		
-		<a href="login"><b>Login</b></a>
+
+		<a href="login"><img src="images/signinbutton.gif" /></a>
+	</div>
+
+
+	<p>
+	<div align="center">
+
+		<img src="images/dmsregister.jpg" width="320" height="240" />
 	</div>
 </body>
 </html>

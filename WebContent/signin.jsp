@@ -8,18 +8,24 @@
 <title>Login</title>
 </head>
 <body>
-	<h1 align="middle">DOCUMENT MANAGEMENT SYSTEM</h1>
+	<h1 align="center">DOCUMENT MANAGEMENT SYSTEM</h1>
 
 	<div align="center">
 		<s:form action="userLoginAction" autocomplete="off">
 
 			<s:textfield key="username" label="Username" />
 			<s:password key="password" label="Password" />
-			<s:submit label="login" />
+
+			<s:submit type="image" src="./images/signinbutton.gif" />
 		</s:form>
 
 
-		<a href="register"><b>Register</b></a>
+		<a href="register"><img src="images/newregister.gif" /></a>
+	</div>
+	<p>
+	<div align="center">
+
+		<img src="images/dmsregister.jpg" width="320" height="240" />
 	</div>
 </body>
 </html>

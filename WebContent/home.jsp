@@ -11,7 +11,17 @@
 	<h1 align="center">DOCUMENT MANAGEMENT SYSTEM</h1>
 	<div align="center">
 
-		<a href="login"><b>Login</b></a> <br> <a href="register"><b>Register</b></a>
+		<img src="images/dms.jpg" />
 	</div>
+	<p>
+	<div align="center">
+
+
+		<a href="login"><img src="images/signinbutton.gif" /></a>
+		&nbsp;&nbsp;&nbsp;&nbsp;<a href="register"><img
+			src="images/newregister.gif" /></a>
+	</div>
+
+	</p>
 </body>
 </html>
