@@ -2,6 +2,7 @@ package com.iiitb.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
-import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.iiitb.dao.DocFragmentDao;
 import com.iiitb.model.DocFragment;
@@ -32,11 +32,13 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 
 	private static final long serialVersionUID = 1L;
 
-	private String documentName;
+	private String documentName="";
 
 	private List<String> fragsBeforeNativeContent;
 
-	private List<String> fragsAfterNativeContent;
+	private List<String> fragsAfterNativeContent=new ArrayList<String>();
+	
+	private String version="1.0";
 
 	public List<String> getFragsBeforeNativeContent()
 	{
@@ -130,9 +132,9 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 
 	private String description;
 
-	private String isStandAlone;
+	private String isStandAlone="false";
 
-	private String isReusable;
+	private String isReusable="false";
 
 	Map<String, Object> session;
 
@@ -178,13 +180,28 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 		{
 			is_Reusable = false;
 		}
-		DocFragmentInfo di = new DocFragmentInfo(documentName, description, DocumentType.Type1, FileFormat.PDF,
-				isStandalone, is_Reusable);
+		
 		User user = (User) this.session.get(DMSConstants.USER_LOGGED_IN);
-		di.getAccessors().put(user.getUsername(), Access.rae);
-		DocFragmentVersionInfo vi = new DocFragmentVersionInfo("1.0", user, Action.Creation, "first commit of "
-				+ documentName);
-		DocFragment df = new DocFragment(di, vi);
+		DocFragmentInfo di;
+		DocFragmentVersionInfo vi;
+		DocFragment df;
+		if((di=dao.getDocFragmentInfo(user.getUsername(), documentName))==null)
+		{
+			di = new DocFragmentInfo(documentName, description, DocumentType.Type1, FileFormat.PDF,
+					isStandalone, is_Reusable);
+			
+			di.getAccessors().put(user.getUsername(), Access.rae);
+			vi = new DocFragmentVersionInfo(this.version, user, Action.Creation, "first commit of "
+					+ documentName);
+			df = new DocFragment(di, vi);
+		}
+		else
+		{
+			vi = new DocFragmentVersionInfo(this.version, user, Action.Modification, "modification of "
+					+ documentName);
+			df = new DocFragment(di, vi);
+			//df.setBlob(dao.getLatestDocFragmentVersion(user.getUsername(), documentName).getBlob());
+		}
 
 		DocFragment frag = null;
 		for (String fragname : fragsBeforeNativeContent)
@@ -206,8 +223,10 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 			}
 
 		}
+		
 		df.getInfo().getAllVersions().put(df.getVersionInfo().getVersion(), df);
-
+		//container.store(df.getInfo().getAllVersions());
+		
 		File destFile = null;
 		if (uploadFileFileName != null)
 		{
@@ -234,6 +253,14 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 	public void setServletRequest(HttpServletRequest arg0)
 	{
 		this.servletRequest = arg0;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 }

@@ -4,28 +4,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Success</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Success</title>
 </head>
 <body>
 
-	<s:form action="documentUploadAction" method="POST"
+	<s:form id="frmDocEdit" action="documentUploadAction" method="POST"
 		enctype="multipart/form-data">
-		<s:textfield key="documentName" name="documentName" id="documentName"
-			label="Document name*" />
-		<s:label value="1.0" label="Version" ></s:label>
-		<s:textarea key="description" name="description"
-			label="Document description" cols="69" />
-		<s:label label="This document is*"></s:label>
-		<s:checkbox id="isStandAlone" name="isStandAlone" label="standalone"
-			value="1" onchange="validateFlags1()"></s:checkbox>
-		<s:checkbox id="isReusable" name="isReusable" label="reusable"
-			value="1" onchange="validateFlags2()"></s:checkbox>
-			
-		<s:radio id="dtype" name="dtype" onchange="typeChange()" label="Type*" list="#{'1':'Single file document','2':'Compound document'}" ></s:radio>
-		
+		<s:textfield disabled="true" id="documentName" key="documentName" name="documentName" label="Document name" />
+		<s:textfield disabled="true" id="version" key="version" name="version" label="Version" ></s:textfield>
+		<s:radio disabled="true" value="docStructure" id="dtype" name="dtype" onchange="typeChange()" label="Type" list="#{'1':'Single file document','2':'Compound document'}" ></s:radio>
 		<div style="float:left;">
-			<s:select name="fragList1" id="fragList1" list="docFrags" multiple="true" size="5"></s:select>
+			<s:select name="fragList1" id="fragList1" list="docFrags1" multiple="true" size="5"></s:select>
 		</div>
 		<div style="float:left;">
 			<s:submit id='b1' value='>' onclick='moveSelectedOptions1(); return false;' />
@@ -34,61 +24,61 @@
 			<s:submit id='b4' value='<<' onclick='moveAllOptions1Back(); return false;' />
 		</div>
 		<div>
-			<s:select list="{}" name="fragsBeforeNativeContent" id="fragsBeforeNativeContent"
+			<s:select list="docFragsBeforeNativeContent" name="fragsBeforeNativeContent" id="fragsBeforeNativeContent"
 				size="5" multiple="true" />
 			<s:submit id='up' value='^' onclick='moveSelectedOptionUp(); return false;' />
 			<s:submit id='dn' value='v' onclick='moveSelectedOptionDn(); return false;' />
 		</div>
 		
 		<s:file id="nativeContentFile" name="uploadFile" size="40" />
-
-		<s:submit id="done" value="Done" onclick="selectAllDocsAndSubmit(); return false;" />
+		
+		<s:submit value="Done" onclick="selectAllDocsAndSubmit(); return false;" />
 	</s:form>
 	<script type="text/javascript">
-		
-		var ncf=document.getElementById('nativeContentFile');
-		var ncfp=ncf.parentNode;
-		ncfp.removeChild(ncf);
-		
-		var fragList1=document.getElementById('fragList1');
-		var fragList1p=fragList1.parentNode;
-		fragList1p.removeChild(fragList1);
-		
-		var b1=document.getElementById('b1');
-		var b1p=b1.parentNode;
-		b1p.removeChild(b1);
-		
-		var b2=document.getElementById('b2');
-		var b2p=b2.parentNode;
-		b2p.removeChild(b2);
-		
-		var b3=document.getElementById('b3');
-		var b3p=b3.parentNode;
-		b3p.removeChild(b3);
-		
-		var b4=document.getElementById('b4');
-		var b4p=b4.parentNode;
-		b4p.removeChild(b4);
-		
-		var fragsBeforeNativeContent=document.getElementById('fragsBeforeNativeContent');
-		var fragsBeforeNativeContentp=fragsBeforeNativeContent.parentNode;
-		fragsBeforeNativeContentp.removeChild(fragsBeforeNativeContent);
-		
-		var up=document.getElementById('up');
-		var upp=up.parentNode;
-		upp.removeChild(up);
-		
-		var dn=document.getElementById('dn');
-		var dnp=dn.parentNode;
-		dnp.removeChild(dn);
-		
-		document.getElementById('done').disabled=true;
-		
+		if(!document.getElementsByName("dtype")[0].checked)
+		{
+			var ncf=document.getElementById('nativeContentFile');
+			var ncfp=ncf.parentNode;
+			ncfp.removeChild(ncf);
+		}
+		else
+		{
+			var fragList1=document.getElementById('fragList1');
+			var fragList1p=fragList1.parentNode;
+			fragList1p.removeChild(fragList1);
+			
+			var b1=document.getElementById('b1');
+			var b1p=b1.parentNode;
+			b1p.removeChild(b1);
+			
+			var b2=document.getElementById('b2');
+			var b2p=b2.parentNode;
+			b2p.removeChild(b2);
+			
+			var b3=document.getElementById('b3');
+			var b3p=b3.parentNode;
+			b3p.removeChild(b3);
+			
+			var b4=document.getElementById('b4');
+			var b4p=b4.parentNode;
+			b4p.removeChild(b4);
+			
+			var fragsBeforeNativeContent=document.getElementById('fragsBeforeNativeContent');
+			var fragsBeforeNativeContentp=fragsBeforeNativeContent.parentNode;
+			fragsBeforeNativeContentp.removeChild(fragsBeforeNativeContent);
+			
+			var up=document.getElementById('up');
+			var upp=up.parentNode;
+			upp.removeChild(up);
+			
+			var dn=document.getElementById('dn');
+			var dnp=dn.parentNode;
+			dnp.removeChild(dn);
+		}	
 		function typeChange()
 		{
 			if(document.getElementsByName("dtype")[0].checked)
 			{
-				document.getElementById('done').disabled=false;
 				ncfp.appendChild(ncf);
 				fragList1p.removeChild(fragList1);
 				b1p.removeChild(b1);
@@ -101,7 +91,6 @@
 			}
 			else
 			{
-				document.getElementById('done').disabled=false;
 				fragList1p.appendChild(fragList1);
 				b1p.appendChild(b1);
 				b2p.appendChild(b2);
@@ -112,7 +101,8 @@
 				dnp.appendChild(dn);
 				ncfp.removeChild(ncf);
 			}
-		}
+		}	
+		
 		function moveSelectedOptionUp()
 		{
 			var l1=document.getElementById("fragsBeforeNativeContent");
@@ -135,43 +125,31 @@
 					l1.options[i+1].selected=true;
 				}
 		}
-		function validateFlags1() {
-			if (!document.getElementById("isStandAlone").checked
-					&& !document.getElementById("isReusable").checked) {
-				document.getElementById("isStandAlone").checked = true;
-				alert("Can't uncheck both at a time.");
-			}
-		}
-		function validateFlags2() {
-			if (!document.getElementById("isStandAlone").checked
-					&& !document.getElementById("isReusable").checked) {
-				document.getElementById("isReusable").checked = true;
-				alert("Can't uncheck both at a time.");
-			}
-		}
-		
 		function selectAllDocsAndSubmit()
 		{
-			if(document.getElementById("documentName").value=="")
-				alert('Please enter a document name.');
-			else
+			if(document.getElementsByName("dtype")[0].checked)
 			{
-				if(document.getElementsByName("dtype")[0].checked)
-				{
-					if(document.getElementById("nativeContentFile").value=="")
-						alert('Please choose a file.');
-					else
-						document.getElementById("frmDocEdit").submit();
-				}
+				if(document.getElementById("nativeContentFile").value=="")
+					alert('Please choose a file.');
 				else
 				{
-					var l1=document.getElementById("fragsBeforeNativeContent");
-					if(l1.options.length==0)
-						alert('Please choose a document.');
-					else
+					document.getElementById("documentName").disabled=false;
+					document.getElementById("version").disabled=false;
+					document.getElementById("frmDocEdit").submit();
+				}
+			}
+			else
+			{
+				var l1=document.getElementById("fragsBeforeNativeContent");
+				if(l1.options.length==0)
+					alert('Please choose a document.');
+				else
+				{
+					for (var i=0; i<l1.options.length; i++)
+						l1.options[i].selected = true;
 					{
-						for (var i=0; i<l1.options.length; i++)
-							l1.options[i].selected = true;
+						document.getElementById("documentName").disabled=false;
+						document.getElementById("version").disabled=false;
 						document.getElementById("frmDocEdit").submit();
 					}
 				}

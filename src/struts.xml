@@ -54,6 +54,20 @@
 			<result name="input">signin.jsp</result>
 			<result name="login">signin.jsp</result>
 		</action>
+		
+		<action name="documentSelectForEditAction" class="com.iiitb.action.DocumentSelectForEditAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success" type="tiles">documentSelectForEditPortal</result>
+			<result name="input">signin.jsp</result>
+			<result name="login">signin.jsp</result>
+		</action>
+		
+		<action name="documentEditAction" class="com.iiitb.action.DocumentEditAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success" type="tiles">documentEditPortal</result>
+			<result name="input">signin.jsp</result>
+			<result name="login">signin.jsp</result>
+		</action>
 
 		<action name="userLogoutAction" class="com.iiitb.action.UserLogoutAction">
 			<interceptor-ref name="secureAccess"></interceptor-ref>

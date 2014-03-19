@@ -21,6 +21,14 @@
 		<put-attribute name="documentsLink" value="/layout/documentsLinkWhite.jsp" />
 		<put-attribute name="body" value="/documentUploadPortal.jsp" />
 	</definition>
-
-
+	
+	<definition name="documentSelectForEditPortal" extends="baseLayout">
+		<put-attribute name="documentsLink" value="/layout/documentsLinkWhite.jsp" />
+		<put-attribute name="body" value="/documentSelectForEditPortal.jsp" />
+	</definition>
+	
+	<definition name="documentEditPortal" extends="baseLayout">
+		<put-attribute name="documentsLink" value="/layout/documentsLinkWhite.jsp" />
+		<put-attribute name="body" value="/documentEditPortal.jsp" />
+	</definition>
 </tiles-definitions>

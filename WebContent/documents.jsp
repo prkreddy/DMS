@@ -9,7 +9,8 @@
 </head>
 <body>
 	<br />
-	<a href="documentCreateAction">Create new document</a>
+	<a href="documentCreateAction">Create new document</a> |
+	<a href="documentSelectForEditAction">Edit existing document</a>
 	<br />
 	<br />
 	<table border="1">
