@@ -22,7 +22,7 @@
 		<s:checkbox id="isReusable" name="isReusable" label="reusable"
 			value="1" onchange="validateFlags2()"></s:checkbox>
 			
-		<s:radio id="dtype" name="dtype" onchange="typeChange()" label="Type*" list="#{'1':'Single file document','2':'Compound document'}" ></s:radio>
+		<s:radio id="dtype" name="dtype" onchange="typeChange()" label="Structure*" list="#{'1':'Single file document','2':'Compound document'}" ></s:radio>
 		
 		<div style="float:left;">
 			<s:select name="fragList1" id="fragList1" list="docFrags" multiple="true" size="5"></s:select>
@@ -42,7 +42,7 @@
 		
 		<s:file id="nativeContentFile" name="uploadFile" size="40" />
 
-		<s:submit id="done" value="Done" onclick="selectAllDocsAndSubmit(); return false;" />
+		<s:submit disabled="true" id="done" value="Done" onclick="selectAllDocsAndSubmit(); return false;" />
 	</s:form>
 	<script type="text/javascript">
 		
@@ -82,13 +82,11 @@
 		var dnp=dn.parentNode;
 		dnp.removeChild(dn);
 		
-		document.getElementById('done').disabled=true;
-		
 		function typeChange()
 		{
+			document.getElementById('done').disabled=false;
 			if(document.getElementsByName("dtype")[0].checked)
 			{
-				document.getElementById('done').disabled=false;
 				ncfp.appendChild(ncf);
 				fragList1p.removeChild(fragList1);
 				b1p.removeChild(b1);
@@ -101,7 +99,6 @@
 			}
 			else
 			{
-				document.getElementById('done').disabled=false;
 				fragList1p.appendChild(fragList1);
 				b1p.appendChild(b1);
 				b2p.appendChild(b2);

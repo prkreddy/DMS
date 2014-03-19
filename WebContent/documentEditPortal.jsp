@@ -13,7 +13,7 @@
 		enctype="multipart/form-data">
 		<s:textfield disabled="true" id="documentName" key="documentName" name="documentName" label="Document name" />
 		<s:textfield disabled="true" id="version" key="version" name="version" label="Version" ></s:textfield>
-		<s:radio disabled="true" value="docStructure" id="dtype" name="dtype" onchange="typeChange()" label="Type" list="#{'1':'Single file document','2':'Compound document'}" ></s:radio>
+		<s:radio value="docStructure" id="dtype" name="dtype" onchange="typeChange()" label="Structure" list="#{'1':'Single file document','2':'Compound document'}" ></s:radio>
 		<div style="float:left;">
 			<s:select name="fragList1" id="fragList1" list="docFrags1" multiple="true" size="5"></s:select>
 		</div>
@@ -32,47 +32,40 @@
 		
 		<s:file id="nativeContentFile" name="uploadFile" size="40" />
 		
-		<s:submit value="Done" onclick="selectAllDocsAndSubmit(); return false;" />
+		<s:submit id="done" value="Done" onclick="selectAllDocsAndSubmit(); return false;" />
 	</s:form>
 	<script type="text/javascript">
+		var ncf=document.getElementById('nativeContentFile');
+		var ncfp=ncf.parentNode;
+		var fragList1=document.getElementById('fragList1');
+		var fragList1p=fragList1.parentNode;
+		var b1=document.getElementById('b1');
+		var b1p=b1.parentNode;
+		var b2=document.getElementById('b2');
+		var b2p=b2.parentNode;
+		var b3=document.getElementById('b3');
+		var b3p=b3.parentNode;
+		var b4=document.getElementById('b4');
+		var b4p=b4.parentNode;
+		var fragsBeforeNativeContent=document.getElementById('fragsBeforeNativeContent');
+		var fragsBeforeNativeContentp=fragsBeforeNativeContent.parentNode;
+		var up=document.getElementById('up');
+		var upp=up.parentNode;
+		var dn=document.getElementById('dn');
+		var dnp=dn.parentNode;
 		if(!document.getElementsByName("dtype")[0].checked)
 		{
-			var ncf=document.getElementById('nativeContentFile');
-			var ncfp=ncf.parentNode;
 			ncfp.removeChild(ncf);
 		}
 		else
 		{
-			var fragList1=document.getElementById('fragList1');
-			var fragList1p=fragList1.parentNode;
-			fragList1p.removeChild(fragList1);
-			
-			var b1=document.getElementById('b1');
-			var b1p=b1.parentNode;
+			fragList1p.removeChild(fragList1);	
 			b1p.removeChild(b1);
-			
-			var b2=document.getElementById('b2');
-			var b2p=b2.parentNode;
 			b2p.removeChild(b2);
-			
-			var b3=document.getElementById('b3');
-			var b3p=b3.parentNode;
 			b3p.removeChild(b3);
-			
-			var b4=document.getElementById('b4');
-			var b4p=b4.parentNode;
 			b4p.removeChild(b4);
-			
-			var fragsBeforeNativeContent=document.getElementById('fragsBeforeNativeContent');
-			var fragsBeforeNativeContentp=fragsBeforeNativeContent.parentNode;
 			fragsBeforeNativeContentp.removeChild(fragsBeforeNativeContent);
-			
-			var up=document.getElementById('up');
-			var upp=up.parentNode;
 			upp.removeChild(up);
-			
-			var dn=document.getElementById('dn');
-			var dnp=dn.parentNode;
 			dnp.removeChild(dn);
 		}	
 		function typeChange()
