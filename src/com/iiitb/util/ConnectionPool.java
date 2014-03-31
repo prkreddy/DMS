@@ -1,5 +1,6 @@
 package com.iiitb.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +11,7 @@ import com.db4o.Db4o;
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.config.EmbeddedConfiguration;
+import com.db4o.internal.BlobImpl;
 import com.db4o.types.Blob;
 import com.iiitb.model.DocFragment;
 import com.iiitb.model.DocFragmentInfo;
@@ -34,6 +36,7 @@ public class ConnectionPool
 		config.common().objectClass(Set.class).cascadeOnActivate(true);
 		config.common().objectClass(HashMap.class).cascadeOnActivate(true);
 		config.common().objectClass(Blob.class).cascadeOnActivate(true);
+		config.common().objectClass(BlobImpl.class).cascadeOnActivate(true);
 		config.common().objectClass(String.class).cascadeOnActivate(true);
 		config.common().objectClass(Date.class).cascadeOnActivate(true);
 		config.common().objectClass(Access.class).cascadeOnActivate(true);
@@ -41,6 +44,7 @@ public class ConnectionPool
 		config.common().objectClass(DocumentType.class).cascadeOnActivate(true);
 		config.common().objectClass(FileFormat.class).cascadeOnActivate(true);
 		config.common().objectClass(Action.class).cascadeOnActivate(true);
+		config.common().objectClass(File.class).cascadeOnActivate(true);
 		
 		config.common().objectClass(User.class).cascadeOnUpdate(true);
 		config.common().objectClass(DocFragment.class).cascadeOnUpdate(true);
@@ -50,6 +54,7 @@ public class ConnectionPool
 		config.common().objectClass(Set.class).cascadeOnUpdate(true);
 		config.common().objectClass(HashMap.class).cascadeOnUpdate(true);
 		config.common().objectClass(Blob.class).cascadeOnUpdate(true);
+		config.common().objectClass(BlobImpl.class).cascadeOnUpdate(true);
 		config.common().objectClass(String.class).cascadeOnUpdate(true);
 		config.common().objectClass(Date.class).cascadeOnUpdate(true);
 		config.common().objectClass(Access.class).cascadeOnUpdate(true);
@@ -57,7 +62,7 @@ public class ConnectionPool
 		config.common().objectClass(DocumentType.class).cascadeOnUpdate(true);
 		config.common().objectClass(FileFormat.class).cascadeOnUpdate(true);
 		config.common().objectClass(Action.class).cascadeOnUpdate(true);
-		
+		config.common().objectClass(File.class).cascadeOnUpdate(true);
 		try
 		{
 			Db4o.configure().setBlobPath(DMSConstants.db4oPath + "blobs");
