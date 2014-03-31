@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Login</title>
+<title>DMS Login</title>
 </head>
 <body>
 	<h1 align="center">DOCUMENT MANAGEMENT SYSTEM</h1>
@@ -19,8 +19,13 @@
 			<s:submit type="image" src="./images/signinbutton.gif" />
 		</s:form>
 
-
-		<a href="register"><img src="images/newregister.gif" /></a>
+		<p>
+		<table align="center" cellspacing="10" cellpadding="10">
+			<tr>
+				<td><b>new user?</b></td>
+				<td><a href="register"><img src="images/newregister.gif" /></a></td>
+			</tr>
+		</table>
 	</div>
 	<p>
 	<div align="center">

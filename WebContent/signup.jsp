@@ -19,8 +19,14 @@
 			<s:textfield key="emailid" label="email-Id" />
 			<s:submit type="image" src="./images/newregister.gif" />
 		</s:form>
+		<p>
+		<table align="center" cellspacing="10" cellpadding="10">
+			<tr>
+				<td><b>Already Existing User?</b></td>
+				<td><a href="login"><img src="images/signinbutton.gif" /></a></td>
+			</tr>
+		</table>
 
-		<a href="login"><img src="images/signinbutton.gif" /></a>
 	</div>
 
 
