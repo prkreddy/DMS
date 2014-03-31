@@ -16,7 +16,7 @@
 	<table border="1">
 		<thead>
 			<tr>
-				<td><b>View</b></td>
+				<!-- 	<td><b>View</b></td> -->
 				<td><b>Name</b></td>
 				<td><b>Version</b></td>
 				<td><b>Access</b></td>
@@ -38,8 +38,10 @@
 
 
 			<tr>
-				<td><a href='<s:property value="#myurl"/>'>View</a></td>
-				<td><s:property value="name" /></td>
+				<td><a href='<s:property value="#myurl"/>'><s:property
+							value="name" /></a></td>
+				<!-- 				<td></td>
+ -->
 				<td><s:property value="version" /></td>
 				<td><s:property value="access" /></td>
 				<td><s:property value="dateCreated" /></td>
@@ -49,5 +51,13 @@
 			</tr>
 		</s:iterator>
 	</table>
+
+	<script type="text/javascript">
+		$(function() {
+			$('a[href$=".pdf"]').each(function() {
+				$(this).prop('target', '_blank');
+			});
+		});
+	</script>
 </body>
 </html>

@@ -29,6 +29,23 @@ class Predicate1 extends Predicate<DocFragment>
 	}
 }
 
+class PredicateEdit extends Predicate<DocFragment>
+{
+	String username;
+	String docId;
+
+	PredicateEdit(String username, String docId)
+	{
+		this.username = username;
+		this.docId = docId;
+	}
+
+	public boolean match(DocFragment arg0)
+	{
+		return arg0.getInfo().getAccessors().get(username) != null && !(arg0.getDocId().equals(docId));
+	}
+}
+
 class Predicate2 extends Predicate<DocFragment>
 {
 	String username;
@@ -82,7 +99,7 @@ class Predicate5 extends Predicate<DocFragmentInfo>
 	Predicate5(String username, String docName)
 	{
 		this.username = username;
-		this.docName=docName;
+		this.docName = docName;
 	}
 
 	public boolean match(DocFragmentInfo arg0)
@@ -138,18 +155,25 @@ public class DocFragmentDao
 		List<DocFragment> l = db.query(p);
 		return l;
 	}
-	
+
+	public List<DocFragment> getDocFragmentsForEdit(String username, String docId)
+	{
+		PredicateEdit p = new PredicateEdit(username, docId);
+		List<DocFragment> l = db.query(p);
+		return l;
+	}
+
 	public DocFragment getLatestDocFragmentVersion(String username, String documentName)
 	{
-		DocFragmentInfo di=this.getDocFragmentInfo(username, documentName);
-		float max=0.0f;
-		for(DocFragment d:di.getAllVersions().values())
-			if((Float.parseFloat(d.getVersionInfo().getVersion()))>max)
-				max=Float.parseFloat(d.getVersionInfo().getVersion());
-		DocFragment df=di.getAllVersions().get(((Float)max).toString());
+		DocFragmentInfo di = this.getDocFragmentInfo(username, documentName);
+		float max = 0.0f;
+		for (DocFragment d : di.getAllVersions().values())
+			if ((Float.parseFloat(d.getVersionInfo().getVersion())) > max)
+				max = Float.parseFloat(d.getVersionInfo().getVersion());
+		DocFragment df = di.getAllVersions().get(((Float) max).toString());
 		return df;
 	}
-	
+
 	public List<DocFragmentInfo> getDocFragmentInfos(String username)
 	{
 		Predicate4 p = new Predicate4(username);
@@ -175,16 +199,16 @@ public class DocFragmentDao
 		List<DocFragment> l = db.query(p);
 		return l;
 	}
-	
+
 	public DocFragmentInfo getDocFragmentInfo(String username, String docName)
 	{
 		Predicate5 p = new Predicate5(username, docName);
 		List<DocFragmentInfo> l = db.query(p);
-		if(l==null || l.size()==0)
+		if (l == null || l.size() == 0)
 			return null;
 		return l.get(0);
 	}
-	
+
 	public DocFragment getFragment(String documentName)
 	{
 

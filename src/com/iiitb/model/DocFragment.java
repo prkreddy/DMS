@@ -34,19 +34,19 @@ public class DocFragment
 		if (this.getFragsBeforeNativeContent() != null && this.getFragsBeforeNativeContent().size() > 0)
 			for (DocFragment df : this.getFragsBeforeNativeContent())
 				df.compile(fileNames, path);
-		if (this.blob != null)
+		if (this.blob != null && this.blob.getFileName() != null)
 		{
 			try
 			{
-				blob.writeTo(new File(path + blob.getFileName()));
-				fileNames.add(path + blob.getFileName());
-				double status = blob.getStatus();
+				this.blob.writeTo(new File(path + this.blob.getFileName()));
+				fileNames.add(path + this.blob.getFileName());
+				double status = this.blob.getStatus();
 				while (status > Status.COMPLETED)
 				{
 					try
 					{
 						Thread.sleep(50);
-						status = blob.getStatus();
+						status = this.blob.getStatus();
 					}
 					catch (InterruptedException ex)
 					{

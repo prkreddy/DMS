@@ -9,7 +9,7 @@
 </head>
 <body>
 
-	<s:form id="frmDocEdit" action="documentUploadAction" method="POST"
+	<s:form id="frmDocEdit" action="documenteditUploadAction" method="POST"
 		enctype="multipart/form-data">
 		<s:textfield disabled="true" id="documentName" key="documentName" name="documentName" label="Document name" />
 		<s:textfield disabled="true" id="version" key="version" name="version" label="Version" ></s:textfield>

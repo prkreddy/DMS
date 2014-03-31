@@ -54,14 +54,15 @@
 			<result name="input">signin.jsp</result>
 			<result name="login">signin.jsp</result>
 		</action>
-		
+
 		<action name="documentSelectForEditAction" class="com.iiitb.action.DocumentSelectForEditAction">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
-			<result name="success" type="tiles">documentSelectForEditPortal</result>
+			<result name="success" type="tiles">documentSelectForEditPortal
+			</result>
 			<result name="input">signin.jsp</result>
 			<result name="login">signin.jsp</result>
 		</action>
-		
+
 		<action name="documentEditAction" class="com.iiitb.action.DocumentEditAction">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result name="success" type="tiles">documentEditPortal</result>
@@ -85,6 +86,14 @@
 
 
 		<action name="documentUploadAction" class="com.iiitb.action.DocumentUploadAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success" type="redirect">documentsAction</result>
+			<result name="login">signin.jsp</result>
+		</action>
+
+
+		<action name="documenteditUploadAction" class="com.iiitb.action.DocumentUploadAction"
+			method="executeEditDocuments">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result name="success" type="redirect">documentsAction</result>
 			<result name="login">signin.jsp</result>
