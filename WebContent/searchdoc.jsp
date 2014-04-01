@@ -10,12 +10,12 @@
 <body>
 
 	<h1>PAGE UNDER CONSTRUCTION</h1>
-<%-- 	<s:form>
+	<s:form>
 
 		<s:textfield name="Search" theme="simple" />
 		<s:submit value="search documents" theme="simple"></s:submit>
 
-	</s:form> --%>
+	</s:form>
 
 </body>
 </html>

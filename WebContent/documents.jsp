@@ -16,7 +16,7 @@
 	<table border="1" align="center">
 		<thead>
 			<tr>
-				<!-- 	<td><b>View</b></td> -->
+				<td><b>View</b></td>
 				<td><b>Name</b></td>
 				<td><b>Version</b></td>
 				<td><b>Access</b></td>
@@ -27,21 +27,13 @@
 			</tr>
 		</thead>
 		<s:iterator value="docFragmentDisplayDetailsList"
-			var="docFragmentDisplayDetails">
-
-			<s:url id="fileDownload" action="fileDownloadAction" var="myurl">
-				<s:param name="documentId">
-					<s:property value="docId" />
-				</s:param>
-			</s:url>
-
-
-
+			var="docFragmentDisplayDetails" status="stat">
 			<tr>
-				<td><a href='<s:property value="#myurl"/>'><s:property
-							value="name" /></a></td>
-				<!-- 				<td></td>
- -->
+
+				<td><button id='<s:property value="docId" />'
+						value='<s:property value="name" />'>view</button>
+				<td><s:property value="name" /></td>
+
 				<td><s:property value="version" /></td>
 				<td><s:property value="access" /></td>
 				<td><s:property value="dateCreated" /></td>
@@ -52,12 +44,30 @@
 		</s:iterator>
 	</table>
 
-	<script type="text/javascript">
-		$(function() {
-			$('a[href$=".pdf"]').each(function() {
-				$(this).prop('target', '_blank');
-			});
-		});
+
+	<script src="js/jquery-1.10.2.js"></script>
+
+	<script>
+		//When DOM loaded we attach click event to button
+		$(document).ready(
+				function() {
+
+					//after button is clicked we download the data
+					$("button").click(
+							function() {
+
+								var docId = $(this).attr('id');
+
+								//start ajax request
+								$.post(
+										"fileDownloadAction?documentId="
+												+ docId, function(data) {
+											window.open('finalNew.pdf');
+
+										});
+							});
+				});
 	</script>
+
 </body>
 </html>

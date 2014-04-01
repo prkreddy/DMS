@@ -32,6 +32,18 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 
 	private String documentId;
 
+	private String filePath;
+
+	public String getFilePath()
+	{
+		return filePath;
+	}
+
+	public void setFilePath(String filePath)
+	{
+		this.filePath = filePath;
+	}
+
 	public String getDocumentId()
 	{
 		return documentId;
@@ -55,7 +67,7 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 	public String execute()
 	{
 		String realPath = servletRequest.getSession().getServletContext().getRealPath("/");
-
+		System.out.println("RealPath" + realPath);
 		String finalDocumentPath = realPath + "final.pdf";
 		String finalNewDocumentPath = realPath + "finalNew.pdf";
 		DocFragmentDao dao = new DocFragmentDao();
@@ -107,6 +119,8 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 				footercontentStream.close();
 			}
 			doc.save(finalNewDocumentPath);
+			setFilePath(finalNewDocumentPath);
+			
 		}
 		catch (MalformedURLException e)
 		{
