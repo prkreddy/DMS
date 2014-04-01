@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a style="color: #412066;" href="documentsAction"><b>My Documents</b></a>
+	<a style="color: #ffffff;" href="searchAction"><b>Search</b></a>
 </body>
 </html>

@@ -9,11 +9,11 @@
 </head>
 <body>
 	<br />
-	<a href="documentCreateAction">Create new document</a> |
-	<a href="documentSelectForEditAction">Edit existing document</a>
+	<!-- 	<a href="documentCreateAction">Create new document</a> |
+	<a href="documentSelectForEditAction">Edit existing document</a> -->
 	<br />
 	<br />
-	<table border="1">
+	<table border="1" align="center">
 		<thead>
 			<tr>
 				<!-- 	<td><b>View</b></td> -->
@@ -23,7 +23,7 @@
 				<td><b>Date Created</b></td>
 				<td><b>Date Modified</b></td>
 				<td><b>Actor</b></td>
-				<td><b>Size</b></td>
+				<!-- <td><b>Size</b></td> -->
 			</tr>
 		</thead>
 		<s:iterator value="docFragmentDisplayDetailsList"
@@ -47,7 +47,7 @@
 				<td><s:property value="dateCreated" /></td>
 				<td><s:property value="dateModified" /></td>
 				<td><s:property value="actor" /></td>
-				<td><s:property value="size" /></td>
+				<%-- <td><s:property value="size" /></td> --%>
 			</tr>
 		</s:iterator>
 	</table>

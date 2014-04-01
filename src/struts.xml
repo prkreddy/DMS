@@ -83,7 +83,21 @@
 
 		</action>
 
+		<action name="searchAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result type="tiles">searchPortal</result>
+			<result name="login">signin.jsp</result>
 
+
+		</action>
+
+		<action name="manageDocsAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result type="tiles">manageDocuments</result>
+			<result name="login">signin.jsp</result>
+
+
+		</action>
 
 		<action name="documentUploadAction" class="com.iiitb.action.DocumentUploadAction">
 			<interceptor-ref name="secureAccess"></interceptor-ref>

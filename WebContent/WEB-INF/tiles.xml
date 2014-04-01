@@ -9,6 +9,12 @@
 		<put-attribute name="banner" value="/layout/banner.jsp" />
 		<put-attribute name="search" value="/layout/search.jsp" />
 		<put-attribute name="documentsLink" value="/layout/documentsLinkPurple.jsp" />
+		<put-attribute name="ManageDocuments" value="/layout/manageDocs.jsp" />
+		<put-attribute name="body" value="" />
+	</definition>
+
+
+	<definition name="baseLayoutWithBody" template="/layout/baseLayoutWithBody.jsp">
 		<put-attribute name="body" value="" />
 	</definition>
 
@@ -17,18 +23,30 @@
 		<put-attribute name="body" value="/documents.jsp" />
 	</definition>
 
-	<definition name="documentUploadPortal" extends="baseLayout">
-		<put-attribute name="documentsLink" value="/layout/documentsLinkWhite.jsp" />
+	<definition name="documentUploadPortal" extends="baseLayoutWithBody">
+		<put-attribute name="documentsLink" value="/layout/documentsLinkPurple.jsp" />
 		<put-attribute name="body" value="/documentUploadPortal.jsp" />
+
 	</definition>
-	
-	<definition name="documentSelectForEditPortal" extends="baseLayout">
-		<put-attribute name="documentsLink" value="/layout/documentsLinkWhite.jsp" />
+
+	<definition name="documentSelectForEditPortal" extends="baseLayoutWithBody">
 		<put-attribute name="body" value="/documentSelectForEditPortal.jsp" />
+
 	</definition>
-	
+
 	<definition name="documentEditPortal" extends="baseLayout">
-		<put-attribute name="documentsLink" value="/layout/documentsLinkWhite.jsp" />
+		<put-attribute name="ManageDocuments" value="/layout/manageDocsWhite.jsp" />
 		<put-attribute name="body" value="/documentEditPortal.jsp" />
+
+	</definition>
+
+	<definition name="searchPortal" extends="baseLayout">
+		<put-attribute name="search" value="/layout/searchLinkWhite.jsp" />
+		<put-attribute name="body" value="/searchdoc.jsp" />
+	</definition>
+
+	<definition name="manageDocuments" extends="baseLayout">
+		<put-attribute name="body" value="/manageDocuments.jsp" />
+		<put-attribute name="ManageDocuments" value="/layout/manageDocsWhite.jsp" />
 	</definition>
 </tiles-definitions>

@@ -9,17 +9,6 @@
 </head>
 
 <body style="background-color: #f6f4ff; font-family: cursive;">
-	<tiles:insertAttribute name="banner" />
-
-	<table width="100%" height="50px" style="background-color: #afafff;">
-		<tr>
-			<td align="center"><tiles:insertAttribute name="documentsLink" /></td>
-			<td align="center"><tiles:insertAttribute name="ManageDocuments" /></td>
-			<td align="center"><tiles:insertAttribute name="search" /></td>
-		</tr>
-	</table>
-	<br />
-
 	<div>
 		<tiles:insertAttribute name="body" />
 	</div>
