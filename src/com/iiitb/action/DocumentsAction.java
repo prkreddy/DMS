@@ -3,6 +3,8 @@ package com.iiitb.action;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,30 +30,62 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class DocumentsAction extends ActionSupport implements SessionAware, ServletRequestAware
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8071911410004544472L;
 	private Map<String, Object> session;
 	private User user;
+
+	private String orderby;
+
+	public String getOrderby()
+	{
+		return orderby;
+	}
+
+	public void setOrderby(String orderby)
+	{
+		this.orderby = orderby;
+	}
+
 	private List<DocFragmentDisplayDetails> docFragmentDisplayDetailsList;
 
-	// if called, just create a docFragment for testing purpose
-	// will be deleted
-	/*
-	void a(DocFragmentDao dao)
+	private Comparator<DocFragmentDisplayDetails> compareByModifiedDate = new Comparator<DocFragmentDisplayDetails>()
 	{
-		try
+
+		@Override
+		public int compare(DocFragmentDisplayDetails o1, DocFragmentDisplayDetails o2)
 		{
-			DocFragmentInfo di = new DocFragmentInfo("doc1", "desc1", DocumentType.Type1, FileFormat.PDF, true, true);
-			di.getAccessors().put(this.getUser().getUsername(), Access.ra_);
-			DocFragmentVersionInfo vi = new DocFragmentVersionInfo("1.0", this.getUser(), Action.Creation,
-					"I created doc1.");
-			DocFragment df = new DocFragment("/home/dj/f1.txt", di, vi);
-			df.getInfo().getAllVersions().put(df.getVersionInfo().getVersion(), df);
-			dao.storeDocFragment(df, new File("/home/dj/f1.txt"));
+
+			return o2.getDateModified().compareTo(o1.getDateModified());
 		}
-		catch (Exception e)
+
+	};
+
+	private Comparator<DocFragmentDisplayDetails> compareByName = new Comparator<DocFragmentDisplayDetails>()
+	{
+
+		@Override
+		public int compare(DocFragmentDisplayDetails o1, DocFragmentDisplayDetails o2)
 		{
-			e.printStackTrace();
+
+			return o1.name.compareTo(o2.name);
 		}
-	}*/
+
+	};
+
+	private Comparator<DocFragmentDisplayDetails> compareByCreatedDate = new Comparator<DocFragmentDisplayDetails>()
+	{
+
+		@Override
+		public int compare(DocFragmentDisplayDetails o1, DocFragmentDisplayDetails o2)
+		{
+
+			return o2.dateCreated.compareTo(o1.dateCreated);
+		}
+
+	};
 
 	public String execute()
 	{
@@ -64,12 +98,12 @@ public class DocumentsAction extends ActionSupport implements SessionAware, Serv
 		String destpath = servletRequest.getSession().getServletContext().getRealPath("/");
 		for (DocFragment df : docFragmentDao.getStandaloneDocFragments(this.getUser().getUsername()))
 		{
-			if(df.getInfo().isStandAlone())
+			if (df.getInfo().isStandAlone())
 			{
 				DocFragmentDisplayDetails dfd = new DocFragmentDisplayDetails();
 				try
 				{
-					if(df.getBlob()!=null && destpath!=null && !destpath.trim().equals(""))
+					if (df.getBlob() != null && destpath != null && !destpath.trim().equals(""))
 					{
 						df.getBlob().writeTo(new File(destpath, df.getBlob().getFileName()));
 						dfd.pathName = destpath + df.getBlob().getFileName();
@@ -77,9 +111,9 @@ public class DocumentsAction extends ActionSupport implements SessionAware, Serv
 				}
 				catch (Exception e)
 				{
-					//e.printStackTrace();
+					// e.printStackTrace();
 				}
-				
+
 				dfd.docId = df.getDocId();
 				dfd.name = df.getInfo().getName();
 				dfd.version = df.getVersionInfo().getVersion();
@@ -95,6 +129,22 @@ public class DocumentsAction extends ActionSupport implements SessionAware, Serv
 			}
 		}
 
+		if (orderby == null)
+		{
+			Collections.sort(this.docFragmentDisplayDetailsList, compareByModifiedDate);
+		}
+		else if ("Name".equalsIgnoreCase(orderby))
+		{
+			Collections.sort(this.docFragmentDisplayDetailsList, compareByName);
+		}
+		else if ("Date Created".equalsIgnoreCase(orderby))
+		{
+			Collections.sort(this.docFragmentDisplayDetailsList, compareByCreatedDate);
+		}
+		else if ("Date Modified".equalsIgnoreCase(orderby))
+		{
+			Collections.sort(this.docFragmentDisplayDetailsList, compareByModifiedDate);
+		}
 		ConnectionPool.freeConnection(db);
 		return SUCCESS;
 	}

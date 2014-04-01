@@ -9,19 +9,19 @@
 </head>
 <body>
 	<br />
-	<!-- 	<a href="documentCreateAction">Create new document</a> |
-	<a href="documentSelectForEditAction">Edit existing document</a> -->
+
 	<br />
 	<br />
-	<table border="1" align="center">
+	<table border="1" align="center" cellpadding="10">
 		<thead>
 			<tr>
+				<td><b>S.No</b></td>
 				<td><b>View</b></td>
-				<td><b>Name</b></td>
+				<td><b id="order">Name</b></td>
 				<td><b>Version</b></td>
 				<td><b>Access</b></td>
-				<td><b>Date Created</b></td>
-				<td><b>Date Modified</b></td>
+				<td><b id="order">Date Created</b></td>
+				<td><b id="order">Date Modified</b></td>
 				<td><b>Actor</b></td>
 				<!-- <td><b>Size</b></td> -->
 			</tr>
@@ -30,8 +30,9 @@
 			var="docFragmentDisplayDetails" status="stat">
 			<tr>
 
+				<td><s:property value="#stat.index" /></td>
 				<td><button id='<s:property value="docId" />'
-						value='<s:property value="name" />'>view</button>
+						value='<s:property value="name" />'>preview</button>
 				<td><s:property value="name" /></td>
 
 				<td><s:property value="version" /></td>
@@ -48,17 +49,14 @@
 	<script src="js/jquery-1.10.2.js"></script>
 
 	<script>
-		//When DOM loaded we attach click event to button
 		$(document).ready(
 				function() {
 
-					//after button is clicked we download the data
 					$("button").click(
 							function() {
 
 								var docId = $(this).attr('id');
 
-								//start ajax request
 								$.post(
 										"fileDownloadAction?documentId="
 												+ docId, function(data) {
@@ -66,6 +64,16 @@
 
 										});
 							});
+
+					$("#order").click(
+							function() {
+
+								var value = $(this).text();
+
+								$.load("documentsAction?orderby=" + value);
+
+							});
+
 				});
 	</script>
 

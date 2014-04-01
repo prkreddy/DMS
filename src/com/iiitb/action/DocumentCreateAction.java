@@ -19,40 +19,44 @@ public class DocumentCreateAction extends ActionSupport implements SessionAware
 	private User user;
 	private Map<String, Object> session;
 	private List<String> docFrags;
-	
+
 	public String execute()
 	{
-		this.setUser((User)session.get(DMSConstants.USER_LOGGED_IN));
-		if(this.getUser()==null)
+		this.setUser((User) session.get(DMSConstants.USER_LOGGED_IN));
+		if (this.getUser() == null)
 			return LOGIN;
-		
-		ObjectContainer db=ConnectionPool.getConnection();
-		DocFragmentDao dao=new DocFragmentDao(db);
-		this.docFrags=new ArrayList<String>();
-		for(DocFragment d:dao.getReusableDocFragments(this.getUser().getUsername()))
+
+		ObjectContainer db = ConnectionPool.getConnection();
+		DocFragmentDao dao = new DocFragmentDao(db);
+		this.docFrags = new ArrayList<String>();
+		for (DocFragment d : dao.getReusableDocFragments(this.getUser().getUsername()))
 			this.docFrags.add(d.getDocId());
 		ConnectionPool.freeConnection(db);
 		return SUCCESS;
 	}
-	
+
 	public void setSession(Map<String, Object> arg0)
 	{
-		this.session=arg0;
+		this.session = arg0;
 	}
 
-	public User getUser() {
+	public User getUser()
+	{
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(User user)
+	{
 		this.user = user;
 	}
 
-	public List<String> getDocFrags() {
+	public List<String> getDocFrags()
+	{
 		return docFrags;
 	}
 
-	public void setDocFrags(List<String> docFrags) {
+	public void setDocFrags(List<String> docFrags)
+	{
 		this.docFrags = docFrags;
 	}
 }
