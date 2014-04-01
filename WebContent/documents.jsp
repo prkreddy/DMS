@@ -9,9 +9,10 @@
 </head>
 <body>
 	<br />
-
-	<br />
-	<br />
+	<div align="center">
+		<p>#descending Order of ModifiedDate</p>
+	</div>
+	
 	<table border="1" align="center" cellpadding="10">
 		<thead>
 			<tr>
@@ -65,14 +66,13 @@
 										});
 							});
 
-					$("#order").click(
-							function() {
+					$("#order").click(function() {
 
-								var value = $(this).text();
+						var value = $(this).text();
 
-								$.load("documentsAction?orderby=" + value);
+						$.load("documentsAction?orderby=" + value);
 
-							});
+					});
 
 				});
 	</script>
