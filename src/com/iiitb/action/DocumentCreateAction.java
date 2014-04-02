@@ -29,7 +29,7 @@ public class DocumentCreateAction extends ActionSupport implements SessionAware
 		ObjectContainer db = ConnectionPool.getConnection();
 		DocFragmentDao dao = new DocFragmentDao(db);
 		this.docFrags = new ArrayList<String>();
-		for (DocFragment d : dao.getReusableDocFragments(this.getUser().getUsername()))
+		for (DocFragment d : dao.getReusableDocFragments(this.getUser().getUsername(),null))
 			this.docFrags.add(d.getDocId());
 		ConnectionPool.freeConnection(db);
 		return SUCCESS;

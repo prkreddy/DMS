@@ -2,6 +2,7 @@ package com.iiitb.dao;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -108,6 +109,22 @@ class Predicate5 extends Predicate<DocFragmentInfo>
 	}
 }
 
+class Predicate6 extends Predicate<DocFragmentInfo>
+{
+	String username;
+
+	Predicate6(String username)
+	{
+		this.username = username;
+	}
+
+	public boolean match(DocFragmentInfo arg0)
+	{
+		return (arg0.getAccessors().get(username) != null && arg0.isReusable());
+	}
+}
+
+
 class DocumentNameAndVersionPredicate extends Predicate<DocFragment>
 {
 	String documentName;
@@ -180,17 +197,49 @@ public class DocFragmentDao
 		List<DocFragmentInfo> l = db.query(p);
 		return l;
 	}
-
-	public List<DocFragment> getReusableDocFragments(String username)
+	
+	public List<DocFragmentInfo> getReusableDocFragmentInfos(String username)
 	{
-		Predicate2 p = new Predicate2(username);
+		Predicate6 p = new Predicate6(username);
+		List<DocFragmentInfo> l = db.query(p);
+		return l;
+	}
+	
+	public boolean isCircularRefFree(DocFragment testDf, DocFragment srcDf)
+	{
+		if(testDf.getInfo().getName().equals(srcDf.getInfo().getName()))
+			return false;
+		if(testDf.getFragsBeforeNativeContent()!=null
+				&& testDf.getFragsBeforeNativeContent().size()>0)
+			for(DocFragment df:testDf.getFragsBeforeNativeContent())
+				if(!isCircularRefFree(df, srcDf))
+					return false;
+		return true;
+	}
+	
+	public List<DocFragment> getReusableDocFragments(String username, String documentName)
+	{
+		/*Predicate2 p = new Predicate2(username);
 		List<DocFragment> l = db.query(p);
 
 		HashMap<String, DocFragment> frags = new HashMap<String, DocFragment>();
 		for (DocFragment df : l)
 			frags.put(df.getDocId(), df);
 
-		return l;
+		return l;*/
+		DocFragment srcDf=null;
+		if(documentName!=null) //edit case
+			srcDf=getLatestDocFragmentVersion(username, documentName);
+		List<DocFragment> dfl=new ArrayList<DocFragment>();
+		for(DocFragmentInfo dfi:getReusableDocFragmentInfos(username))
+		{
+			DocFragment d=getLatestDocFragmentVersion(username, dfi.getName());
+			if(srcDf!=null && d!=null && isCircularRefFree(d, srcDf))
+				dfl.add(d); //edit case
+			else if(srcDf==null)
+				dfl.add(d); //create case
+		}
+		return dfl;
 	}
 
 	public List<DocFragment> getStandaloneDocFragments(String username)

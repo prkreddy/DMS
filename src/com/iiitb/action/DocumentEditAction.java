@@ -53,7 +53,7 @@ public class DocumentEditAction extends ActionSupport implements SessionAware
 		}
 		
 		this.docFrags1=new ArrayList<String>();
-		for(DocFragment d:dao.getReusableDocFragments(this.getUser().getUsername()))
+		for(DocFragment d:dao.getReusableDocFragments(this.getUser().getUsername(),documentName))
 		{
 			if(this.docFragsBeforeNativeContent.indexOf(d.getDocId())==-1
 					&& this.docFragsAfterNativeContent.indexOf(d.getDocId())==-1)
@@ -61,7 +61,7 @@ public class DocumentEditAction extends ActionSupport implements SessionAware
 		}
 		
 		this.docFrags2=new ArrayList<String>();
-		for(DocFragment d:dao.getReusableDocFragments(this.getUser().getUsername()))
+		for(DocFragment d:dao.getReusableDocFragments(this.getUser().getUsername(),documentName))
 		{
 			if(this.docFragsBeforeNativeContent.indexOf(d.getDocId())==-1
 					&& this.docFragsAfterNativeContent.indexOf(d.getDocId())==-1)
