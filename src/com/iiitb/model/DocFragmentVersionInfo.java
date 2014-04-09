@@ -13,7 +13,6 @@ public class DocFragmentVersionInfo
 	private Date timeStamp;
 	private Action action;
 	private String comments;
-	private List<String> keywords;
 	
 	public DocFragmentVersionInfo(String version, User actor, Action action, String comments)
 	{
@@ -22,7 +21,6 @@ public class DocFragmentVersionInfo
 		this.setTimeStamp(new Date());
 		this.setAction(action);
 		this.setComments(comments);
-		this.keywords=new ArrayList<String>();
 	}
 	
 	//getters & setters
@@ -55,11 +53,5 @@ public class DocFragmentVersionInfo
 	}
 	public void setComments(String comments) {
 		this.comments = comments;
-	}
-	public List<String> getKeywords() {
-		return keywords;
-	}
-	public void setKeywords(List<String> keywords) {
-		this.keywords = keywords;
 	}
 }

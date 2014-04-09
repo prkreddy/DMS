@@ -6,6 +6,30 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Success</title>
+<script type="text/javascript">
+	function applyFilter()
+	{
+		var req=new XMLHttpRequest();
+		var t=document.getElementById('kws');
+		
+		req.onreadystatechange=
+			function()
+			{
+				if(req.readyState==4 && req.status==200)
+				{
+					var s=req.responseText;
+					document.getElementById('fragList1').innerHTML=s;
+				}
+			};
+		req.open("POST", "filterAction?keywords=,"+t.value, true);
+		req.send();
+	}
+	function checkEnter(event)
+	{
+		if(event.keyCode==13)
+			applyFilter();
+	}
+</script>
 </head>
 <body>
 
@@ -16,6 +40,8 @@
 		<s:label value="1.0" label="Version"></s:label>
 		<s:textarea key="description" name="description"
 			label="Document description" cols="69" />
+		<s:textfield key="keywords" name="keywords" id="keywords" size="70%"
+			label="Keywords" />
 		<s:label label="This document is*"></s:label>
 		<s:checkbox id="isStandAlone" name="isStandAlone" label="standalone"
 			value="1" onchange="validateFlags1()"></s:checkbox>
@@ -32,7 +58,15 @@
 					<td colspan="3"><s:file id="nativeContentFile"
 							name="uploadFile" size="40" theme="simple" /></td>
 				</tr>
-
+				<tr>
+					<td>
+						<div id='fltr' align="right">
+							Keywords: <input type='text' onkeypress="checkEnter(event)" id='kws' autocomplete='off' title="Enter comma separated keywords" /><br />
+							<input type="button" value="Apply Filter" onclick='applyFilter()' />
+							<input type="button" value="Reset Filter" onclick="document.getElementById('kws').value=''; applyFilter();" />
+						</div>
+					</td>
+				</tr>
 				<tr>
 					<td rowspan="4">
 						<div style="float: left;">
@@ -44,7 +78,8 @@
 							<s:submit id='b1' value='>'
 								onclick='moveSelectedOptions1(); return false;' theme="simple" />
 
-						</div></td>
+						</div>
+					</td>
 					<td rowspan="4">
 						<div>
 							<s:select list="{}" name="fragsBeforeNativeContent" cssStyle="width:300px;height:300px"
@@ -85,6 +120,10 @@
 		var fragList1 = document.getElementById('fragList1');
 		var fragList1p = fragList1.parentNode;
 		fragList1p.removeChild(fragList1);
+		
+		var fltr = document.getElementById('fltr');
+		var fltrp = fltr.parentNode;
+		fltrp.removeChild(fltr);
 
 		var b1 = document.getElementById('b1');
 		var b1p = b1.parentNode;
@@ -120,6 +159,7 @@
 			if (document.getElementsByName("dtype")[0].checked) {
 				ncfp.appendChild(ncf);
 				fragList1p.removeChild(fragList1);
+				fltrp.removeChild(fltr);
 				b1p.removeChild(b1);
 				b2p.removeChild(b2);
 				b3p.removeChild(b3);
@@ -129,6 +169,7 @@
 				dnp.removeChild(dn);
 			} else {
 				fragList1p.appendChild(fragList1);
+				fltrp.appendChild(fltr);
 				b1p.appendChild(b1);
 				b2p.appendChild(b2);
 				b3p.appendChild(b3);

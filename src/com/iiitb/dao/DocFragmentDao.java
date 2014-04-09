@@ -124,6 +124,30 @@ class Predicate6 extends Predicate<DocFragmentInfo>
 	}
 }
 
+class Predicate7 extends Predicate<DocFragment>
+{
+	String username;
+	String[] keywordArray;
+
+	Predicate7(String username, String[] keywordArray)
+	{
+		this.username = username;
+		this.keywordArray=keywordArray;
+	}
+
+	public boolean match(DocFragment arg0)
+	{
+		if(!arg0.getInfo().isReusable())
+			return false;
+		
+		for(String kw:arg0.getInfo().getKeywords())
+			for(String kw1:keywordArray)
+				if(kw.trim().equals(kw1.trim()))
+					return true;
+		return false;
+	}
+}
+
 
 class DocumentNameAndVersionPredicate extends Predicate<DocFragment>
 {
@@ -172,7 +196,17 @@ public class DocFragmentDao
 		List<DocFragment> l = db.query(p);
 		return l;
 	}
-
+	
+	public List<DocFragment> getDocFragmentsBasedOnKeywords(String username, String[] keywordArray, String documentName)
+	{
+		if(keywordArray.length==0)
+			return getReusableDocFragments(username, documentName);
+		
+		Predicate7 p = new Predicate7(username, keywordArray);
+		List<DocFragment> l = db.query(p);
+		return l;
+	}
+	
 	public List<DocFragment> getDocFragmentsForEdit(String username, String docId)
 	{
 		PredicateEdit p = new PredicateEdit(username, docId);

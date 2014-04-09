@@ -6,6 +6,33 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Success</title>
+<script type="text/javascript">
+	function applyFilter()
+	{
+		var req=new XMLHttpRequest();
+		var t=document.getElementById('kws');
+		var fragsBeforeNativeContent=document.getElementById('fragsBeforeNativeContent');
+		var dname=document.getElementById('documentName').value;
+		req.onreadystatechange=
+			function()
+			{
+				if(req.readyState==4 && req.status==200)
+				{
+					var s=req.responseText;
+					for(var i=0; i<fragsBeforeNativeContent.options.length; i++)
+						s=s.replace("<option>"+fragsBeforeNativeContent.options[i].value+"</option>","");
+					document.getElementById('fragList1').innerHTML=s;
+				}
+			};
+		req.open("POST", "filterAction?documentName="+dname+"&keywords=,"+t.value, true);
+		req.send();
+	}
+	function checkEnter(event)
+	{
+		if(event.keyCode==13)
+			applyFilter();
+	}
+</script>
 </head>
 <body>
 
@@ -25,6 +52,17 @@
 				<td colspan="3"><s:file id="nativeContentFile"
 						name="uploadFile" size="40" theme="simple" /></td>
 			</tr>
+			
+			<tr>
+				<td>
+					<div id='fltr' align="right">
+						Keywords: <input type='text' onkeypress="checkEnter(event)" id='kws' autocomplete='off' title="Enter comma separated keywords" /><br />
+						<input type="button" value="Apply Filter" onclick='applyFilter()' />
+						<input type="button" value="Reset Filter" onclick="document.getElementById('kws').value=''; applyFilter();" />
+					</div>
+				</td>
+			</tr>
+			
 			<tr>
 				<td rowspan="4"><div style="float: left;">
 						<s:select name="fragList1" cssStyle="width:300px;height:300px;" id="fragList1" list="docFrags1"
@@ -77,6 +115,8 @@
 		var ncfp = ncf.parentNode;
 		var fragList1 = document.getElementById('fragList1');
 		var fragList1p = fragList1.parentNode;
+		var fltr = document.getElementById('fltr');
+		var fltrp = fltr.parentNode;
 		var b1 = document.getElementById('b1');
 		var b1p = b1.parentNode;
 		var b2 = document.getElementById('b2');
@@ -96,6 +136,7 @@
 			ncfp.removeChild(ncf);
 		} else {
 			fragList1p.removeChild(fragList1);
+			fltrp.removeChild(fltr);
 			b1p.removeChild(b1);
 			b2p.removeChild(b2);
 			b3p.removeChild(b3);
@@ -108,6 +149,7 @@
 			if (document.getElementsByName("dtype")[0].checked) {
 				ncfp.appendChild(ncf);
 				fragList1p.removeChild(fragList1);
+				fltrp.removeChild(fltr);
 				b1p.removeChild(b1);
 				b2p.removeChild(b2);
 				b3p.removeChild(b3);
@@ -117,6 +159,7 @@
 				dnp.removeChild(dn);
 			} else {
 				fragList1p.appendChild(fragList1);
+				fltrp.appendChild(fltr);
 				b1p.appendChild(b1);
 				b2p.appendChild(b2);
 				b3p.appendChild(b3);

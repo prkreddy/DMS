@@ -30,6 +30,8 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class DocumentUploadAction extends ActionSupport implements SessionAware, ServletRequestAware
 {
+	private String keywords;
+	
 	private HttpServletRequest servletRequest;
 
 	private static final long serialVersionUID = 1L;
@@ -226,6 +228,8 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 		}
 
 		df.getInfo().getAllVersions().put(df.getVersionInfo().getVersion(), df);
+		for(String kw:keywords.split("[,]"))
+			df.getInfo().getKeywords().add(kw.trim());
 		// container.store(df.getInfo().getAllVersions());
 
 		File destFile = null;
@@ -365,6 +369,14 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 	public void setVersion(String version)
 	{
 		this.version = version;
+	}
+
+	public String getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
 	}
 
 }

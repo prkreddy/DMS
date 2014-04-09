@@ -1,7 +1,9 @@
 package com.iiitb.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DocFragmentInfo
@@ -20,6 +22,7 @@ public class DocFragmentInfo
 	private Map<String, Access> accessors;
 	private Map<Date, LifecycleStage> lifecycleStages;
 	private Map<String, DocFragment> allVersions;
+	private List<String> keywords;
 	
 	public DocFragmentInfo(String name, String description, DocumentType documentType, FileFormat fileFormat,
 			boolean isStandAlone, boolean isReusable) throws Exception
@@ -32,6 +35,7 @@ public class DocFragmentInfo
 		this.setAccessors(new HashMap<String, DocFragmentInfo.Access>());
 		this.setLifecycleStages(new HashMap<Date, DocFragmentInfo.LifecycleStage>());
 		this.setAllVersions(new HashMap<String, DocFragment>());
+		this.setKeywords(new ArrayList<String>());
 	}
 	
 	//getters & setters
@@ -88,5 +92,13 @@ public class DocFragmentInfo
 	}
 	public void setAllVersions(Map<String, DocFragment> allVersions) {
 		this.allVersions = allVersions;
+	}
+
+	public List<String> getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(List<String> keywords) {
+		this.keywords = keywords;
 	}
 }
