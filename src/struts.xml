@@ -154,14 +154,15 @@
 		</action>
 
 
-		<action name="docTypeGetWorkFlows" class="com.iiitb.action.DocTypeGetWorkFlowAction">
+		<action name="docTypeGetWorkFlows" class="com.iiitb.action.ManageDocTypeAction"
+			method="getWorkFlows">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result name="success" type="redirect">documentsAction</result>
 			<result name="login">signin.jsp</result>
 		</action>
 
 
-		<action name="docTypeCreateAction" class="com.iiitb.action.DocTypeGetWorkFlowAction"
+		<action name="docTypeCreateAction" class="com.iiitb.action.ManageDocTypeAction"
 			method="createDocType">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result name="success" type="tiles">createDocType</result>
@@ -169,15 +170,15 @@
 		</action>
 
 
-		<action name="docTypeEditAction" class="com.iiitb.action.DocTypeGetWorkFlowAction"
+		<action name="docTypeEditAction" class="com.iiitb.action.ManageDocTypeAction"
 			method="editDocType">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
-				<result name="success" type="tiles">editDocType</result>
+			<result name="success" type="tiles">editDocType</result>
 			<result name="login">signin.jsp</result>
 		</action>
 
 
-		<action name="managedocTypesAction" class="com.iiitb.action.DocTypeGetWorkFlowAction"
+		<action name="managedocTypesAction" class="com.iiitb.action.ManageDocTypeAction"
 			method="manageDoctypes">
 			<result name="success" type="tiles">manageDocType</result>
 			<result name="input">signup.jsp</result>
