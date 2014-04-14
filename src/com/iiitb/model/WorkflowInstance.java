@@ -12,4 +12,12 @@ public class WorkflowInstance
 	public void setWorkflow(Workflow workflow) {
 		this.workflow = workflow;
 	}
+
+	public String getCurrentActivityName() {
+		return currentActivityName;
+	}
+
+	public void setCurrentActivityName(String currentActivityName) {
+		this.currentActivityName = currentActivityName;
+	}
 }

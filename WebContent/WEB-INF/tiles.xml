@@ -7,9 +7,13 @@
 	<definition name="baseLayout" template="/layout/baseLayout.jsp">
 		<put-attribute name="title" value="Document Management System" />
 		<put-attribute name="banner" value="/layout/banner.jsp" />
-		<put-attribute name="search" value="/layout/search.jsp" />
+		<put-attribute name="profileLink" value="/layout/profileLinkPurple.jsp" />
+		<put-attribute name="manageGroupsLink" value="/layout/manageGroupsLinkPurple.jsp" />
+		<put-attribute name="manageRolesLink" value="/layout/manageRolesLinkPurple.jsp" />
 		<put-attribute name="documentsLink" value="/layout/documentsLinkPurple.jsp" />
 		<put-attribute name="ManageDocuments" value="/layout/manageDocs.jsp" />
+		<put-attribute name="manageDocumentTypesLink" value="/layout/manageDocumentTypesLinkPurple.jsp" />
+		<put-attribute name="manageWorkflowsLink" value="/layout/manageWorkflowsLinkPurple.jsp" />
 		<put-attribute name="body" value="" />
 	</definition>
 

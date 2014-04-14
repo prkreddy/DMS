@@ -13,9 +13,13 @@
 
 	<table width="100%" height="50px" style="background-color: #afafff;">
 		<tr>
+			<td align="center"><tiles:insertAttribute name="profileLink" /></td>
+			<td align="center"><tiles:insertAttribute name="manageGroupsLink" /></td>
+			<td align="center"><tiles:insertAttribute name="manageRolesLink" /></td>
 			<td align="center"><tiles:insertAttribute name="documentsLink" /></td>
 			<td align="center"><tiles:insertAttribute name="ManageDocuments" /></td>
-			<td align="center"><tiles:insertAttribute name="search" /></td>
+			<td align="center"><tiles:insertAttribute name="manageDocumentTypesLink" /></td>
+			<td align="center"><tiles:insertAttribute name="manageWorkflowsLink" /></td>
 		</tr>
 	</table>
 	<br />
