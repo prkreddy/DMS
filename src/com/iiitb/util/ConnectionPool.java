@@ -15,6 +15,8 @@ import com.db4o.internal.BlobImpl;
 import com.db4o.types.Blob;
 import com.iiitb.model.DocFragment;
 import com.iiitb.model.DocFragmentInfo;
+import com.iiitb.model.UserGroup;
+import com.iiitb.model.UserRole;
 import com.iiitb.model.DocFragmentInfo.Access;
 import com.iiitb.model.DocumentType;
 import com.iiitb.model.DocFragmentInfo.FileFormat;
@@ -43,6 +45,8 @@ public class ConnectionPool
 		config.common().objectClass(FileFormat.class).cascadeOnActivate(true);
 		config.common().objectClass(Action.class).cascadeOnActivate(true);
 		config.common().objectClass(File.class).cascadeOnActivate(true);
+		config.common().objectClass(UserRole.class).cascadeOnActivate(true);
+		config.common().objectClass(UserGroup.class).cascadeOnActivate(true);
 		
 		config.common().objectClass(User.class).cascadeOnUpdate(true);
 		config.common().objectClass(DocFragment.class).cascadeOnUpdate(true);
@@ -60,6 +64,8 @@ public class ConnectionPool
 		config.common().objectClass(FileFormat.class).cascadeOnUpdate(true);
 		config.common().objectClass(Action.class).cascadeOnUpdate(true);
 		config.common().objectClass(File.class).cascadeOnUpdate(true);
+		config.common().objectClass(UserRole.class).cascadeOnUpdate(true);
+		config.common().objectClass(UserGroup.class).cascadeOnUpdate(true);
 		try
 		{
 			Db4o.configure().setBlobPath(DMSConstants.db4oPath + "blobs");
