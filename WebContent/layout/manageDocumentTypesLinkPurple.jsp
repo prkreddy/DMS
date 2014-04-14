@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a style="color: #412066;" href="documentsAction"><b>Manage Document Types</b></a>
+	<a style="color: #412066;" href="managedocTypesAction"><b>Manage Document Types</b></a>
 </body>
 </html>
