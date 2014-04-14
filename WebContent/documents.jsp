@@ -61,7 +61,7 @@
 								$.post(
 										"fileDownloadAction?documentId="
 												+ docId, function(data) {
-											window.open('finalNew.pdf');
+											window.open('finalNew.pdf','_blank');
 
 										});
 							});

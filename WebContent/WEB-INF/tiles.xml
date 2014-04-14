@@ -30,12 +30,10 @@
 	<definition name="documentUploadPortal" extends="baseLayoutWithBody">
 		<put-attribute name="documentsLink" value="/layout/documentsLinkPurple.jsp" />
 		<put-attribute name="body" value="/documentUploadPortal.jsp" />
-
 	</definition>
 
 	<definition name="documentSelectForEditPortal" extends="baseLayoutWithBody">
 		<put-attribute name="body" value="/documentSelectForEditPortal.jsp" />
-
 	</definition>
 
 	<definition name="documentEditPortal" extends="baseLayout">
@@ -58,5 +56,18 @@
 		<put-attribute name="manageWorkflowsLink" value="/layout/manageWorkflowsLinkWhite.jsp" />
 	</definition>
 	
+	
+	<definition name="manageDocType" extends="baseLayout">
+		<put-attribute name="body" value="/manageDocTypes.jsp" />
+		<put-attribute name="manageDocumentTypesLink" value="/layout/manageDocumentTypesLinkWhite.jsp" />
+	</definition>
+	
+	<definition name="createDocType" extends="baseLayoutWithBody">
+		<put-attribute name="body" value="/doctypes/createDocType.jsp" />
+	</definition>
+	
+	<definition name="editDocType" extends="baseLayoutWithBody">
+		<put-attribute name="body" value="/doctypes/editDocType.jsp" />
+	</definition>
 	
 </tiles-definitions>
