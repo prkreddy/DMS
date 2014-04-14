@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a style="color:#ffffff;" href="documentsAction"><b>Manage Workflows</b></a>
+	<a style="color:#ffffff;" href="manageWorkflowsAction"><b>Manage Workflows</b></a>
 </body>
 </html>

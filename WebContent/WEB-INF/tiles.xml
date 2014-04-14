@@ -41,7 +41,6 @@
 	<definition name="documentEditPortal" extends="baseLayout">
 		<put-attribute name="ManageDocuments" value="/layout/manageDocsWhite.jsp" />
 		<put-attribute name="body" value="/documentEditPortal.jsp" />
-
 	</definition>
 
 	<definition name="searchPortal" extends="baseLayout">
@@ -53,4 +52,11 @@
 		<put-attribute name="body" value="/manageDocuments.jsp" />
 		<put-attribute name="ManageDocuments" value="/layout/manageDocsWhite.jsp" />
 	</definition>
+	
+	<definition name="manageWorkflows" extends="baseLayout">
+		<put-attribute name="body" value="/manageWorkflows.jsp" />
+		<put-attribute name="manageWorkflowsLink" value="/layout/manageWorkflowsLinkWhite.jsp" />
+	</definition>
+	
+	
 </tiles-definitions>
