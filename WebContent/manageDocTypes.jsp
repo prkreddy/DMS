@@ -19,7 +19,7 @@
 
 
 
-	<s:url var="remoteurl1" action="docTypeCreateAction" />
+	<s:url var="remoteurl1" action="docTypeGetWorkFlows" />
 	<s:url var="remoteurl2" action="docTypeEditAction" />
 
 	<sj:tabbedpanel id="remotetabs" selectedTab="2" show="true"

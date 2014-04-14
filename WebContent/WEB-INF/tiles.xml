@@ -12,8 +12,10 @@
 		<put-attribute name="manageRolesLink" value="/layout/manageRolesLinkPurple.jsp" />
 		<put-attribute name="documentsLink" value="/layout/documentsLinkPurple.jsp" />
 		<put-attribute name="ManageDocuments" value="/layout/manageDocs.jsp" />
-		<put-attribute name="manageDocumentTypesLink" value="/layout/manageDocumentTypesLinkPurple.jsp" />
-		<put-attribute name="manageWorkflowsLink" value="/layout/manageWorkflowsLinkPurple.jsp" />
+		<put-attribute name="manageDocumentTypesLink"
+			value="/layout/manageDocumentTypesLinkPurple.jsp" />
+		<put-attribute name="manageWorkflowsLink"
+			value="/layout/manageWorkflowsLinkPurple.jsp" />
 		<put-attribute name="body" value="" />
 	</definition>
 
@@ -50,24 +52,34 @@
 		<put-attribute name="body" value="/manageDocuments.jsp" />
 		<put-attribute name="ManageDocuments" value="/layout/manageDocsWhite.jsp" />
 	</definition>
-	
+
 	<definition name="manageWorkflows" extends="baseLayout">
 		<put-attribute name="body" value="/manageWorkflows.jsp" />
-		<put-attribute name="manageWorkflowsLink" value="/layout/manageWorkflowsLinkWhite.jsp" />
+		<put-attribute name="manageWorkflowsLink"
+			value="/layout/manageWorkflowsLinkWhite.jsp" />
 	</definition>
-	
-	
+
+
 	<definition name="manageDocType" extends="baseLayout">
 		<put-attribute name="body" value="/manageDocTypes.jsp" />
-		<put-attribute name="manageDocumentTypesLink" value="/layout/manageDocumentTypesLinkWhite.jsp" />
+		<put-attribute name="manageDocumentTypesLink"
+			value="/layout/manageDocumentTypesLinkWhite.jsp" />
 	</definition>
-	
+
 	<definition name="createDocType" extends="baseLayoutWithBody">
 		<put-attribute name="body" value="/doctypes/createDocType.jsp" />
 	</definition>
-	
+
 	<definition name="editDocType" extends="baseLayoutWithBody">
 		<put-attribute name="body" value="/doctypes/editDocType.jsp" />
 	</definition>
-	
+
+
+	<definition name="createDocTypeSuccess" extends="baseLayout">
+		<put-attribute name="body" value="/doctypes/success.jsp" />
+		<put-attribute name="manageDocumentTypesLink"
+			value="/layout/manageDocumentTypesLinkWhite.jsp" />
+	</definition>
+
+
 </tiles-definitions>
