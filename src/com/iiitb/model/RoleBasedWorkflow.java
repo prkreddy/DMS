@@ -4,12 +4,19 @@ import java.util.Map;
 
 public class RoleBasedWorkflow extends Workflow
 {
-	Map<String, ThreeTuple> activitySequence; //activityName, <group, role, count>
-}
+	private Map<String, ThreeTuple> activitySequence; //activityName, <group, role, count>
 
-class ThreeTuple
-{
-	UserGroup group;
-	UserRole role;
-	int actorCount; //0 means all
+	public RoleBasedWorkflow(String name, Map<String, ThreeTuple> activitySequence)
+	{
+		super(name);
+		this.activitySequence=activitySequence;
+	}
+	
+	public Map<String, ThreeTuple> getActivitySequence() {
+		return activitySequence;
+	}
+
+	public void setActivitySequence(Map<String, ThreeTuple> activitySequence) {
+		this.activitySequence = activitySequence;
+	}
 }

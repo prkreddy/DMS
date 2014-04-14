@@ -2,6 +2,10 @@ package com.iiitb.model;
 
 import java.util.Date;
 
+import com.db4o.ObjectContainer;
+import com.iiitb.dao.DocFragmentDao;
+import com.iiitb.util.ConnectionPool;
+
 public class User
 {
 	private UserRole role;
@@ -84,7 +88,7 @@ public class User
 	}
 
 	public void setRole(UserRole role) {
-		this.role = role;
+		this.role=role;
 	}
 
 	public UserGroup getGroup() {
@@ -92,7 +96,7 @@ public class User
 	}
 
 	public void setGroup(UserGroup group) {
-		this.group = group;
+		this.group=group;
 	}
 
 }

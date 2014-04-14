@@ -51,6 +51,7 @@
 		<action name="workflowCreateAction" class="com.iiitb.action.WorkflowCreateAction">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result name="success">workflowCreatePortal.jsp</result>
+			<result name="success1" type="tiles">manageWorkflows</result>
 			<result name="input">signin.jsp</result>
 			<result name="login">signin.jsp</result>
 		</action>
