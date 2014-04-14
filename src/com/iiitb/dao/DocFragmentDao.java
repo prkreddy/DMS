@@ -13,6 +13,8 @@ import com.db4o.types.Blob;
 import com.iiitb.model.DocFragment;
 import com.iiitb.model.DocFragmentInfo;
 import com.iiitb.model.DocFragmentVersionInfo;
+import com.iiitb.model.UserGroup;
+import com.iiitb.model.UserRole;
 import com.iiitb.util.ConnectionPool;
 
 class Predicate1 extends Predicate<DocFragment>
@@ -124,6 +126,37 @@ class Predicate6 extends Predicate<DocFragmentInfo>
 	}
 }
 
+class Predicate100 extends Predicate<UserGroup>
+{
+	String groupName;
+
+	Predicate100(String groupName)
+	{
+		this.groupName = groupName;
+	}
+
+	public boolean match(UserGroup arg0)
+	{
+		return (arg0.getName().equals(groupName));
+	}
+}
+
+class Predicate101 extends Predicate<UserRole>
+{
+	String roleName;
+
+	Predicate101(String roleName)
+	{
+		this.roleName = roleName;
+	}
+
+	public boolean match(UserRole arg0)
+	{
+		return (arg0.getName().equals(roleName));
+	}
+}
+
+
 /*class Predicate7 extends Predicate<DocFragment>
 {
 	String username;
@@ -190,6 +223,26 @@ public class DocFragmentDao
 		this.db = db;
 	}
 
+	public UserGroup getUserGroupByGroupName(String groupName)
+	{
+		Predicate100 p = new Predicate100(groupName);
+		List<UserGroup> l = db.query(p);
+		if(l!=null)
+			return l.get(0);
+		else
+			return null;
+	}
+	
+	public UserRole getUserRoleByRoleName(String roleName)
+	{
+		Predicate101 p = new Predicate101(roleName);
+		List<UserRole> l = db.query(p);
+		if(l!=null)
+			return l.get(0);
+		else
+			return null;
+	}
+	
 	public List<DocFragment> getDocFragments(String username)
 	{
 		Predicate1 p = new Predicate1(username);

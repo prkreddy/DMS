@@ -170,12 +170,4 @@ public class UserDao
 		return null;
 	}
 	
-	
-	public List<User> getAllUsers()
-	{
-		List<User> result=null;
-		ObjectContainer container = Db4oEmbedded.openFile(DMSConstants.db4oPath + DMSConstants.db4oFileName);
-		result=container.queryByExample(User.class);
-		return result;
-	}
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Set;
 
 import com.db4o.Db4o;
@@ -36,6 +37,7 @@ public class ConnectionPool
 		config.common().objectClass(ArrayList.class).cascadeOnActivate(true);
 		config.common().objectClass(Set.class).cascadeOnActivate(true);
 		config.common().objectClass(HashMap.class).cascadeOnActivate(true);
+		config.common().objectClass(LinkedHashMap.class).cascadeOnActivate(true);
 		config.common().objectClass(Blob.class).cascadeOnActivate(true);
 		config.common().objectClass(BlobImpl.class).cascadeOnActivate(true);
 		config.common().objectClass(String.class).cascadeOnActivate(true);
@@ -55,6 +57,7 @@ public class ConnectionPool
 		config.common().objectClass(ArrayList.class).cascadeOnUpdate(true);
 		config.common().objectClass(Set.class).cascadeOnUpdate(true);
 		config.common().objectClass(HashMap.class).cascadeOnUpdate(true);
+		config.common().objectClass(LinkedHashMap.class).cascadeOnUpdate(true);
 		config.common().objectClass(Blob.class).cascadeOnUpdate(true);
 		config.common().objectClass(BlobImpl.class).cascadeOnUpdate(true);
 		config.common().objectClass(String.class).cascadeOnUpdate(true);

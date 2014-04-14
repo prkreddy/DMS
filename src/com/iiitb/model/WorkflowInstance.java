@@ -5,6 +5,12 @@ public class WorkflowInstance
 	private Workflow workflow;
 	private String currentActivityName;
 
+	public WorkflowInstance(Workflow wf, String can)
+	{
+		this.workflow=wf;
+		this.currentActivityName=can;
+	}
+	
 	public Workflow getWorkflow() {
 		return workflow;
 	}
