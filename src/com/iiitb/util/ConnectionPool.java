@@ -16,9 +16,8 @@ import com.db4o.types.Blob;
 import com.iiitb.model.DocFragment;
 import com.iiitb.model.DocFragmentInfo;
 import com.iiitb.model.DocFragmentInfo.Access;
-import com.iiitb.model.DocFragmentInfo.DocumentType;
+import com.iiitb.model.DocumentType;
 import com.iiitb.model.DocFragmentInfo.FileFormat;
-import com.iiitb.model.DocFragmentInfo.LifecycleStage;
 import com.iiitb.model.DocFragmentVersionInfo;
 import com.iiitb.model.DocFragmentVersionInfo.Action;
 import com.iiitb.model.User;
@@ -40,7 +39,6 @@ public class ConnectionPool
 		config.common().objectClass(String.class).cascadeOnActivate(true);
 		config.common().objectClass(Date.class).cascadeOnActivate(true);
 		config.common().objectClass(Access.class).cascadeOnActivate(true);
-		config.common().objectClass(LifecycleStage.class).cascadeOnActivate(true);
 		config.common().objectClass(DocumentType.class).cascadeOnActivate(true);
 		config.common().objectClass(FileFormat.class).cascadeOnActivate(true);
 		config.common().objectClass(Action.class).cascadeOnActivate(true);
@@ -58,7 +56,6 @@ public class ConnectionPool
 		config.common().objectClass(String.class).cascadeOnUpdate(true);
 		config.common().objectClass(Date.class).cascadeOnUpdate(true);
 		config.common().objectClass(Access.class).cascadeOnUpdate(true);
-		config.common().objectClass(LifecycleStage.class).cascadeOnUpdate(true);
 		config.common().objectClass(DocumentType.class).cascadeOnUpdate(true);
 		config.common().objectClass(FileFormat.class).cascadeOnUpdate(true);
 		config.common().objectClass(Action.class).cascadeOnUpdate(true);

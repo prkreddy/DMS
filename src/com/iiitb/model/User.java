@@ -4,6 +4,10 @@ import java.util.Date;
 
 public class User
 {
+	private UserRole role;
+	
+	private UserGroup group;
+	
 	private String name;
 
 	private String username;
@@ -73,6 +77,22 @@ public class User
 	public void setPassword(String password)
 	{
 		this.password = password;
+	}
+
+	public UserRole getRole() {
+		return role;
+	}
+
+	public void setRole(UserRole role) {
+		this.role = role;
+	}
+
+	public UserGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(UserGroup group) {
+		this.group = group;
 	}
 
 }

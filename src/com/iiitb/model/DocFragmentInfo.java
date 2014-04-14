@@ -1,26 +1,25 @@
 package com.iiitb.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import com.iiitb.model.DocumentType;
 
 public class DocFragmentInfo
 {
 	public static enum Access {___, r__, ra_, rae}
-	public static enum LifecycleStage {Created, InUse, Archived}
-	public static enum DocumentType {Type1, Type2, TEXT, IMAGE,}
-	public static enum FileFormat {PDF,TXT}
+	public static enum FileFormat {PDF}
 	
 	private String name;
 	private String description;
 	private DocumentType documentType;
+	private WorkflowInstance workflowInstance;
 	private FileFormat fileFormat;
 	private boolean isStandAlone;
 	private boolean isReusable;
 	private Map<String, Access> accessors;
-	private Map<Date, LifecycleStage> lifecycleStages;
 	private Map<String, DocFragment> allVersions;
 	private List<String> keywords;
 	
@@ -33,8 +32,7 @@ public class DocFragmentInfo
 		this.setFileFormat(fileFormat);
 		this.setFlags(isStandAlone, isReusable);
 		this.setAccessors(new HashMap<String, DocFragmentInfo.Access>());
-		this.setLifecycleStages(new HashMap<Date, DocFragmentInfo.LifecycleStage>());
-		this.setAllVersions(new HashMap<String, DocFragment>());
+		this.setAllVersions(new LinkedHashMap<String, DocFragment>());
 		this.setKeywords(new ArrayList<String>());
 	}
 	
@@ -81,12 +79,6 @@ public class DocFragmentInfo
 	public void setAccessors(Map<String, Access> accessors) {
 		this.accessors = accessors;
 	}
-	public Map<Date, LifecycleStage> getLifecycleStages() {
-		return lifecycleStages;
-	}
-	public void setLifecycleStages(Map<Date, LifecycleStage> lifecycleStages) {
-		this.lifecycleStages = lifecycleStages;
-	}
 	public Map<String, DocFragment> getAllVersions() {
 		return allVersions;
 	}
@@ -101,4 +93,13 @@ public class DocFragmentInfo
 	public void setKeywords(List<String> keywords) {
 		this.keywords = keywords;
 	}
+
+	public WorkflowInstance getWorkflowInstance() {
+		return workflowInstance;
+	}
+
+	public void setWorkflowInstance(WorkflowInstance workflowInstance) {
+		this.workflowInstance = workflowInstance;
+	}
+
 }

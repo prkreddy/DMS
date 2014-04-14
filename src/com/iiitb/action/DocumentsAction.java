@@ -1,7 +1,6 @@
 package com.iiitb.action;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,12 +16,6 @@ import com.db4o.ObjectContainer;
 import com.iiitb.dao.DocFragmentDao;
 import com.iiitb.model.DocFragment;
 import com.iiitb.model.DocFragmentDisplayDetails;
-import com.iiitb.model.DocFragmentInfo;
-import com.iiitb.model.DocFragmentInfo.Access;
-import com.iiitb.model.DocFragmentInfo.DocumentType;
-import com.iiitb.model.DocFragmentInfo.FileFormat;
-import com.iiitb.model.DocFragmentVersionInfo;
-import com.iiitb.model.DocFragmentVersionInfo.Action;
 import com.iiitb.model.User;
 import com.iiitb.util.ConnectionPool;
 import com.iiitb.util.DMSConstants;

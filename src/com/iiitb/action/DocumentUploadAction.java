@@ -19,7 +19,7 @@ import com.iiitb.dao.DocFragmentDao;
 import com.iiitb.model.DocFragment;
 import com.iiitb.model.DocFragmentInfo;
 import com.iiitb.model.DocFragmentInfo.Access;
-import com.iiitb.model.DocFragmentInfo.DocumentType;
+import com.iiitb.model.DocumentType;
 import com.iiitb.model.DocFragmentInfo.FileFormat;
 import com.iiitb.model.DocFragmentVersionInfo;
 import com.iiitb.model.DocFragmentVersionInfo.Action;
@@ -191,7 +191,7 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 		DocFragment df;
 		if ((di = dao.getDocFragmentInfo(user.getUsername(), documentName)) == null)
 		{
-			di = new DocFragmentInfo(documentName, description, DocumentType.Type1, FileFormat.PDF, isStandalone, is_Reusable);
+			di = new DocFragmentInfo(documentName, description, null, FileFormat.PDF, isStandalone, is_Reusable);
 
 			di.getAccessors().put(user.getUsername(), Access.rae);
 			vi = new DocFragmentVersionInfo(this.version, user, Action.Creation, "first commit of " + documentName);
