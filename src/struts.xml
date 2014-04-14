@@ -50,6 +50,7 @@
 		<action name="workflowCreateAction" class="com.iiitb.action.WorkflowCreateAction">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result name="success">workflowCreatePortal.jsp</result>
+			<result name="success1" type="tiles">manageWorkflows</result>
 			<result name="input">signin.jsp</result>
 			<result name="login">signin.jsp</result>
 		</action>
@@ -150,6 +151,37 @@
 			</result>
 			<result name="failure">fileNotFound.jsp</result>
 			<result name="login">signin.jsp</result>
+		</action>
+
+
+		<action name="docTypeGetWorkFlows" class="com.iiitb.action.DocTypeGetWorkFlowAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success" type="redirect">documentsAction</result>
+			<result name="login">signin.jsp</result>
+		</action>
+
+
+		<action name="docTypeCreateAction" class="com.iiitb.action.DocTypeGetWorkFlowAction"
+			method="createDocType">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success" type="tiles">createDocType</result>
+			<result name="login">signin.jsp</result>
+		</action>
+
+
+		<action name="docTypeEditAction" class="com.iiitb.action.DocTypeGetWorkFlowAction"
+			method="editDocType">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+				<result name="success" type="tiles">editDocType</result>
+			<result name="login">signin.jsp</result>
+		</action>
+
+
+		<action name="managedocTypesAction" class="com.iiitb.action.DocTypeGetWorkFlowAction"
+			method="manageDoctypes">
+			<result name="success" type="tiles">manageDocType</result>
+			<result name="input">signup.jsp</result>
+			<result name="login">home.jsp</result>
 		</action>
 	</package>
 </struts>
