@@ -256,7 +256,9 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 		if(df.getVersionInfo().getVersion().equals("1.0"))
 			df.getInfo().setWorkflowInstance(new WorkflowInstance(wf, can));
 		else
-			df.getInfo().setWorkflowInstance((dao.getLatestDocFragmentVersion(user.getUsername(), df.getInfo().getName())).getInfo().getWorkflowInstance());
+		{
+			///////////////
+		}
 				
 		// container.store(df.getInfo().getAllVersions());
 
@@ -311,7 +313,27 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 			}
 
 			df.getInfo().getAllVersions().put(df.getVersionInfo().getVersion(), df);
-
+			
+			
+			String can="";
+			WorkflowInstance wfi=(dao.getLatestDocFragmentVersion(user.getUsername(), df.getInfo().getName())).getInfo().getWorkflowInstance();
+			Workflow w=wfi.getWorkflow();
+			if(w instanceof UserSpecificWorkflow)
+			{
+				UserSpecificWorkflow uswf=(UserSpecificWorkflow)w;
+				can=uswf.getActivitySequence().keySet().toArray()[0].toString();
+			}
+			else
+			{
+				RoleBasedWorkflow rbwf=(RoleBasedWorkflow)w;
+				can=rbwf.getActivitySequence().keySet().toArray()[0].toString();
+			}
+			
+			wfi.setCurrentActivityName(can);
+			df.getInfo().setWorkflowInstance(wfi);
+			
+			
+			
 			File destFile = null;
 			if (uploadFileFileName != null)
 			{
