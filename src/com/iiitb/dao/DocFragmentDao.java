@@ -14,8 +14,12 @@ import com.iiitb.model.DocFragment;
 import com.iiitb.model.DocFragmentInfo;
 import com.iiitb.model.DocFragmentVersionInfo;
 import com.iiitb.model.DocumentType;
+import com.iiitb.model.RoleBasedWorkflow;
+import com.iiitb.model.ThreeTuple;
+import com.iiitb.model.User;
 import com.iiitb.model.UserGroup;
 import com.iiitb.model.UserRole;
+import com.iiitb.model.UserSpecificWorkflow;
 import com.iiitb.model.Workflow;
 import com.iiitb.util.ConnectionPool;
 
@@ -68,16 +72,59 @@ class Predicate2 extends Predicate<DocFragment>
 
 class Predicate3 extends Predicate<DocFragment>
 {
-	String username;
+	User user;
 
-	Predicate3(String username)
+	Predicate3(User user)
 	{
-		this.username = username;
+		this.user = user;
 	}
 
 	public boolean match(DocFragment arg0)
 	{
-		return arg0.getInfo().isStandAlone();
+		if(arg0.getInfo().isStandAlone())
+		{
+			if(user.getRole().getName().equals("admin"))
+				return true;
+			
+			Workflow wf=arg0.getInfo().getWorkflowInstance().getWorkflow();
+			if(wf instanceof UserSpecificWorkflow)
+			{
+				UserSpecificWorkflow uswf=(UserSpecificWorkflow)wf;
+				Object[] ka=uswf.getActivitySequence().keySet().toArray();
+				int i;
+				for(i=0; i<ka.length; i++)
+					if(ka[i].equals(arg0.getInfo().getWorkflowInstance().getCurrentActivityName()))
+						break;
+				Object[] va=uswf.getActivitySequence().values().toArray();
+				for(int j=0; j<va.length; j++)
+				{
+					User u=(User)va[j];
+					if(u.getUsername().equals(user.getUsername()))
+						return true;
+				}
+				return false;
+			}
+			else
+			{
+				RoleBasedWorkflow rbwf=(RoleBasedWorkflow)wf;
+				Object[] ka=rbwf.getActivitySequence().keySet().toArray();
+				int i;
+				for(i=0; i<ka.length; i++)
+					if(ka[i].equals(arg0.getInfo().getWorkflowInstance().getCurrentActivityName()))
+						break;
+				Object[] va=rbwf.getActivitySequence().values().toArray();
+				for(int j=i; j<va.length; j++)
+				{
+					ThreeTuple tt=(ThreeTuple)va[j];
+					if(tt.getRole().getName().equals(user.getRole().getName())
+							&& tt.getGroup().getName().equals(user.getGroup().getName()))
+					return true;
+				}
+				return false;
+			}
+		}
+		else
+			return false;
 	}
 }
 
@@ -115,16 +162,67 @@ class Predicate5 extends Predicate<DocFragmentInfo>
 
 class Predicate6 extends Predicate<DocFragmentInfo>
 {
-	String username;
+	User user;
 
-	Predicate6(String username)
+	Predicate6(User user)
 	{
-		this.username = username;
+		this.user = user;
 	}
 
 	public boolean match(DocFragmentInfo arg0)
 	{
-		return (arg0.getAccessors().get(username) != null && arg0.isReusable());
+		if(arg0.isReusable())
+		{
+			if(user.getRole().getName().equals("admin"))
+				return true;
+			
+			Workflow wf=arg0.getWorkflowInstance().getWorkflow();
+			if(wf instanceof UserSpecificWorkflow)
+			{
+				UserSpecificWorkflow uswf=(UserSpecificWorkflow)wf;
+				Object[] ka=uswf.getActivitySequence().keySet().toArray();
+				int i;
+				for(i=0; i<ka.length; i++)
+					if(ka[i].equals(arg0.getWorkflowInstance().getCurrentActivityName()))
+						break;
+				
+				if(i!=ka.length-1)
+					return false;
+				
+				Object[] va=uswf.getActivitySequence().values().toArray();
+				for(int j=0; j<va.length; j++)
+				{
+					User u=(User)va[j];
+					if(u.getUsername().equals(user.getUsername()))
+						return true;
+				}
+				return false;
+			}
+			else
+			{
+				RoleBasedWorkflow rbwf=(RoleBasedWorkflow)wf;
+				Object[] ka=rbwf.getActivitySequence().keySet().toArray();
+				int i;
+				for(i=0; i<ka.length; i++)
+					if(ka[i].equals(arg0.getWorkflowInstance().getCurrentActivityName()))
+						break;
+				
+				if(i!=ka.length-1)
+					return false;
+				
+				Object[] va=rbwf.getActivitySequence().values().toArray();
+				for(int j=0; j<va.length; j++)
+				{
+					ThreeTuple tt=(ThreeTuple)va[j];
+					if(tt.getRole().getName().equals(user.getRole().getName())
+							&& tt.getGroup().getName().equals(user.getGroup().getName()))
+					return true;
+				}
+				return false;
+			}
+		}
+		else
+			return false;
 	}
 }
 
@@ -349,7 +447,7 @@ public class DocFragmentDao
 	
 	public List<DocFragmentInfo> getReusableDocFragmentInfos(String username)
 	{
-		Predicate6 p = new Predicate6(username);
+		Predicate6 p = new Predicate6(getUserByUsername(username));
 		List<DocFragmentInfo> l = db.query(p);
 		return l;
 	}
@@ -390,10 +488,19 @@ public class DocFragmentDao
 		}
 		return dfl;
 	}
-
+	
+	public User getUserByUsername(String username)
+	{
+		List<User> ul=db.queryByExample(User.class);
+		for(User u:ul)
+			if(u.getUsername().equals(username))
+				return u;
+		return null;
+	}
+	
 	public List<DocFragment> getStandaloneDocFragments(String username)
 	{
-		Predicate3 p = new Predicate3(username);
+		Predicate3 p = new Predicate3(getUserByUsername(username));
 		List<DocFragment> l = db.query(p);
 		return l;
 	}

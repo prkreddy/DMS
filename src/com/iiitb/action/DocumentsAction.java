@@ -110,7 +110,7 @@ public class DocumentsAction extends ActionSupport implements SessionAware, Serv
 				dfd.docId = df.getDocId();
 				dfd.name = df.getInfo().getName();
 				dfd.version = df.getVersionInfo().getVersion();
-				dfd.access = df.getInfo().getAccessors().get(this.getUser().getUsername()).toString();
+				//dfd.access = df.getInfo().getAccessors().get(this.getUser().getUsername()).toString();
 				for (DocFragment d : df.getInfo().getAllVersions().values())
 				{
 					dfd.dateCreated = d.getVersionInfo().getTimeStamp().toString();

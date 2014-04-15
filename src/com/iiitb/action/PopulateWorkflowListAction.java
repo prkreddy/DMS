@@ -11,7 +11,10 @@ import com.db4o.ObjectContainer;
 import com.iiitb.dao.DocFragmentDao;
 import com.iiitb.model.DocFragment;
 import com.iiitb.model.DocumentType;
+import com.iiitb.model.RoleBasedWorkflow;
+import com.iiitb.model.ThreeTuple;
 import com.iiitb.model.User;
+import com.iiitb.model.UserSpecificWorkflow;
 import com.iiitb.model.Workflow;
 import com.iiitb.util.ConnectionPool;
 import com.iiitb.util.DMSConstants;
@@ -37,7 +40,25 @@ public class PopulateWorkflowListAction implements SessionAware
 			if(dt.getName().equals(documentType))
 			{
 				for(Workflow w:dt.getWorkflowList())
-					s+="<option>"+w.getName()+"</option>";
+				{
+					if(user.getRole().getName().equals("admin"))
+						s+="<option>"+w.getName()+"</option>";
+					else if(w instanceof UserSpecificWorkflow)
+					{
+						UserSpecificWorkflow uswf=(UserSpecificWorkflow)w;
+						User u=(User)uswf.getActivitySequence().values().toArray()[0];
+						if(u.getUsername().equals(user.getUsername()))
+							s+="<option>"+w.getName()+"</option>";
+					}
+					else
+					{
+						RoleBasedWorkflow rbwf=(RoleBasedWorkflow)w;
+						ThreeTuple tt=(ThreeTuple)rbwf.getActivitySequence().values().toArray()[0];
+						if(tt.getRole().getName().equals(user.getRole().getName())
+								&& tt.getGroup().getName().equals(user.getGroup().getName()))
+							s+="<option>"+w.getName()+"</option>";
+					}
+				}
 				break;
 			}
 		inputStream=new StringBufferInputStream(s);
