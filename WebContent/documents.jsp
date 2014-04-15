@@ -45,9 +45,11 @@
 				<%-- <td><s:property value="size" /></td> --%>
 
 				<td><s:if test='enableActivityUpdate == "true"'>
-						<input type="button" value="update" />
+						<input id="<s:property value="docId" />" type="button"
+							value="update" />
 					</s:if> <s:elseif test='enableActivityUpdate == "false"'>
-						<input type="button" disabled="disabled" value="update" />
+						<input id="<s:property value="docId"  />" type="button"
+							disabled="disabled" value="update" />
 					</s:elseif></td>
 			</tr>
 		</s:iterator>
@@ -74,13 +76,21 @@
 										});
 							});
 
-					$("#order").click(function() {
+					$("input").click(
+							function() {
 
-						var value = $(this).text();
+								alert("updatestatus");
 
-						$.load("documentsAction?orderby=" + value);
+								var docId = $(this).attr('id');
 
-					});
+								$.post(
+										"updateStatusAction?documentId="
+												+ docId, function(data) {
+											window.location.reload(true);
+
+										});
+
+							});
 
 				});
 	</script>

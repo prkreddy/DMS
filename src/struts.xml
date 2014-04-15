@@ -98,7 +98,7 @@
 			<result name="input">signin.jsp</result>
 			<result name="login">signin.jsp</result>
 		</action>
-		
+
 		<action name="populateWorkflowListAction" class="com.iiitb.action.PopulateWorkflowListAction">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result name="success" type="stream">
@@ -108,7 +108,7 @@
 			<result name="input">signin.jsp</result>
 			<result name="login">signin.jsp</result>
 		</action>
-		
+
 		<action name="userLogoutAction" class="com.iiitb.action.UserLogoutAction">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result name="success">home.jsp</result>
@@ -193,5 +193,14 @@
 			<result name="success" type="tiles">manageDocType</result>
 			<result name="login">home.jsp</result>
 		</action>
+
+		<action name="updateStatusAction" class="com.iiitb.action.DocumentDownloadAction"
+			method="updateStatus">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success">documentsAction</result>
+			<result name="failure">fileNotFound.jsp</result>
+			<result name="login">signin.jsp</result>
+		</action>
+
 	</package>
 </struts>

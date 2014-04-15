@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,6 +24,11 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import com.db4o.ObjectContainer;
 import com.iiitb.dao.DocFragmentDao;
 import com.iiitb.model.DocFragment;
+import com.iiitb.model.RoleBasedWorkflow;
+import com.iiitb.model.ThreeTuple;
+import com.iiitb.model.User;
+import com.iiitb.model.UserSpecificWorkflow;
+import com.iiitb.model.Workflow;
 import com.iiitb.util.ConnectionPool;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -120,7 +126,7 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 			}
 			doc.save(finalNewDocumentPath);
 			setFilePath(finalNewDocumentPath);
-			
+
 		}
 		catch (MalformedURLException e)
 		{
@@ -173,4 +179,63 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 
 	}
 
+	public String updateStatus()
+	{
+
+		DocFragmentDao dao = new DocFragmentDao();
+		ObjectContainer container = ConnectionPool.getConnection();
+		dao.setDb(container);
+		DocFragment fragment = dao.getFragment(documentId);
+
+		String currenString = fragment.getInfo().getWorkflowInstance().getCurrentActivityName();
+
+		Workflow wf = fragment.getInfo().getWorkflowInstance().getWorkflow();
+		boolean found = false;
+		if (wf instanceof UserSpecificWorkflow)
+		{
+
+			for (Entry<String, User> entry : ((UserSpecificWorkflow) wf).getActivitySequence().entrySet())
+			{
+				if (found)
+				{
+					fragment.getInfo().getWorkflowInstance().setCurrentActivityName(entry.getKey());
+					found = false;
+					break;
+				}
+
+				if (entry.getKey().equals(currenString))
+				{
+					found = true;
+				}
+
+			}
+
+		}
+		else if (wf instanceof RoleBasedWorkflow)
+		{
+
+			for (Entry<String, ThreeTuple> entry : ((RoleBasedWorkflow) wf).getActivitySequence().entrySet())
+			{
+				if (found)
+				{
+					fragment.getInfo().getWorkflowInstance().setCurrentActivityName(entry.getKey());
+					found = false;
+					break;
+				}
+
+				if (entry.getKey().equals(currenString))
+				{
+					found = true;
+				}
+
+			}
+
+		}
+
+		if (!found)
+			container.store(fragment);
+
+		ConnectionPool.freeConnection(container);
+		return SUCCESS;
+	}
 }
