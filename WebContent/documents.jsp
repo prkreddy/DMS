@@ -12,7 +12,7 @@
 	<div align="center">
 		<p>#descending Order of ModifiedDate</p>
 	</div>
-	
+
 	<table border="1" align="center" cellpadding="10">
 		<thead>
 			<tr>
@@ -24,6 +24,7 @@
 				<td><b id="order">Date Created</b></td>
 				<td><b id="order">Date Modified</b></td>
 				<td><b>Actor</b></td>
+				<td><b>UpdateActivity</b></td>
 				<!-- <td><b>Size</b></td> -->
 			</tr>
 		</thead>
@@ -42,6 +43,12 @@
 				<td><s:property value="dateModified" /></td>
 				<td><s:property value="actor" /></td>
 				<%-- <td><s:property value="size" /></td> --%>
+
+				<td><s:if test='enableActivityUpdate == "true"'>
+						<input type="button" value="update" />
+					</s:if> <s:elseif test='enableActivityUpdate == "false"'>
+						<input type="button" disabled="disabled" value="update" />
+					</s:elseif></td>
 			</tr>
 		</s:iterator>
 	</table>
@@ -61,7 +68,8 @@
 								$.post(
 										"fileDownloadAction?documentId="
 												+ docId, function(data) {
-											window.open('finalNew.pdf','_blank');
+											window.open('finalNew.pdf',
+													'_blank');
 
 										});
 							});

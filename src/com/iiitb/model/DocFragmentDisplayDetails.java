@@ -1,6 +1,5 @@
 package com.iiitb.model;
 
-
 public class DocFragmentDisplayDetails
 {
 	public String getPathName()
@@ -102,4 +101,15 @@ public class DocFragmentDisplayDetails
 	public String dateModified;
 	public String actor;
 	public String size;
+	public String enableActivityUpdate;
+
+	public String getEnableActivityUpdate()
+	{
+		return enableActivityUpdate;
+	}
+
+	public void setEnableActivityUpdate(String enableActivityUpdate)
+	{
+		this.enableActivityUpdate = enableActivityUpdate;
+	}
 }

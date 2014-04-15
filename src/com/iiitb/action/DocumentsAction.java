@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,7 +17,11 @@ import com.db4o.ObjectContainer;
 import com.iiitb.dao.DocFragmentDao;
 import com.iiitb.model.DocFragment;
 import com.iiitb.model.DocFragmentDisplayDetails;
+import com.iiitb.model.RoleBasedWorkflow;
+import com.iiitb.model.ThreeTuple;
 import com.iiitb.model.User;
+import com.iiitb.model.UserSpecificWorkflow;
+import com.iiitb.model.Workflow;
 import com.iiitb.util.ConnectionPool;
 import com.iiitb.util.DMSConstants;
 import com.opensymphony.xwork2.ActionSupport;
@@ -110,7 +115,8 @@ public class DocumentsAction extends ActionSupport implements SessionAware, Serv
 				dfd.docId = df.getDocId();
 				dfd.name = df.getInfo().getName();
 				dfd.version = df.getVersionInfo().getVersion();
-				//dfd.access = df.getInfo().getAccessors().get(this.getUser().getUsername()).toString();
+				// dfd.access =
+				// df.getInfo().getAccessors().get(this.getUser().getUsername()).toString();
 				for (DocFragment d : df.getInfo().getAllVersions().values())
 				{
 					dfd.dateCreated = d.getVersionInfo().getTimeStamp().toString();
@@ -118,6 +124,40 @@ public class DocumentsAction extends ActionSupport implements SessionAware, Serv
 				}
 				dfd.dateModified = df.getVersionInfo().getTimeStamp().toString();
 				dfd.actor = df.getVersionInfo().getActor().getUsername();
+
+				Workflow wf = df.getInfo().getWorkflowInstance().getWorkflow();
+				String currentActivityName = df.getInfo().getWorkflowInstance().getCurrentActivityName();
+				if (wf instanceof UserSpecificWorkflow)
+				{
+
+					User user = ((UserSpecificWorkflow) wf).getActivitySequence().get(currentActivityName);
+
+					if (user.getName().equals(this.getUser().getName()))
+					{
+						dfd.setEnableActivityUpdate("true");
+					}
+					else
+					{
+						dfd.setEnableActivityUpdate("false");
+					}
+
+				}
+				else if (wf instanceof RoleBasedWorkflow)
+				{
+
+					ThreeTuple tuple = ((RoleBasedWorkflow) wf).getActivitySequence().get(currentActivityName);
+
+					if (tuple.getGroup().equals(this.getUser().getGroup()) && tuple.getRole().equals(this.getUser().getRole()))
+					{
+						dfd.setEnableActivityUpdate("true");
+					}
+					else
+					{
+						dfd.setEnableActivityUpdate("false");
+					}
+
+				}
+
 				this.docFragmentDisplayDetailsList.add(dfd);
 			}
 		}
