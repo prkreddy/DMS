@@ -24,29 +24,17 @@ public class ManageDocTypeAction extends ActionSupport
 		this.docTypeName = docTypeName;
 	}
 
-	List<String> roleWorkflows;
+	List<String> workflowsSelected;
 
-	public List<String> getRoleWorkflows()
+	public List<String> getWorkflowsSelected()
 	{
-		return roleWorkflows;
+		return workflowsSelected;
 	}
 
-	public void setRoleWorkflows(List<String> roleWorkflows)
+	public void setWorkflowsSelected(List<String> workflowsSelected)
 	{
-		this.roleWorkflows = roleWorkflows;
+		this.workflowsSelected = workflowsSelected;
 	}
-
-	public List<String> getUserworkflows()
-	{
-		return userworkflows;
-	}
-
-	public void setUserworkflows(List<String> userworkflows)
-	{
-		this.userworkflows = userworkflows;
-	}
-
-	List<String> userworkflows;
 
 	public String manageDoctypes()
 	{
@@ -69,22 +57,27 @@ public class ManageDocTypeAction extends ActionSupport
 		DocumentType doctype = new DocumentType(this.getDocTypeName());
 
 		Workflow flow = null;
-		for (String roleWf : this.getRoleWorkflows())
-		{
-			flow = dao.getRoleBaseWorkFlow(roleWf);
-			if (flow != null)
-			{
-				doctype.getWorkflowList().add(flow);
-			}
-		}
 
-		for (String userWf : this.getUserworkflows())
+		String workflow[] = null;
+		for (String wf : this.getWorkflowsSelected())
 		{
-			flow = dao.getUserBaseWorkFlow(userWf);
+
+			workflow = wf.split("-");
+
+			if ("user".equals(workflow[0]))
+			{
+				flow = dao.getUserBaseWorkFlow(workflow[1]);
+			}
+			else if ("role".equals(workflow[0]))
+			{
+				flow = dao.getRoleBaseWorkFlow(workflow[1]);
+			}
+
 			if (flow != null)
 			{
 				doctype.getWorkflowList().add(flow);
 			}
+
 		}
 
 		container.store(doctype);
@@ -93,23 +86,6 @@ public class ManageDocTypeAction extends ActionSupport
 
 		return SUCCESS;
 
-	}
-
-	public String getWorkFlows()
-	{
-
-		ObjectContainer container = ConnectionPool.getConnection();
-
-		WorkFlowDao dao = new WorkFlowDao();
-		dao.setDb(container);
-
-		this.setRoleWorkflows(dao.getRoleBaseWorkFlowsNames());
-
-		this.setUserworkflows(dao.getUserBaseWorkFlowsNames());
-
-		ConnectionPool.freeConnection(container);
-
-		return SUCCESS;
 	}
 
 }

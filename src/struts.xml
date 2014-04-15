@@ -155,7 +155,7 @@
 		</action>
 
 
-		<action name="docTypeGetWorkFlows" class="com.iiitb.action.ManageDocTypeAction"
+		<action name="docTypeGetWorkFlows" class="com.iiitb.action.GetWorkFlowsAction"
 			method="getWorkFlows">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
 			<result name="success" type="tiles">createDocType</result>
@@ -179,10 +179,8 @@
 		</action>
 
 
-		<action name="managedocTypesAction" class="com.iiitb.action.ManageDocTypeAction"
-			method="manageDoctypes">
+		<action name="managedocTypesAction">
 			<result name="success" type="tiles">manageDocType</result>
-			<result name="input">signup.jsp</result>
 			<result name="login">home.jsp</result>
 		</action>
 	</package>
