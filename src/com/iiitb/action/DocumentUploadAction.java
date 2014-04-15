@@ -23,13 +23,21 @@ import com.iiitb.model.DocumentType;
 import com.iiitb.model.DocFragmentInfo.FileFormat;
 import com.iiitb.model.DocFragmentVersionInfo;
 import com.iiitb.model.DocFragmentVersionInfo.Action;
+import com.iiitb.model.RoleBasedWorkflow;
 import com.iiitb.model.User;
+import com.iiitb.model.UserSpecificWorkflow;
+import com.iiitb.model.Workflow;
+import com.iiitb.model.WorkflowInstance;
 import com.iiitb.util.ConnectionPool;
 import com.iiitb.util.DMSConstants;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class DocumentUploadAction extends ActionSupport implements SessionAware, ServletRequestAware
 {
+	private String documentTypeList;
+	
+	private String workflowList;
+	
 	private String keywords;
 	
 	private HttpServletRequest servletRequest;
@@ -230,6 +238,21 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 		df.getInfo().getAllVersions().put(df.getVersionInfo().getVersion(), df);
 		for(String kw:keywords.split("[,]"))
 			df.getInfo().getKeywords().add(kw.trim());
+		df.getInfo().setDocumentType(dao.getDocumentTypeByName(documentTypeList));
+		Workflow wf=dao.getWorkflowByName(workflowList);
+		String can="";
+		if (wf instanceof UserSpecificWorkflow)
+		{
+			UserSpecificWorkflow uswf=(UserSpecificWorkflow)wf;
+			can=uswf.getActivitySequence().keySet().toArray()[0].toString();
+		}
+		else
+		{
+			RoleBasedWorkflow rbwf=(RoleBasedWorkflow)wf;
+			can=rbwf.getActivitySequence().keySet().toArray()[0].toString();
+		}
+		df.getInfo().setWorkflowInstance(new WorkflowInstance(wf, can));
+				
 		// container.store(df.getInfo().getAllVersions());
 
 		File destFile = null;
@@ -377,6 +400,22 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 
 	public void setKeywords(String keywords) {
 		this.keywords = keywords;
+	}
+
+	public String getDocumentTypeList() {
+		return documentTypeList;
+	}
+
+	public void setDocumentTypeList(String documentTypeList) {
+		this.documentTypeList = documentTypeList;
+	}
+
+	public String getWorkflowList() {
+		return workflowList;
+	}
+
+	public void setWorkflowList(String workflowList) {
+		this.workflowList = workflowList;
 	}
 
 }

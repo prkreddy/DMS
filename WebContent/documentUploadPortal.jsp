@@ -29,6 +29,21 @@
 		if(event.keyCode==13)
 			applyFilter();
 	}
+	function populateWorkflowList()
+	{
+		var req=new XMLHttpRequest();
+		var t=document.getElementById("documentTypeList");
+		req.onreadystatechange=
+			function()
+			{
+				if(req.readyState==4 && req.status==200)
+				{
+					document.getElementById('workflowList').innerHTML=req.responseText;
+				}
+			};
+		req.open("POST", "populateWorkflowListAction?documentType="+t.value, true);
+		req.send();
+	}
 </script>
 </head>
 <body>
@@ -40,6 +55,10 @@
 		<s:label value="1.0" label="Version"></s:label>
 		<s:textarea key="description" name="description"
 			label="Document description" cols="69" />
+		<s:select onchange="populateWorkflowList()" id="documentTypeList" name="documentTypeList"
+			list="docTypes" label="Document Type"></s:select>
+		<s:select id="workflowList" name="workflowList"
+			list="{}" label="Workflow"></s:select>
 		<s:textfield key="keywords" name="keywords" id="keywords" size="70%"
 			label="Keywords" />
 		<s:label label="This document is*"></s:label>

@@ -13,8 +13,10 @@ import com.db4o.types.Blob;
 import com.iiitb.model.DocFragment;
 import com.iiitb.model.DocFragmentInfo;
 import com.iiitb.model.DocFragmentVersionInfo;
+import com.iiitb.model.DocumentType;
 import com.iiitb.model.UserGroup;
 import com.iiitb.model.UserRole;
+import com.iiitb.model.Workflow;
 import com.iiitb.util.ConnectionPool;
 
 class Predicate1 extends Predicate<DocFragment>
@@ -156,6 +158,36 @@ class Predicate101 extends Predicate<UserRole>
 	}
 }
 
+class Predicate111 extends Predicate<DocumentType>
+{
+	String n;
+
+	Predicate111(String n)
+	{
+		this.n = n;
+	}
+
+	public boolean match(DocumentType arg0)
+	{
+		return (arg0.getName().equals(n));
+	}
+}
+
+class Predicate112 extends Predicate<Workflow>
+{
+	String n;
+
+	Predicate112(String n)
+	{
+		this.n = n;
+	}
+
+	public boolean match(Workflow arg0)
+	{
+		return (arg0.getName().equals(n));
+	}
+}
+
 
 /*class Predicate7 extends Predicate<DocFragment>
 {
@@ -237,6 +269,26 @@ public class DocFragmentDao
 	{
 		Predicate101 p = new Predicate101(roleName);
 		List<UserRole> l = db.query(p);
+		if(l!=null)
+			return l.get(0);
+		else
+			return null;
+	}
+	
+	public DocumentType getDocumentTypeByName(String n)
+	{
+		Predicate111 p = new Predicate111(n);
+		List<DocumentType> l = db.query(p);
+		if(l!=null)
+			return l.get(0);
+		else
+			return null;
+	}
+	
+	public Workflow getWorkflowByName(String n)
+	{
+		Predicate112 p = new Predicate112(n);
+		List<Workflow> l = db.query(p);
 		if(l!=null)
 			return l.get(0);
 		else

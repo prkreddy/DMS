@@ -16,6 +16,8 @@ import com.db4o.internal.BlobImpl;
 import com.db4o.types.Blob;
 import com.iiitb.model.DocFragment;
 import com.iiitb.model.DocFragmentInfo;
+import com.iiitb.model.RoleBasedWorkflow;
+import com.iiitb.model.ThreeTuple;
 import com.iiitb.model.UserGroup;
 import com.iiitb.model.UserRole;
 import com.iiitb.model.DocFragmentInfo.Access;
@@ -24,6 +26,8 @@ import com.iiitb.model.DocFragmentInfo.FileFormat;
 import com.iiitb.model.DocFragmentVersionInfo;
 import com.iiitb.model.DocFragmentVersionInfo.Action;
 import com.iiitb.model.User;
+import com.iiitb.model.UserSpecificWorkflow;
+import com.iiitb.model.Workflow;
 
 public class ConnectionPool
 {
@@ -44,6 +48,10 @@ public class ConnectionPool
 		config.common().objectClass(Date.class).cascadeOnActivate(true);
 		config.common().objectClass(Access.class).cascadeOnActivate(true);
 		config.common().objectClass(DocumentType.class).cascadeOnActivate(true);
+		config.common().objectClass(Workflow.class).cascadeOnActivate(true);
+		config.common().objectClass(UserSpecificWorkflow.class).cascadeOnActivate(true);
+		config.common().objectClass(RoleBasedWorkflow.class).cascadeOnActivate(true);
+		config.common().objectClass(ThreeTuple.class).cascadeOnActivate(true);
 		config.common().objectClass(FileFormat.class).cascadeOnActivate(true);
 		config.common().objectClass(Action.class).cascadeOnActivate(true);
 		config.common().objectClass(File.class).cascadeOnActivate(true);
@@ -64,6 +72,10 @@ public class ConnectionPool
 		config.common().objectClass(Date.class).cascadeOnUpdate(true);
 		config.common().objectClass(Access.class).cascadeOnUpdate(true);
 		config.common().objectClass(DocumentType.class).cascadeOnUpdate(true);
+		config.common().objectClass(Workflow.class).cascadeOnUpdate(true);
+		config.common().objectClass(UserSpecificWorkflow.class).cascadeOnUpdate(true);
+		config.common().objectClass(RoleBasedWorkflow.class).cascadeOnUpdate(true);
+		config.common().objectClass(ThreeTuple.class).cascadeOnUpdate(true);
 		config.common().objectClass(FileFormat.class).cascadeOnUpdate(true);
 		config.common().objectClass(Action.class).cascadeOnUpdate(true);
 		config.common().objectClass(File.class).cascadeOnUpdate(true);

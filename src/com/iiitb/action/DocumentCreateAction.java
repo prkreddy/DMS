@@ -9,6 +9,7 @@ import org.apache.struts2.interceptor.SessionAware;
 import com.db4o.ObjectContainer;
 import com.iiitb.dao.DocFragmentDao;
 import com.iiitb.model.DocFragment;
+import com.iiitb.model.DocumentType;
 import com.iiitb.model.User;
 import com.iiitb.util.ConnectionPool;
 import com.iiitb.util.DMSConstants;
@@ -19,6 +20,7 @@ public class DocumentCreateAction extends ActionSupport implements SessionAware
 	private User user;
 	private Map<String, Object> session;
 	private List<String> docFrags;
+	private List<String> docTypes;
 
 	public String execute()
 	{
@@ -31,6 +33,13 @@ public class DocumentCreateAction extends ActionSupport implements SessionAware
 		this.docFrags = new ArrayList<String>();
 		for (DocFragment d : dao.getReusableDocFragments(this.getUser().getUsername(),null))
 			this.docFrags.add(d.getDocId());
+		
+		docTypes=new ArrayList<String>();
+		docTypes.add("--Select--");
+		List<DocumentType> dtl=db.queryByExample(DocumentType.class);
+		for(DocumentType dt:dtl)
+			docTypes.add(dt.getName());
+		
 		ConnectionPool.freeConnection(db);
 		return SUCCESS;
 	}
@@ -58,5 +67,13 @@ public class DocumentCreateAction extends ActionSupport implements SessionAware
 	public void setDocFrags(List<String> docFrags)
 	{
 		this.docFrags = docFrags;
+	}
+
+	public List<String> getDocTypes() {
+		return docTypes;
+	}
+
+	public void setDocTypes(List<String> docTypes) {
+		this.docTypes = docTypes;
 	}
 }
