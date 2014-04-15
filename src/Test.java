@@ -8,6 +8,7 @@ public class Test
 {
 	public static void main(String[] args)
 	{
+		
 		User u;
 		
 		com.db4o.ObjectContainer c=ConnectionPool.getConnection();
@@ -41,5 +42,6 @@ public class Test
 		
 		ConnectionPool.freeConnection(c);
 		System.out.println("admin created");
+		
 	}
 }

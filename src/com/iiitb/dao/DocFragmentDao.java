@@ -96,7 +96,7 @@ class Predicate3 extends Predicate<DocFragment>
 					if(ka[i].equals(arg0.getInfo().getWorkflowInstance().getCurrentActivityName()))
 						break;
 				Object[] va=uswf.getActivitySequence().values().toArray();
-				for(int j=0; j<va.length; j++)
+				for(int j=0; j<=i; j++)
 				{
 					User u=(User)va[j];
 					if(u.getUsername().equals(user.getUsername()))
@@ -113,7 +113,7 @@ class Predicate3 extends Predicate<DocFragment>
 					if(ka[i].equals(arg0.getInfo().getWorkflowInstance().getCurrentActivityName()))
 						break;
 				Object[] va=rbwf.getActivitySequence().values().toArray();
-				for(int j=i; j<va.length; j++)
+				for(int j=0; j<=i; j++)
 				{
 					ThreeTuple tt=(ThreeTuple)va[j];
 					if(tt.getRole().getName().equals(user.getRole().getName())
@@ -130,16 +130,38 @@ class Predicate3 extends Predicate<DocFragment>
 
 class Predicate4 extends Predicate<DocFragmentInfo>
 {
-	String username;
+	User user;
 
-	Predicate4(String username)
+	Predicate4(User user)
 	{
-		this.username = username;
+		this.user = user;
 	}
 
 	public boolean match(DocFragmentInfo arg0)
 	{
-		return arg0.getAccessors().get(username) != null;
+		String can=arg0.getWorkflowInstance().getCurrentActivityName();
+		Workflow wf=arg0.getWorkflowInstance().getWorkflow();
+		if(wf instanceof UserSpecificWorkflow)
+		{
+			UserSpecificWorkflow uswf=(UserSpecificWorkflow)wf;
+			Object[] ka=uswf.getActivitySequence().keySet().toArray();
+			Object[] va=uswf.getActivitySequence().values().toArray();
+			if(ka[ka.length-1].equals(can) 
+					&& (((User)va[0]).getUsername().equals(user.getUsername()) || user.getRole().getName().equals("admin")))
+				return true;
+		}
+		else
+		{
+			RoleBasedWorkflow rbwf=(RoleBasedWorkflow)wf;
+			Object[] ka=rbwf.getActivitySequence().keySet().toArray();
+			Object[] va=rbwf.getActivitySequence().values().toArray();
+			if(ka[ka.length-1].equals(can)
+					&& ((((ThreeTuple)va[0]).getRole().getName().equals(user.getRole().getName())
+					&& ((ThreeTuple)va[0]).getGroup().getName().equals(user.getGroup().getName()))
+					|| user.getRole().getName().equals("admin")))
+				return true;
+		}
+		return false;
 	}
 }
 
@@ -440,7 +462,7 @@ public class DocFragmentDao
 
 	public List<DocFragmentInfo> getDocFragmentInfos(String username)
 	{
-		Predicate4 p = new Predicate4(username);
+		Predicate4 p = new Predicate4(getUserByUsername(username));
 		List<DocFragmentInfo> l = db.query(p);
 		return l;
 	}
