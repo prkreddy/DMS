@@ -194,6 +194,7 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 		}
 
 		User user = (User) this.session.get(DMSConstants.USER_LOGGED_IN);
+		user=dao.getUserByUsername(user.getUsername());
 		DocFragmentInfo di;
 		DocFragmentVersionInfo vi;
 		DocFragment df;
@@ -201,7 +202,7 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 		{
 			di = new DocFragmentInfo(documentName, description, null, FileFormat.PDF, isStandalone, is_Reusable);
 
-			di.getAccessors().put(user.getUsername(), Access.rae);
+			//di.getAccessors().put(user.getUsername(), Access.rae);
 			vi = new DocFragmentVersionInfo(this.version, user, Action.Creation, "first commit of " + documentName);
 			df = new DocFragment(di, vi);
 		}
@@ -238,6 +239,7 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 		df.getInfo().getAllVersions().put(df.getVersionInfo().getVersion(), df);
 		for(String kw:keywords.split("[,]"))
 			df.getInfo().getKeywords().add(kw.trim());
+		
 		df.getInfo().setDocumentType(dao.getDocumentTypeByName(documentTypeList));
 		Workflow wf=dao.getWorkflowByName(workflowList);
 		String can="";
@@ -251,7 +253,10 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 			RoleBasedWorkflow rbwf=(RoleBasedWorkflow)wf;
 			can=rbwf.getActivitySequence().keySet().toArray()[0].toString();
 		}
-		df.getInfo().setWorkflowInstance(new WorkflowInstance(wf, can));
+		if(df.getVersionInfo().getVersion().equals("1.0"))
+			df.getInfo().setWorkflowInstance(new WorkflowInstance(wf, can));
+		else
+			df.getInfo().setWorkflowInstance((dao.getLatestDocFragmentVersion(user.getUsername(), df.getInfo().getName())).getInfo().getWorkflowInstance());
 				
 		// container.store(df.getInfo().getAllVersions());
 

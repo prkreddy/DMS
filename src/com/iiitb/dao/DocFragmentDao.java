@@ -34,7 +34,7 @@ class Predicate1 extends Predicate<DocFragment>
 
 	public boolean match(DocFragment arg0)
 	{
-		return arg0.getInfo().getAccessors().get(username) != null;
+		return true;
 	}
 }
 
@@ -51,7 +51,7 @@ class PredicateEdit extends Predicate<DocFragment>
 
 	public boolean match(DocFragment arg0)
 	{
-		return arg0.getInfo().getAccessors().get(username) != null && !(arg0.getDocId().equals(docId));
+		return !(arg0.getDocId().equals(docId));
 	}
 }
 
