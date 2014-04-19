@@ -34,7 +34,8 @@
 
 				<td><s:property value="#stat.index" /></td>
 				<td><button id='<s:property value="docId" />'
-						value='<s:property value="name" />'>preview</button>
+						value='<s:property value="name" />'
+						onclick="documentPreview(this)">preview</button>
 				<td><s:property value="name" /></td>
 
 				<td><s:property value="version" /></td>
@@ -45,11 +46,17 @@
 				<%-- <td><s:property value="size" /></td> --%>
 
 				<td><s:if test='enableActivityUpdate == "true"'>
-						<input id="<s:property value="docId" />" type="button"
-							value="update" />
+
+						<button id='update$<s:property value="docId" />'
+							onclick="updateActivity(this)" >update</button>
+
+
+
 					</s:if> <s:elseif test='enableActivityUpdate == "false"'>
-						<input id="<s:property value="docId"  />" type="button"
-							disabled="disabled" value="update" />
+
+
+						<button id='update$<s:property value="docId" />'
+							onclick="updateActivity(this)" disabled="disabled">update</button>
 					</s:elseif></td>
 			</tr>
 		</s:iterator>
@@ -59,40 +66,71 @@
 	<script src="js/jquery-1.10.2.js"></script>
 
 	<script>
-		$(document).ready(
-				function() {
+		function documentPreview(data) {
 
-					$("button").click(
-							function() {
+			var docId = data.getAttribute("id");
+			$.post("fileDownloadAction?documentId=" + docId, function(value) {
+				window.open('finalNew.pdf', '_blank');
 
-								var docId = $(this).attr('id');
+			});
 
-								$.post(
-										"fileDownloadAction?documentId="
+		}
+
+		function updateActivity(data) {
+
+			var docId = data.getAttribute("id");
+			var split = docId.split("$");
+			$.post("updateStatusAction?documentId=" + split[1],
+					function(value) {
+						var element=document.getElementById(docId);
+						
+						element.setAttribute("disabled","disabled");
+						
+						
+					});
+
+		}
+
+		/* $(document)
+				.ready(
+						function() {
+
+							$("button").click(
+									function() {
+
+										var docId = $(this).attr('id');
+
+										$.post("fileDownloadAction?documentId="
 												+ docId, function(data) {
 											window.open('finalNew.pdf',
 													'_blank');
 
 										});
-							});
+									});
 
-					$("input").click(
-							function() {
+							$("input")
+									.click(
+											function() {
 
-								alert("updatestatus");
+												var docId = $(this).attr('id');
+												alert(docId);
+												var split = docId.split("$");
+												alert(split[1]);
+												$
+														.post(
+																"updateStatusAction?documentId="
+																		+ split[1],
+																function(data) {
+																	document
+																			.getElementById(docId).disabled = true;
+																});
 
-								var docId = $(this).attr('id');
+											});
 
-								$.post(
-										"updateStatusAction?documentId="
-												+ docId, function(data) {
-											window.location.reload(true);
+							//$(this).attr('disabled', 'disabled');
+							//document.getElementsByTagName("input").disabled=true;
 
-										});
-
-							});
-
-				});
+						}); */
 	</script>
 
 </body>

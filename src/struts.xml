@@ -6,7 +6,10 @@
 
 <struts>
 
-	<package name="default" namespace="/" extends="struts-default">
+	<constant name="struts.convention.default.parent.package"
+		value="default" />
+
+	<package name="default" namespace="/" extends="struts-default,json-default">
 		<result-types>
 			<result-type name="tiles"
 				class="org.apache.struts2.views.tiles.TilesResult" />
@@ -197,7 +200,7 @@
 		<action name="updateStatusAction" class="com.iiitb.action.DocumentDownloadAction"
 			method="updateStatus">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
-			<result name="success">documentsAction</result>
+			<result name="success" type="json"></result>
 			<result name="failure">fileNotFound.jsp</result>
 			<result name="login">signin.jsp</result>
 		</action>
