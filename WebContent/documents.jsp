@@ -24,7 +24,9 @@
 				<td><b id="order">Date Created</b></td>
 				<td><b id="order">Date Modified</b></td>
 				<td><b>Actor</b></td>
-				<td><b>UpdateActivity</b></td>
+				<s:if test="#session.user.getRole().getName()!='admin'">
+					<td><b>UpdateActivity</b></td>
+				</s:if>
 				<!-- <td><b>Size</b></td> -->
 			</tr>
 		</thead>
@@ -44,20 +46,22 @@
 				<td><s:property value="dateModified" /></td>
 				<td><s:property value="actor" /></td>
 				<%-- <td><s:property value="size" /></td> --%>
+				<s:if test="#session.user.getRole().getName()!='admin'">
+					<td><s:if test='enableActivityUpdate == "true"'>
 
-				<td><s:if test='enableActivityUpdate == "true"'>
-
-						<button id='update$<s:property value="docId" />'
-							onclick="updateActivity(this)" >update</button>
-
-
-
-					</s:if> <s:elseif test='enableActivityUpdate == "false"'>
+							<button id='update$<s:property value="docId" />'
+								onclick="updateActivity(this)">update</button>
 
 
-						<button id='update$<s:property value="docId" />'
-							onclick="updateActivity(this)" disabled="disabled">update</button>
-					</s:elseif></td>
+
+						</s:if> <s:elseif test='enableActivityUpdate == "false"'>
+
+
+							<button id='update$<s:property value="docId" />'
+								onclick="updateActivity(this)" disabled="disabled">update</button>
+						</s:elseif></td>
+				</s:if>
+
 			</tr>
 		</s:iterator>
 	</table>
@@ -82,11 +86,10 @@
 			var split = docId.split("$");
 			$.post("updateStatusAction?documentId=" + split[1],
 					function(value) {
-						var element=document.getElementById(docId);
-						
-						element.setAttribute("disabled","disabled");
-						
-						
+						var element = document.getElementById(docId);
+
+						element.setAttribute("disabled", "disabled");
+
 					});
 
 		}

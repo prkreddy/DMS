@@ -125,35 +125,47 @@ public class DocumentsAction extends ActionSupport implements SessionAware, Serv
 				dfd.dateModified = df.getVersionInfo().getTimeStamp().toString();
 				dfd.actor = df.getVersionInfo().getActor().getUsername();
 
-				Workflow wf = df.getInfo().getWorkflowInstance().getWorkflow();
-				String currentActivityName = df.getInfo().getWorkflowInstance().getCurrentActivityName();
-				if (wf instanceof UserSpecificWorkflow)
+				if (!user.getRole().getName().equals("admin"))
 				{
-
-					User user = ((UserSpecificWorkflow) wf).getActivitySequence().get(currentActivityName);
-
-					if (user.getName().equals(this.getUser().getName()))
+					Workflow wf = df.getInfo().getWorkflowInstance().getWorkflow();
+					String currentActivityName = df.getInfo().getWorkflowInstance().getCurrentActivityName();
+					if (wf instanceof UserSpecificWorkflow)
 					{
-						dfd.setEnableActivityUpdate("true");
+
+						User user = ((UserSpecificWorkflow) wf).getActivitySequence().get(currentActivityName);
+
+						if (user.getName().equals(this.getUser().getName()))
+						{
+							dfd.setEnableActivityUpdate("true");
+						}
+						else
+						{
+							dfd.setEnableActivityUpdate("false");
+						}
+
 					}
-					else
+					else if (wf instanceof RoleBasedWorkflow)
 					{
-						dfd.setEnableActivityUpdate("false");
-					}
 
-				}
-				else if (wf instanceof RoleBasedWorkflow)
-				{
+						ThreeTuple tuple = ((RoleBasedWorkflow) wf).getActivitySequence().get(currentActivityName);
 
-					ThreeTuple tuple = ((RoleBasedWorkflow) wf).getActivitySequence().get(currentActivityName);
+						if (tuple.getGroup().getName().equals(this.getUser().getGroup().getName()) && tuple.getRole().getName()
+								.equals(this.getUser().getRole().getName()))
+						{
+							if (checkAlreadyActedOnUser(df.getInfo().getWorkflowInstance().getActorsWhoHaveActed(), user.getEmail()))
 
-					if (tuple.getGroup().getName().equals(this.getUser().getGroup().getName()) && tuple.getRole().getName().equals(this.getUser().getRole().getName()))
-					{
-						dfd.setEnableActivityUpdate("true");
-					}
-					else
-					{
-						dfd.setEnableActivityUpdate("false");
+								dfd.setEnableActivityUpdate("false");
+							else
+							{
+								dfd.setEnableActivityUpdate("true");
+							}
+
+						}
+						else
+						{
+							dfd.setEnableActivityUpdate("false");
+						}
+
 					}
 
 				}
@@ -208,6 +220,25 @@ public class DocumentsAction extends ActionSupport implements SessionAware, Serv
 	public void setServletRequest(HttpServletRequest arg0)
 	{
 		servletRequest = arg0;
+
+	}
+
+	private boolean checkAlreadyActedOnUser(List<User> actorsWhoHaveActed, String email)
+	{
+
+		if (actorsWhoHaveActed != null)
+		{
+
+			for (User user : actorsWhoHaveActed)
+			{
+
+				if (user.getEmail().equals(email))
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 
 	}
 }
