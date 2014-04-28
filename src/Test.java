@@ -34,16 +34,86 @@ public class Test
 		u.setGroup(project1);
 		c.store(u);
 		
-		
 		u=new User("u3", "u3", "u3", "u3", null);
+		u.setRole(teamMember);
+		u.setGroup(project1);
+		c.store(u);
+		
+		
+		u=new User("u4", "u4", "u4", "u4", null);
+		u.setRole(teamMember);
+		u.setGroup(project1);
+		c.store(u);
+		
+		
+		
+		u=new User("tl1", "tl1", "tl1", "tl1", null);
 		u.setRole(teamLead);
 		u.setGroup(project1);
 		c.store(u);
 		
-		u=new User("u4", "u4", "u4", "u4", null);
+		
+		u=new User("tl2", "tl2", "tl2", "tl2", null);
+		u.setRole(teamLead);
+		u.setGroup(project1);
+		c.store(u);
+		
+		u=new User("tl3", "tl3", "tl3", "tl3", null);
+		u.setRole(teamLead);
+		u.setGroup(project1);
+		c.store(u);
+		
+		
+		u=new User("tl4", "tl4", "tl4", "tl4", null);
+		u.setRole(teamLead);
+		u.setGroup(project1);
+		c.store(u);
+		
+		u=new User("u21", "u21", "u21", "u21", null);
+		u.setRole(teamMember);
+		u.setGroup(project2);
+		c.store(u);
+		
+		u=new User("u22", "u22", "u22", "u22", null);
+		u.setRole(teamMember);
+		u.setGroup(project2);
+		c.store(u);
+		
+		u=new User("u23", "u23", "u23", "u23", null);
+		u.setRole(teamMember);
+		u.setGroup(project2);
+		c.store(u);
+		
+		
+		u=new User("u24", "u24", "u24", "u24", null);
+		u.setRole(teamMember);
+		u.setGroup(project2);
+		c.store(u);
+		
+		
+		
+		u=new User("tl21", "tl21", "tl21", "tl21", null);
 		u.setRole(teamLead);
 		u.setGroup(project2);
 		c.store(u);
+		
+		
+		u=new User("tl22", "tl22", "tl22", "tl22", null);
+		u.setRole(teamLead);
+		u.setGroup(project2);
+		c.store(u);
+		
+		u=new User("tl23", "tl23", "tl23", "tl23", null);
+		u.setRole(teamLead);
+		u.setGroup(project2);
+		c.store(u);
+		
+		
+		u=new User("tl24", "tl24", "tl24", "tl24", null);
+		u.setRole(teamLead);
+		u.setGroup(project2);
+		c.store(u);
+		
 		
 		ConnectionPool.freeConnection(c);
 		System.out.println("admin created");

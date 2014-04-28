@@ -126,5 +126,22 @@ public class WorkFlowDao
 		}
 		return null;
 	}
+	
+	public List<String> getWorkFlows()
+	{
+		PredicateRoleBaseWF p = new PredicateRoleBaseWF();
+		List<RoleBasedWorkflow> l = db.query(p);
+		List<String> flows = new ArrayList<String>();
+		for (RoleBasedWorkflow wf : l)
+		{
+			flows.add(wf.getName());
+		}
+		return flows;
+	}
+
+	
+
+	
+	
 
 }

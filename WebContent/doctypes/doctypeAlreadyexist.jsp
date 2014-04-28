@@ -7,8 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-	<h1>Under Construction</h1>
-
+	<h1>doctype with same name already exists</h1>
 </body>
 </html>

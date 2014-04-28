@@ -29,6 +29,11 @@
 		<put-attribute name="body" value="/documents.jsp" />
 	</definition>
 
+	<definition name="metadata.tiles" extends="baseLayout">
+		<put-attribute name="documentsLink" value="/layout/documentsLinkWhite.jsp" />
+		<put-attribute name="body" value="/metadata.jsp" />
+	</definition>
+
 	<definition name="documentUploadPortal" extends="baseLayoutWithBody">
 		<put-attribute name="documentsLink" value="/layout/documentsLinkPurple.jsp" />
 		<put-attribute name="body" value="/documentUploadPortal.jsp" />
@@ -81,5 +86,13 @@
 			value="/layout/manageDocumentTypesLinkWhite.jsp" />
 	</definition>
 
-
+	<definition name="doctypeAlreadyexist" extends="baseLayout">
+		<put-attribute name="body" value="/doctypes/doctypeAlreadyexist.jsp" />
+		<put-attribute name="manageDocumentTypesLink"
+			value="/layout/manageDocumentTypesLinkWhite.jsp" />
+	</definition>
+	
+	<definition name="viewDocType" extends="baseLayoutWithBody">
+		<put-attribute name="body" value="/doctypes/viewDocType.jsp" />
+	</definition>
 </tiles-definitions>
