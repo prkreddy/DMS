@@ -183,6 +183,45 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 
 	}
 
+	private void updateDocFrags(ObjectContainer container, List<DocFragment> docFrags, DocFragment parentFrag, String docId,
+			DocFragment updatedDocFrag)
+	{
+
+		int length = docFrags.size();
+
+		for (int i = 0; i < length; i++)
+		{
+			if (docFrags.get(i).getFragsBeforeNativeContent().size() > 0)
+			{
+				updateDocFrags(container, docFrags.get(i).getFragsBeforeNativeContent(), docFrags.get(i), docId, updatedDocFrag);
+			}
+			if (docFrags.get(i).getDocId().equals(docId))
+			{
+				docFrags.set(i, updatedDocFrag);
+
+				/*
+				 * try { Blob blob = docFrags.get(i).getBlob(); File destFile =
+				 * null; String destpath =
+				 * servletRequest.getSession().getServletContext
+				 * ().getRealPath("/"); destFile = new File(destpath,
+				 * updatedDocFrag.getBlob().getFileName());
+				 * updatedDocFrag.getBlob().writeTo(destFile);
+				 * blob.readFrom(destFile);
+				 * 
+				 * double status = blob.getStatus(); while (status >
+				 * Status.COMPLETED) { try { Thread.sleep(50); status =
+				 * blob.getStatus(); } catch (InterruptedException ex) {
+				 * System.out.println(ex.getMessage()); } }
+				 * 
+				 * } catch (IOException e) { e.printStackTrace(); }
+				 */
+			}
+			container.store(parentFrag);
+			container.commit();
+		}
+
+	}
+	
 	public String updateStatus()
 	{
 
@@ -197,12 +236,24 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 		boolean found = false;
 		if (wf instanceof UserSpecificWorkflow)
 		{
-
+			int i=1;
+			User user=dao.getUserByUsername(((User)session.get(DMSConstants.USER_LOGGED_IN)).getUsername());
 			for (Entry<String, User> entry : ((UserSpecificWorkflow) wf).getActivitySequence().entrySet())
 			{
 				if (found)
 				{
 					fragment.getInfo().getWorkflowInstance().setCurrentActivityName(entry.getKey());
+					if(i==((RoleBasedWorkflow) wf).getActivitySequence().entrySet().size()
+							&& !fragment.getVersionInfo().getVersion().equals("1.0"))
+					{
+						fragment.getInfo().getAllVersions().remove(fragment.getVersionInfo().getVersion());
+						fragment.getVersionInfo().setVersion(fragment.getVersionInfo().getVersion().substring(1));
+						fragment.getInfo().getAllVersions().put(fragment.getVersionInfo().getVersion(), fragment);
+						String previousVersion = fragment.getInfo().getName() + ", v" + ((Float) (Float.parseFloat(fragment.getVersionInfo().getVersion()) - 1.0f)).toString();
+						List<DocFragment> docFrags = dao.getDocFragmentsForEdit(user.getUsername(), previousVersion);
+						updateDocFrags(container, docFrags, null, previousVersion, fragment);
+					}
+
 					found = false;
 					break;
 				}
@@ -217,19 +268,33 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 		}
 		else if (wf instanceof RoleBasedWorkflow)
 		{
-
+			int i=1;
+			User user=dao.getUserByUsername(((User)session.get(DMSConstants.USER_LOGGED_IN)).getUsername());
 			for (Entry<String, ThreeTuple> entry : ((RoleBasedWorkflow) wf).getActivitySequence().entrySet())
 			{
+				
 				if (found)
 				{
 					fragment.getInfo().getWorkflowInstance().setCurrentActivityName(entry.getKey());
+					
+					if(i==((RoleBasedWorkflow) wf).getActivitySequence().entrySet().size()
+							&& !fragment.getVersionInfo().getVersion().equals("1.0"))
+					{
+						fragment.getInfo().getAllVersions().remove(fragment.getVersionInfo().getVersion());
+						fragment.getVersionInfo().setVersion(fragment.getVersionInfo().getVersion().substring(1));						
+						fragment.getInfo().getAllVersions().put(fragment.getVersionInfo().getVersion(), fragment);
+						container.store(fragment.getInfo().getAllVersions());
+						String previousVersion = fragment.getInfo().getName() + ", v" + ((Float) (Float.parseFloat(fragment.getVersionInfo().getVersion()) - 1.0f)).toString();
+						List<DocFragment> docFrags = dao.getDocFragmentsForEdit(user.getUsername(), previousVersion);
+						updateDocFrags(container, docFrags, null, previousVersion, fragment);
+					}
 					found = false;
 					break;
 				}
 
 				if (entry.getKey().equals(currenString))
 				{
-					User user=dao.getUserByUsername(((User)session.get(DMSConstants.USER_LOGGED_IN)).getUsername());
+					
 					fragment.getInfo().getWorkflowInstance().getActorsWhoHaveActed().add(user);
 					container.store(fragment.getInfo().getWorkflowInstance().getActorsWhoHaveActed());
 					System.out.println(fragment.getInfo().getWorkflowInstance().getActorsWhoHaveActed().size());
@@ -242,7 +307,7 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 						found = true;
 					}
 				}
-
+				i++;
 			}
 
 		}

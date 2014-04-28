@@ -38,6 +38,21 @@
 			<result name="login">home.jsp</result>
 		</action>
 
+		<action name="getWorkflowDetails" class="com.iiitb.action.WorkflowViewAction" method="getDetails">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			<result name="input">signin.jsp</result>
+			<result name="login">signin.jsp</result>
+		</action>
+
+		<action name="metadataAction" class="com.iiitb.action.MetadataAction">
+			<result name="success" type="tiles">metadata.tiles</result>
+			<result name="input">signup.jsp</result>
+			<result name="login">home.jsp</result>
+		</action>
 
 		<action name="manageWorkflowsAction" class="com.iiitb.action.ManageWorkflowsAction">
 			<result name="success" type="tiles">manageWorkflows</result>
@@ -58,7 +73,14 @@
 			<result name="input">signin.jsp</result>
 			<result name="login">signin.jsp</result>
 		</action>
-
+		
+		
+		<action name="workflowViewAction" class="com.iiitb.action.WorkflowViewAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success">workflowViewPortal.jsp</result>
+			<result name="input">signin.jsp</result>
+			<result name="login">signin.jsp</result>
+		</action>
 
 		<action name="documentsAction" class="com.iiitb.action.DocumentsAction">
 			<interceptor-ref name="secureAccess"></interceptor-ref>

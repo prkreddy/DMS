@@ -29,6 +29,11 @@
 		<put-attribute name="body" value="/documents.jsp" />
 	</definition>
 
+	<definition name="metadata.tiles" extends="baseLayout">
+		<put-attribute name="documentsLink" value="/layout/documentsLinkWhite.jsp" />
+		<put-attribute name="body" value="/metadata.jsp" />
+	</definition>
+
 	<definition name="documentUploadPortal" extends="baseLayoutWithBody">
 		<put-attribute name="documentsLink" value="/layout/documentsLinkPurple.jsp" />
 		<put-attribute name="body" value="/documentUploadPortal.jsp" />

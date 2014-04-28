@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="com.iiitb.model.DocFragmentDisplayDetails"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="/struts-tags" prefix="s"%>
@@ -20,7 +22,7 @@
 				<td><b>View</b></td>
 				<td><b id="order">Name</b></td>
 				<td><b>Version</b></td>
-				<td><b>Access</b></td>
+				<td><b>Metadata</b></td>
 				<td><b id="order">Date Created</b></td>
 				<td><b id="order">Date Modified</b></td>
 				<td><b>Actor</b></td>
@@ -40,26 +42,60 @@
 						onclick="documentPreview(this)">preview</button>
 				<td><s:property value="name" /></td>
 
-				<td><s:property value="version" /></td>
-				<td><s:property value="access" /></td>
+				<td><s:property value='version.replace("-","")' /></td>
+				<td><a href='metadataAction?docId=<s:property value="name" />, v<s:property value='version.replace("-","")' />'>View</a></td>
 				<td><s:property value="dateCreated" /></td>
 				<td><s:property value="dateModified" /></td>
 				<td><s:property value="actor" /></td>
 				<%-- <td><s:property value="size" /></td> --%>
 				<s:if test="#session.user.getRole().getName()!='admin'">
-					<td><s:if test='enableActivityUpdate == "true"'>
-
-							<button id='update$<s:property value="docId" />'
-								onclick="updateActivity(this)">update</button>
-
-
-
-						</s:if> <s:elseif test='enableActivityUpdate == "false"'>
-
-
-							<button id='update$<s:property value="docId" />'
-								onclick="updateActivity(this)" disabled="disabled">update</button>
-						</s:elseif></td>
+					<td>
+						<%boolean flag=true; %>
+						<s:if test='version.contains("-")'>
+							<s:if test='enableActivityUpdate == "true"'>
+								<button id='update$<s:property value="docId" />'
+									onclick="updateActivity(this)">update</button>
+							</s:if> <s:elseif test='enableActivityUpdate == "false"'>
+								<button id='update$<s:property value="docId" />'
+									onclick="updateActivity(this)" disabled="disabled">update</button>
+							</s:elseif>
+						</s:if>
+						<s:elseif test='version.equals("1.0")'>
+							<%
+								flag=true;
+								List<DocFragmentDisplayDetails> l=(List<DocFragmentDisplayDetails>)request.getAttribute("docFragmentDisplayDetailsList");
+								for(DocFragmentDisplayDetails dfdd:l)
+								{
+									if(dfdd.getName().equals(request.getAttribute("name").toString())
+											&& !dfdd.getVersion().equals("1.0"))
+									{
+										flag=false;
+										break;
+									}
+								}
+								if(flag) {%>
+									<s:if test='enableActivityUpdate == "true"'>
+										<button id='update$<s:property value="docId" />'
+											onclick="updateActivity(this)">update</button>
+									</s:if> <s:elseif test='enableActivityUpdate == "false"'>
+										<button id='update$<s:property value="docId" />'
+											onclick="updateActivity(this)" disabled="disabled">update</button>
+									</s:elseif>
+								<%} else {%>
+									
+										<button id='update$<s:property value="docId" />'
+											onclick="updateActivity(this)" disabled="disabled">update</button>
+									
+								<%}
+							%>
+						</s:elseif>
+						<s:else>
+						<button id='update$<s:property value="docId" />'
+											onclick="updateActivity(this)" disabled="disabled">update</button>
+						</s:else>
+						
+						
+					</td>
 				</s:if>
 
 			</tr>

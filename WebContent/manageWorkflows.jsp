@@ -20,12 +20,12 @@
 
 
 	<s:url var="remoteurl1" action="workflowCreateAction" />
-	<s:url var="remoteurl2" action="workflowCreateAction" />
+	<s:url var="remoteurl2" action="workflowViewAction" />
 
 	<sj:tabbedpanel id="remotetabs" selectedTab="2" show="true"
 		hide="'fade'" collapsible="true" sortable="true">
 		<sj:tab id="tab1" href="%{remoteurl1}" label="Create new workflow" />
-		<sj:tab id="tab2" href="%{remoteurl2}" label="Edit existing workflow" />		
+		<sj:tab id="tab2" href="%{remoteurl2}" label="View workflows" />		
 	</sj:tabbedpanel>
 
 
