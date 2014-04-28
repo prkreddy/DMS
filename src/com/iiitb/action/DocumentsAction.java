@@ -147,7 +147,7 @@ public class DocumentsAction extends ActionSupport implements SessionAware, Serv
 
 					ThreeTuple tuple = ((RoleBasedWorkflow) wf).getActivitySequence().get(currentActivityName);
 
-					if (tuple.getGroup().equals(this.getUser().getGroup()) && tuple.getRole().equals(this.getUser().getRole()))
+					if (tuple.getGroup().getName().equals(this.getUser().getGroup().getName()) && tuple.getRole().getName().equals(this.getUser().getRole().getName()))
 					{
 						dfd.setEnableActivityUpdate("true");
 					}
