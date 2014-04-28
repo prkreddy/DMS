@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.util.PDFMergerUtility;
 import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.SessionAware;
 
 import com.db4o.ObjectContainer;
 import com.iiitb.dao.DocFragmentDao;
@@ -30,10 +32,12 @@ import com.iiitb.model.User;
 import com.iiitb.model.UserSpecificWorkflow;
 import com.iiitb.model.Workflow;
 import com.iiitb.util.ConnectionPool;
+import com.iiitb.util.DMSConstants;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class DocumentDownloadAction extends ActionSupport implements ServletRequestAware
+public class DocumentDownloadAction extends ActionSupport implements ServletRequestAware, SessionAware
 {
+	private Map<String, Object> session;
 	private InputStream fileInputStream;
 
 	private String documentId;
@@ -225,7 +229,18 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 
 				if (entry.getKey().equals(currenString))
 				{
-					found = true;
+					User user=dao.getUserByUsername(((User)session.get(DMSConstants.USER_LOGGED_IN)).getUsername());
+					fragment.getInfo().getWorkflowInstance().getActorsWhoHaveActed().add(user);
+					container.store(fragment.getInfo().getWorkflowInstance().getActorsWhoHaveActed());
+					System.out.println(fragment.getInfo().getWorkflowInstance().getActorsWhoHaveActed().size());
+					System.out.println(((RoleBasedWorkflow)fragment.getInfo().getWorkflowInstance().getWorkflow()).getActivitySequence().get(currenString).getActorCount());
+					
+					if(fragment.getInfo().getWorkflowInstance().getActorsWhoHaveActed().size()
+						==((RoleBasedWorkflow)fragment.getInfo().getWorkflowInstance().getWorkflow()).getActivitySequence().get(currenString).getActorCount())
+					{
+						fragment.getInfo().getWorkflowInstance().setActorsWhoHaveActed(new ArrayList<User>());
+						found = true;
+					}
 				}
 
 			}
@@ -237,5 +252,11 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 
 		ConnectionPool.freeConnection(container);
 		return SUCCESS;
+	}
+
+	@Override
+	public void setSession(Map<String, Object> arg0) {
+		// TODO Auto-generated method stub
+		this.session=arg0;
 	}
 }

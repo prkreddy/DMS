@@ -20,6 +20,7 @@ import com.iiitb.model.RoleBasedWorkflow;
 import com.iiitb.model.ThreeTuple;
 import com.iiitb.model.UserGroup;
 import com.iiitb.model.UserRole;
+import com.iiitb.model.WorkflowInstance;
 import com.iiitb.model.DocFragmentInfo.Access;
 import com.iiitb.model.DocumentType;
 import com.iiitb.model.DocFragmentInfo.FileFormat;
@@ -49,6 +50,7 @@ public class ConnectionPool
 		config.common().objectClass(Access.class).cascadeOnActivate(true);
 		config.common().objectClass(DocumentType.class).cascadeOnActivate(true);
 		config.common().objectClass(Workflow.class).cascadeOnActivate(true);
+		config.common().objectClass(WorkflowInstance.class).cascadeOnActivate(true);
 		config.common().objectClass(UserSpecificWorkflow.class).cascadeOnActivate(true);
 		config.common().objectClass(RoleBasedWorkflow.class).cascadeOnActivate(true);
 		config.common().objectClass(ThreeTuple.class).cascadeOnActivate(true);
@@ -73,6 +75,7 @@ public class ConnectionPool
 		config.common().objectClass(Access.class).cascadeOnUpdate(true);
 		config.common().objectClass(DocumentType.class).cascadeOnUpdate(true);
 		config.common().objectClass(Workflow.class).cascadeOnUpdate(true);
+		config.common().objectClass(WorkflowInstance.class).cascadeOnUpdate(true);
 		config.common().objectClass(UserSpecificWorkflow.class).cascadeOnUpdate(true);
 		config.common().objectClass(RoleBasedWorkflow.class).cascadeOnUpdate(true);
 		config.common().objectClass(ThreeTuple.class).cascadeOnUpdate(true);

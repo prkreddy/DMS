@@ -31,13 +31,18 @@ public class Test
 		
 		u=new User("u2", "u2", "u2", "u2", null);
 		u.setRole(teamMember);
-		u.setGroup(project2);
+		u.setGroup(project1);
 		c.store(u);
 		
 		
 		u=new User("u3", "u3", "u3", "u3", null);
 		u.setRole(teamLead);
 		u.setGroup(project1);
+		c.store(u);
+		
+		u=new User("u4", "u4", "u4", "u4", null);
+		u.setRole(teamLead);
+		u.setGroup(project2);
 		c.store(u);
 		
 		ConnectionPool.freeConnection(c);
