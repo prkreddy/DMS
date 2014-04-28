@@ -236,7 +236,7 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 					System.out.println(((RoleBasedWorkflow)fragment.getInfo().getWorkflowInstance().getWorkflow()).getActivitySequence().get(currenString).getActorCount());
 					
 					if(fragment.getInfo().getWorkflowInstance().getActorsWhoHaveActed().size()
-						==((RoleBasedWorkflow)fragment.getInfo().getWorkflowInstance().getWorkflow()).getActivitySequence().get(currenString).getActorCount())
+						>=((RoleBasedWorkflow)fragment.getInfo().getWorkflowInstance().getWorkflow()).getActivitySequence().get(currenString).getActorCount())
 					{
 						fragment.getInfo().getWorkflowInstance().setActorsWhoHaveActed(new ArrayList<User>());
 						found = true;
