@@ -109,10 +109,11 @@
 		function documentPreview(data) {
 
 			var docId = data.getAttribute("id");
-			$.post("fileDownloadAction?documentId=" + docId, function(value) {
-				window.open('finalNew.pdf', '_blank');
+		
+				window.open("fileDownloadAction?documentId=" + docId, '_blank');
+				//window.open("fileDownloadAction?documentId=" + docId,'popUpWindow','height=500,width=900,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes') ;
 
-			});
+	
 
 		}
 

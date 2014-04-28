@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -21,6 +22,7 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.util.PDFMergerUtility;
 import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.db4o.ObjectContainer;
@@ -77,9 +79,25 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 	public String execute()
 	{
 		String realPath = servletRequest.getSession().getServletContext().getRealPath("/");
-		System.out.println("RealPath" + realPath);
+		
+		
+
+		File filedir = new File(realPath);
+		if (filedir!=null && filedir.isDirectory())
+		{
+
+			File files[] = filedir.listFiles();
+
+			for (File fl : files)
+			{
+				if (fl.isFile() && fl.getName().endsWith(".pdf"))
+				{
+					fl.delete();
+				}
+			}
+		}
+
 		String finalDocumentPath = realPath + "final.pdf";
-		String finalNewDocumentPath = realPath + "finalNew.pdf";
 		DocFragmentDao dao = new DocFragmentDao();
 		ObjectContainer container = ConnectionPool.getConnection();
 		dao.setDb(container);
@@ -128,8 +146,8 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 				footercontentStream.endText();
 				footercontentStream.close();
 			}
-			doc.save(finalNewDocumentPath);
-			setFilePath(finalNewDocumentPath);
+			doc.save(finalDocumentPath);
+			setFilePath(finalDocumentPath);
 
 		}
 		catch (MalformedURLException e)
@@ -165,7 +183,7 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 
 		try
 		{
-			fileInputStream = new FileInputStream(new File(finalNewDocumentPath));
+			fileInputStream = new FileInputStream(new File(finalDocumentPath));
 		}
 		catch (Exception e)
 		{
@@ -175,6 +193,8 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 	}
 
 	HttpServletRequest servletRequest;
+	
+	
 
 	@Override
 	public void setServletRequest(HttpServletRequest arg0)
@@ -221,7 +241,7 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 		}
 
 	}
-	
+
 	public String updateStatus()
 	{
 
@@ -236,20 +256,21 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 		boolean found = false;
 		if (wf instanceof UserSpecificWorkflow)
 		{
-			int i=1;
-			User user=dao.getUserByUsername(((User)session.get(DMSConstants.USER_LOGGED_IN)).getUsername());
+			int i = 1;
+			User user = dao.getUserByUsername(((User) session.get(DMSConstants.USER_LOGGED_IN)).getUsername());
 			for (Entry<String, User> entry : ((UserSpecificWorkflow) wf).getActivitySequence().entrySet())
 			{
 				if (found)
 				{
 					fragment.getInfo().getWorkflowInstance().setCurrentActivityName(entry.getKey());
-					if(i==((RoleBasedWorkflow) wf).getActivitySequence().entrySet().size()
+					if (i == ((RoleBasedWorkflow) wf).getActivitySequence().entrySet().size()
 							&& !fragment.getVersionInfo().getVersion().equals("1.0"))
 					{
 						fragment.getInfo().getAllVersions().remove(fragment.getVersionInfo().getVersion());
 						fragment.getVersionInfo().setVersion(fragment.getVersionInfo().getVersion().substring(1));
 						fragment.getInfo().getAllVersions().put(fragment.getVersionInfo().getVersion(), fragment);
-						String previousVersion = fragment.getInfo().getName() + ", v" + ((Float) (Float.parseFloat(fragment.getVersionInfo().getVersion()) - 1.0f)).toString();
+						String previousVersion = fragment.getInfo().getName() + ", v"
+								+ ((Float) (Float.parseFloat(fragment.getVersionInfo().getVersion()) - 1.0f)).toString();
 						List<DocFragment> docFrags = dao.getDocFragmentsForEdit(user.getUsername(), previousVersion);
 						updateDocFrags(container, docFrags, null, previousVersion, fragment);
 					}
@@ -268,23 +289,24 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 		}
 		else if (wf instanceof RoleBasedWorkflow)
 		{
-			int i=1;
-			User user=dao.getUserByUsername(((User)session.get(DMSConstants.USER_LOGGED_IN)).getUsername());
+			int i = 1;
+			User user = dao.getUserByUsername(((User) session.get(DMSConstants.USER_LOGGED_IN)).getUsername());
 			for (Entry<String, ThreeTuple> entry : ((RoleBasedWorkflow) wf).getActivitySequence().entrySet())
 			{
-				
+
 				if (found)
 				{
 					fragment.getInfo().getWorkflowInstance().setCurrentActivityName(entry.getKey());
-					
-					if(i==((RoleBasedWorkflow) wf).getActivitySequence().entrySet().size()
+
+					if (i == ((RoleBasedWorkflow) wf).getActivitySequence().entrySet().size()
 							&& !fragment.getVersionInfo().getVersion().equals("1.0"))
 					{
 						fragment.getInfo().getAllVersions().remove(fragment.getVersionInfo().getVersion());
-						fragment.getVersionInfo().setVersion(fragment.getVersionInfo().getVersion().substring(1));						
+						fragment.getVersionInfo().setVersion(fragment.getVersionInfo().getVersion().substring(1));
 						fragment.getInfo().getAllVersions().put(fragment.getVersionInfo().getVersion(), fragment);
 						container.store(fragment.getInfo().getAllVersions());
-						String previousVersion = fragment.getInfo().getName() + ", v" + ((Float) (Float.parseFloat(fragment.getVersionInfo().getVersion()) - 1.0f)).toString();
+						String previousVersion = fragment.getInfo().getName() + ", v"
+								+ ((Float) (Float.parseFloat(fragment.getVersionInfo().getVersion()) - 1.0f)).toString();
 						List<DocFragment> docFrags = dao.getDocFragmentsForEdit(user.getUsername(), previousVersion);
 						updateDocFrags(container, docFrags, null, previousVersion, fragment);
 					}
@@ -294,14 +316,15 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 
 				if (entry.getKey().equals(currenString))
 				{
-					
+
 					fragment.getInfo().getWorkflowInstance().getActorsWhoHaveActed().add(user);
 					container.store(fragment.getInfo().getWorkflowInstance().getActorsWhoHaveActed());
 					System.out.println(fragment.getInfo().getWorkflowInstance().getActorsWhoHaveActed().size());
-					System.out.println(((RoleBasedWorkflow)fragment.getInfo().getWorkflowInstance().getWorkflow()).getActivitySequence().get(currenString).getActorCount());
-					
-					if(fragment.getInfo().getWorkflowInstance().getActorsWhoHaveActed().size()
-						>=((RoleBasedWorkflow)fragment.getInfo().getWorkflowInstance().getWorkflow()).getActivitySequence().get(currenString).getActorCount())
+					System.out.println(((RoleBasedWorkflow) fragment.getInfo().getWorkflowInstance().getWorkflow()).getActivitySequence()
+							.get(currenString).getActorCount());
+
+					if (fragment.getInfo().getWorkflowInstance().getActorsWhoHaveActed().size() >= ((RoleBasedWorkflow) fragment.getInfo()
+							.getWorkflowInstance().getWorkflow()).getActivitySequence().get(currenString).getActorCount())
 					{
 						fragment.getInfo().getWorkflowInstance().setActorsWhoHaveActed(new ArrayList<User>());
 						found = true;
@@ -320,8 +343,11 @@ public class DocumentDownloadAction extends ActionSupport implements ServletRequ
 	}
 
 	@Override
-	public void setSession(Map<String, Object> arg0) {
+	public void setSession(Map<String, Object> arg0)
+	{
 		// TODO Auto-generated method stub
-		this.session=arg0;
+		this.session = arg0;
 	}
+
+	
 }
