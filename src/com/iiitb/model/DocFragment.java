@@ -120,6 +120,7 @@ public class DocFragment
 
 	public String getDocId()
 	{
+		this.docId = this.getInfo().getName() + ", v" + this.getVersionInfo().getVersion();
 		return docId;
 	}
 }

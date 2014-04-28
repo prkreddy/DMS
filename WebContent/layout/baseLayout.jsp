@@ -19,8 +19,15 @@
 				<td align="center"><tiles:insertAttribute name="manageGroupsLink" /></td>
 				<td align="center"><tiles:insertAttribute name="manageRolesLink" /></td>
 			</s:if>
+			
 			<td align="center"><tiles:insertAttribute name="documentsLink" /></td>
-			<td align="center"><tiles:insertAttribute name="ManageDocuments" /></td>
+			
+			<s:if test='!#session.get("user").getRole().getName().equals("admin")'>
+				<td align="center">
+					<tiles:insertAttribute name="ManageDocuments" />
+				</td>
+			</s:if>
+			
 			<s:if test='#session.get("user").getRole().getName().equals("admin")'>
 				<td align="center"><tiles:insertAttribute name="manageDocumentTypesLink" /></td>
 				<td align="center"><tiles:insertAttribute name="manageWorkflowsLink" /></td>

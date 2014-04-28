@@ -298,7 +298,7 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 		di = dao.getDocFragmentInfo(user.getUsername(), documentName);
 		if (di != null)
 		{
-			vi = new DocFragmentVersionInfo(this.version, user, Action.Modification, "modification of " + documentName);
+			vi = new DocFragmentVersionInfo("-"+this.version, user, Action.Modification, "modification of " + documentName);
 			df = new DocFragment(di, vi);
 
 			DocFragment frag = null;
@@ -355,55 +355,18 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 
 		}
 
-		String previousVersion = df.getInfo().getName() + ", v" + ((Float) (Float.parseFloat(df.getVersionInfo().getVersion()) - 1.0f)).toString();
+		//String previousVersion = df.getInfo().getName() + ", v" + ((Float) (Float.parseFloat(df.getVersionInfo().getVersion()) - 1.0f)).toString();
 
-		List<DocFragment> docFrags = dao.getDocFragmentsForEdit(user.getUsername(), previousVersion);
+		//List<DocFragment> docFrags = dao.getDocFragmentsForEdit(user.getUsername(), previousVersion);
 
-		updateDocFrags(container, docFrags, null, previousVersion, df);
+		//updateDocFrags(container, docFrags, null, previousVersion, df);
 
 		container.close();
 
 		return SUCCESS;
 	}
 
-	private void updateDocFrags(ObjectContainer container, List<DocFragment> docFrags, DocFragment parentFrag, String docId,
-			DocFragment updatedDocFrag)
-	{
-
-		int length = docFrags.size();
-
-		for (int i = 0; i < length; i++)
-		{
-			if (docFrags.get(i).getFragsBeforeNativeContent().size() > 0)
-			{
-				updateDocFrags(container, docFrags.get(i).getFragsBeforeNativeContent(), docFrags.get(i), docId, updatedDocFrag);
-			}
-			if (docFrags.get(i).getDocId().equals(docId))
-			{
-				docFrags.set(i, updatedDocFrag);
-
-				/*
-				 * try { Blob blob = docFrags.get(i).getBlob(); File destFile =
-				 * null; String destpath =
-				 * servletRequest.getSession().getServletContext
-				 * ().getRealPath("/"); destFile = new File(destpath,
-				 * updatedDocFrag.getBlob().getFileName());
-				 * updatedDocFrag.getBlob().writeTo(destFile);
-				 * blob.readFrom(destFile);
-				 * 
-				 * double status = blob.getStatus(); while (status >
-				 * Status.COMPLETED) { try { Thread.sleep(50); status =
-				 * blob.getStatus(); } catch (InterruptedException ex) {
-				 * System.out.println(ex.getMessage()); } }
-				 * 
-				 * } catch (IOException e) { e.printStackTrace(); }
-				 */
-			}
-			container.store(parentFrag);
-			container.commit();
-		}
-
-	}
+	
 
 	@Override
 	public void setServletRequest(HttpServletRequest arg0)
