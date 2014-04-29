@@ -96,7 +96,8 @@ class Predicate3 extends Predicate<DocFragment>
 					if(ka[i].equals(arg0.getInfo().getWorkflowInstance().getCurrentActivityName()))
 						break;
 				Object[] va=uswf.getActivitySequence().values().toArray();
-				for(int j=0; j<=i; j++)
+				//for(int j=0; j<=i; j++)
+				for(int j=0; j<ka.length; j++)
 				{
 					User u=(User)va[j];
 					if(u.getUsername().equals(user.getUsername()))
@@ -113,7 +114,8 @@ class Predicate3 extends Predicate<DocFragment>
 					if(ka[i].equals(arg0.getInfo().getWorkflowInstance().getCurrentActivityName()))
 						break;
 				Object[] va=rbwf.getActivitySequence().values().toArray();
-				for(int j=0; j<=i; j++)
+				//for(int j=0; j<=i; j++)
+				for(int j=0; j<ka.length; j++)
 				{
 					ThreeTuple tt=(ThreeTuple)va[j];
 					if(tt.getRole().getName().equals(user.getRole().getName())
@@ -208,7 +210,7 @@ class Predicate6 extends Predicate<DocFragmentInfo>
 					if(ka[i].equals(arg0.getWorkflowInstance().getCurrentActivityName()))
 						break;
 				
-				if(i!=ka.length-1)
+				if(arg0.getAllVersions().size()==1 && i!=ka.length-1)
 					return false;
 				
 				Object[] va=uswf.getActivitySequence().values().toArray();
@@ -229,7 +231,7 @@ class Predicate6 extends Predicate<DocFragmentInfo>
 					if(ka[i].equals(arg0.getWorkflowInstance().getCurrentActivityName()))
 						break;
 				
-				if(i!=ka.length-1)
+				if(arg0.getAllVersions().size()==1 && i!=ka.length-1)
 					return false;
 				
 				Object[] va=rbwf.getActivitySequence().values().toArray();
@@ -476,6 +478,8 @@ public class DocFragmentDao
 	
 	public boolean isCircularRefFree(DocFragment testDf, DocFragment srcDf)
 	{
+		System.out.println(testDf.getInfo().getName());
+		System.out.println(srcDf.getInfo().getName());
 		if(testDf.getInfo().getName().equals(srcDf.getInfo().getName()))
 			return false;
 		if(testDf.getFragsBeforeNativeContent()!=null

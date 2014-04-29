@@ -13,19 +13,18 @@
 </head>
 <body>
 
-	<!-- 	<a href="documentCreateAction">Create new document</a> |
-	<a href="documentSelectForEditAction">Edit existing document</a> -->
+
 
 
 
 
 	<s:url var="remoteurl1" action="docTypeGetWorkFlows" />
-	<s:url var="remoteurl2" action="docTypeEditAction" />
+	<s:url var="remoteurl2" action="docTypeViewAction" />
 
 	<sj:tabbedpanel id="remotetabs" selectedTab="2" show="true"
 		hide="'fade'" collapsible="true" sortable="true">
 		<sj:tab id="tab1" href="%{remoteurl1}" label="Create new DocType" />
-		<sj:tab id="tab2" href="%{remoteurl2}" label="Edit existing DocType" />		
+		<sj:tab id="tab2" href="%{remoteurl2}" label="view existing DocType" />		
 	</sj:tabbedpanel>
 
 

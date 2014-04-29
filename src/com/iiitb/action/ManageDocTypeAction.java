@@ -1,5 +1,6 @@
 package com.iiitb.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.db4o.ObjectContainer;
@@ -11,6 +12,18 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class ManageDocTypeAction extends ActionSupport
 {
+
+	List<String> docTypes;
+
+	public List<String> getDocTypes()
+	{
+		return docTypes;
+	}
+
+	public void setDocTypes(List<String> docTypes)
+	{
+		this.docTypes = docTypes;
+	}
 
 	String docTypeName;
 
@@ -54,6 +67,16 @@ public class ManageDocTypeAction extends ActionSupport
 		WorkFlowDao dao = new WorkFlowDao();
 		dao.setDb(container);
 
+		List<DocumentType> dtl = container.queryByExample(DocumentType.class);
+		for (DocumentType docType : dtl)
+		{
+			if (docType.getName().equals(this.getDocTypeName()))
+			{
+				container.close();
+				return "INPUT";
+			}
+		}
+
 		DocumentType doctype = new DocumentType(this.getDocTypeName());
 
 		Workflow flow = null;
@@ -86,6 +109,21 @@ public class ManageDocTypeAction extends ActionSupport
 
 		return SUCCESS;
 
+	}
+
+	public String getDocumenttypes()
+	{
+		ObjectContainer container = ConnectionPool.getConnection();
+		docTypes = new ArrayList<String>();
+
+		List<DocumentType> dtl = container.queryByExample(DocumentType.class);
+		for (DocumentType docType : dtl)
+		{
+			docTypes.add(docType.getName());
+		}
+
+		ConnectionPool.freeConnection(container);
+		return SUCCESS;
 	}
 
 }

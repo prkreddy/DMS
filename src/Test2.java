@@ -17,7 +17,7 @@ public class Test2
 		com.db4o.ObjectContainer c=ConnectionPool.getConnection();
 		
 		dfil=c.queryByExample(DocFragmentInfo.class);
-		dfil.get(0).getWorkflowInstance().setCurrentActivityName("review");
+		dfil.get(0).getWorkflowInstance().setCurrentActivityName("activity2");
 		c.store(dfil.get(0));
 		
 		ConnectionPool.freeConnection(c);
