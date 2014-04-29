@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a style="color: #ffffff;" href="documentsAction"><b>Manage Groups</b></a>
+	<a style="color: #ffffff;" href="manageGroupsAction"><b>Manage Groups</b></a>
 </body>
 </html>
