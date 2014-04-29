@@ -140,6 +140,20 @@
 
 
 		</action>
+		<action name="manageRolesAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result type="tiles">manageRoles</result>
+			<result name="login">signin.jsp</result>
+
+
+		</action>
+		<action name="manageGroupsAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result type="tiles">manageGroups</result>
+			<result name="login">signin.jsp</result>
+
+
+		</action>
 
 		<action name="documentUploadAction" class="com.iiitb.action.DocumentUploadAction">
 			<interceptor-ref name="secureAccess"></interceptor-ref>
@@ -190,6 +204,57 @@
 			<result name="success" type="tiles">editDocType</result>
 			<result name="login">signin.jsp</result>
 		</action>
+		
+		<action name="submitRoles" class="com.iiitb.action.SubmitRolesAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success" type="tiles">manageRoles</result>
+			<result name="login">signin.jsp</result>
+		</action>
+		
+		<action name="submitRolesToUsers" class="com.iiitb.action.SubmitRolesToUsers">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success" type="tiles">manageRoles</result>
+			<result name="login">signin.jsp</result>
+		</action>
+		
+		<action name="addRoles" class="com.iiitb.action.AddRolesAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success">addrole.jsp</result>
+			<result name="login">signin.jsp</result>
+		</action>
+		
+		<action name="addRolesToUsers" class="com.iiitb.action.AddRolesToUsersAction">
+			
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success">assignroles.jsp</result>
+			<result name="login">signin.jsp</result>
+		</action>
+		
+		<action name="submitGroups" class="com.iiitb.action.SubmitGroupsAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success" type="tiles">manageGroups</result>
+			<result name="login">signin.jsp</result>
+		</action>
+		
+		<action name="submitGroupsToUsers" class="com.iiitb.action.SubmitGroupsToUsers">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success" type="tiles">manageGroups</result>
+			<result name="login">signin.jsp</result>
+		</action>
+		
+		<action name="addGroups" class="com.iiitb.action.AddGroupsAction">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success">addgroup.jsp</result>
+			<result name="login">signin.jsp</result>
+		</action>
+		
+		<action name="addGroupsToUsers" class="com.iiitb.action.AddGroupsToUsersAction">
+			
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success">assigngroups.jsp</result>
+			<result name="login">signin.jsp</result>
+		</action>
+		
 
 
 		<action name="managedocTypesAction">
