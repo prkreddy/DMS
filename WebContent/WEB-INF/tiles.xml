@@ -12,6 +12,8 @@
 		<put-attribute name="manageRolesLink" value="/layout/manageRolesLinkPurple.jsp" />
 		<put-attribute name="documentsLink" value="/layout/documentsLinkPurple.jsp" />
 		<put-attribute name="ManageDocuments" value="/layout/manageDocs.jsp" />
+		<put-attribute name="ManageRoles" value="/layout/manageroles.jsp" />
+		<put-attribute name="ManageGroups" value="/layout/managegroups.jsp" />
 		<put-attribute name="manageDocumentTypesLink"
 			value="/layout/manageDocumentTypesLinkPurple.jsp" />
 		<put-attribute name="manageWorkflowsLink"
@@ -51,6 +53,16 @@
 	<definition name="manageDocuments" extends="baseLayout">
 		<put-attribute name="body" value="/manageDocuments.jsp" />
 		<put-attribute name="ManageDocuments" value="/layout/manageDocsWhite.jsp" />
+	</definition>
+	
+	<definition name="manageRoles" extends="baseLayout">
+		<put-attribute name="body" value="/manageRoles.jsp" />
+		<put-attribute name="ManageRoles" value="/layout/manageRolesLinkWhite.jsp" />
+	</definition>
+	
+	<definition name="manageGroups" extends="baseLayout">
+		<put-attribute name="body" value="/manageGroups.jsp" />
+		<put-attribute name="ManageGroups" value="/layout/manageGroupsLinkWhite.jsp" />
 	</definition>
 
 	<definition name="manageWorkflows" extends="baseLayout">
