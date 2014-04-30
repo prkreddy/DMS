@@ -237,8 +237,10 @@ public class DocumentUploadAction extends ActionSupport implements SessionAware,
 		}
 
 		df.getInfo().getAllVersions().put(df.getVersionInfo().getVersion(), df);
+		df.getInfo().getKeywords().add(df.getInfo().getName());
 		for(String kw:keywords.split("[,]"))
-			df.getInfo().getKeywords().add(kw.trim());
+			if(!kw.trim().equals(""))
+				df.getInfo().getKeywords().add(kw.trim());
 		
 		df.getInfo().setDocumentType(dao.getDocumentTypeByName(documentTypeList));
 		Workflow wf=dao.getWorkflowByName(workflowList);

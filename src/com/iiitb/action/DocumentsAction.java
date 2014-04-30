@@ -129,6 +129,7 @@ public class DocumentsAction extends ActionSupport implements SessionAware, Serv
 				{
 					Workflow wf = df.getInfo().getWorkflowInstance().getWorkflow();
 					String currentActivityName = df.getInfo().getWorkflowInstance().getCurrentActivityName();
+					
 					if (wf instanceof UserSpecificWorkflow)
 					{
 
@@ -167,7 +168,35 @@ public class DocumentsAction extends ActionSupport implements SessionAware, Serv
 						}
 
 					}
-
+					
+					//disable if last activity
+					if (wf instanceof UserSpecificWorkflow)
+					{
+						UserSpecificWorkflow u=(UserSpecificWorkflow)wf;
+						int i=1;
+						for(String s:u.getActivitySequence().keySet())
+						{
+							if(currentActivityName==s)
+								break;
+							i++;
+						}
+						if(i>=u.getActivitySequence().size())
+							dfd.setEnableActivityUpdate("false");
+					}
+					else
+					{
+						RoleBasedWorkflow u=(RoleBasedWorkflow)wf;
+						int i=1;
+						for(String s:u.getActivitySequence().keySet())
+						{
+							if(currentActivityName.equals(s))
+								break;
+							i++;
+						}
+						
+						if(i>=u.getActivitySequence().size())
+							dfd.setEnableActivityUpdate("false");
+					}
 				}
 
 				this.docFragmentDisplayDetailsList.add(dfd);

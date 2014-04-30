@@ -439,7 +439,7 @@ public class DocFragmentDao
 		for(DocFragment arg0:l)
 			for(String kw:arg0.getInfo().getKeywords())
 				for(String kw1:keywordArray)
-					if(kw.trim().equals(kw1.trim()))
+					if(kw.trim().equalsIgnoreCase(kw1.trim()))
 						lf.add(arg0);
 		return lf;
 	}
