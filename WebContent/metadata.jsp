@@ -28,6 +28,14 @@
 		<td><s:property value="df.getInfo().isReusable()" /></td>
 	</tr>
 	<tr>
+		<td>Created on:</td>
+		<td><s:property value="df.getVersionInfo().getTimeStamp().toString()" /></td>
+	</tr>
+	<tr>
+		<td>Created by:</td>
+		<td><s:property value="df.getVersionInfo().getActor().getUsername()" /></td>
+	</tr>
+	<tr>
 		<td>Keywords:</td>
 		<td><s:property value="df.getInfo().getKeywords()" /></td>
 	</tr>

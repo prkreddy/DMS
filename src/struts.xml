@@ -49,7 +49,7 @@
 		</action>
 
 		<action name="metadataAction" class="com.iiitb.action.MetadataAction">
-			<result name="success" type="tiles">metadata.tiles</result>
+			<result name="success">metadata.jsp</result>
 			<result name="input">signup.jsp</result>
 			<result name="login">home.jsp</result>
 		</action>
@@ -120,6 +120,13 @@
 				<param name="contentType">text/html</param>
 				<param name="inputName">inputStream</param>
 			</result>
+			<result name="input">signin.jsp</result>
+			<result name="login">signin.jsp</result>
+		</action>
+
+		<action name="filterAction2" class="com.iiitb.action.FilterAction2">
+			<interceptor-ref name="secureAccess"></interceptor-ref>
+			<result name="success">div55Content.jsp</result>
 			<result name="input">signin.jsp</result>
 			<result name="login">signin.jsp</result>
 		</action>

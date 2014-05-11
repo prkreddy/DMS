@@ -14,7 +14,7 @@
 
 	<table width="100%" height="50px" style="background-color: #afafff;">
 		<tr>
-			<td align="center"><tiles:insertAttribute name="profileLink" /></td>
+			
 			<s:if test='#session.get("user").getRole().getName().equals("admin")'>
 				<td align="center"><tiles:insertAttribute name="manageGroupsLink" /></td>
 				<td align="center"><tiles:insertAttribute name="manageRolesLink" /></td>
